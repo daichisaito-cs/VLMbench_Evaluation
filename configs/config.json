@@ -1,0 +1,13 @@
+{
+    "lr": 1e-6,
+    "batch_size": 32,
+    "max_epoch": 100,
+    "patience": 15,
+    "train_data_path": "data/train_c_set_v2",
+    "valid_data_path": "data/valid_c_set_v2",
+    "test_data_path": "data/test_c_set_v2",
+    "seed": 42,
+    "focal_loss_gamma": 1.0,
+    "focal_loss_alpha": 0.4,
+    "input_image_num": 2
+}
