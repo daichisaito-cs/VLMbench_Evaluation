@@ -17,6 +17,7 @@ cd VLMbench_Evaluation
 ```bash
 pyenv virtualenv 3.8.10 vlmbench_evaluation
 pyenv local vlmbench_evaluation
+pip install -r requirements.txt
 ```
 
 ### Datasets
