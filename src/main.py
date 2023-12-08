@@ -6,7 +6,7 @@ import os
 import json
 from torch.utils.data import TensorDataset, DataLoader, random_split
 import wandb
-from model import VLMbenchEvaluator, FlamingoBasedEvaluator, SceneNarrativeEvaluator
+from model import *
 from torch.utils.data import DataLoader, random_split, ConcatDataset
 from utils.data_loader import CustomDataset, create_data_loaders
 from utils.utils import torch_fix_seed, save_checkpoint, load_checkpoint, create_checkpoint_dir, find_trainable_layers, init_weights_he_normal, init_weights_he_normal, text_to_ids, FocalLoss
@@ -34,7 +34,6 @@ def main():
 
     wandb.init(project="flamingo_for_vlmbench", name="run_example")
     model = VLMbenchEvaluator(NUM_IMAGES=NUM_IMAGES)
-    # model = FlamingoBasedEvaluator(NUM_IMAGES=NUM_IMAGES)
     # model = SceneNarrativeEvaluator(NUM_IMAGES=NUM_IMAGES)
     model.to(device)
     model.apply(init_weights_he_normal)

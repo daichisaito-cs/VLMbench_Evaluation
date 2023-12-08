@@ -7,6 +7,7 @@ from open_flamingo import create_model_and_transforms
 from huggingface_hub import hf_hub_download
 import torch.nn.functional as Fn
 from einops import rearrange
+import timm
 
 class VLMbenchEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
@@ -219,5 +220,44 @@ class FlamingoBasedEvaluator(nn.Module):
         x = self.fc2(x)
         # _, predicted = torch.max(x, 1)
         # print(predicted)
+
+        return x
+
+class ResnetEvaluator(nn.Module):
+    def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
+        super(ResnetEvaluator, self).__init__()
+        # input_dim = 768 + 2048 * NUM_IMAGES
+        input_dim = 512 * NUM_IMAGES
+        self.fc = nn.Linear(input_dim, 2)
+        # self.resnet = models.resnet101(pretrained=True).cuda()
+        self.resnet = models.resnet18(pretrained=True).cuda()
+        self.resnet.fc = nn.Identity()
+
+    def forward(self, text, images, ada):
+        # Reshape images for ResNet or CLIP
+        reshaped_images = images.view(-1, 3, 224, 224)  # 新しい形状: [16, 3, 224, 224]
+        # ResNet
+        res_images = self.resnet(reshaped_images)  # 出力形状: [16, 2048, 1, 1]
+        res_images = res_images.view(len(text), -1)  # 新しい形状: [4, 8192] (2048*4 = 8192)
+
+        x = self.fc(res_images)
+
+        return x
+
+class ViTEvaluator(nn.Module):
+    def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
+        super(ViTEvaluator, self).__init__()
+        # self.resnet = models.resnet101(pretrained=True).cuda()
+        self.vit = timm.create_model('vit_base_patch16_224', pretrained=True, num_classes=1000)
+        self.fc = torch.nn.Linear(1000*2, 2)  # 出力層の変更: ViTからの出力を2倍して2クラス分類
+
+    def forward(self, text, images, ada):
+        # Reshape images for ResNet or CLIP
+        reshaped_images = images.view(-1, 3, 224, 224)  # 新しい形状: [16, 3, 224, 224]
+        # ResNet
+        vit_images = self.vit(reshaped_images)  # 出力形状: [16, 2048, 1, 1]
+        vit_images = vit_images.view(len(text), -1)  # 新しい形状: [4, 8192] (2048*4 = 8192)
+
+        x = self.fc(vit_images)
 
         return x
