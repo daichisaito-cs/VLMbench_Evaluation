@@ -20,8 +20,8 @@ class CustomDataset(Dataset):
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])  # ImageNetの平均と標準偏差で正規化
         ])
         # self.clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
-        # self.load_data()
-        self.load_data_scene_narrative()
+        self.load_data()
+        # self.load_data_scene_narrative()
 
     def load_data(self):
         for task in tqdm(os.listdir(self.data_dir), total=len(os.listdir(self.data_dir))):

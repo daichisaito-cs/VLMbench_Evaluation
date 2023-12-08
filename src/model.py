@@ -12,54 +12,52 @@ class VLMbenchEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
         super(VLMbenchEvaluator, self).__init__()
         # input_dim = 768 + 2048 * NUM_IMAGES
-        input_dim = 512 + 512 * NUM_IMAGES
-        self.fc1 = nn.Linear(input_dim, 128)
-        self.batch_norm = nn.BatchNorm1d(128)
+        input_dim = 768 + 512 * NUM_IMAGES
+        self.fc1 = nn.Linear(input_dim, 64)
+        self.batch_norm = nn.BatchNorm1d(64)
         self.relu = nn.ReLU()
-        self.fc2 = nn.Linear(128, 2)
+        self.fc2 = nn.Linear(64, 2)
         self.bert_model = BertModel.from_pretrained('bert-base-uncased').cuda()
         self.bert_tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
         self.MAX_LENGTH = MAX_LENGTH
         # self.batch_norm_before_resnet = nn.BatchNorm2d(3)
         # self.resnet = models.resnet101(pretrained=True).cuda()
-        # self.resnet = models.resnet18(pretrained=True).cuda()
-        # self.resnet.fc = nn.Identity()
+        self.resnet = models.resnet18(pretrained=True).cuda()
+        self.resnet.fc = nn.Identity()
 
-        self.clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
-        self.clip = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").cuda()
+        # self.clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
+        # self.clip = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").cuda()
 
     def forward(self, text, images, ada):
         # BERT
-        # inputs = self.bert_tokenizer(text, padding=True, truncation=True, return_tensors="pt", max_length=self.MAX_LENGTH)
-        # inputs['input_ids'] = inputs['input_ids'].cuda()
-        # inputs['attention_mask'] = inputs['attention_mask'].cuda()
-        # outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
-        # bert_emb = outputs.pooler_output.cuda() # torch.Size([16, 768])
+        inputs = self.bert_tokenizer(text, padding=True, truncation=True, return_tensors="pt", max_length=self.MAX_LENGTH)
+        inputs['input_ids'] = inputs['input_ids'].cuda()
+        inputs['attention_mask'] = inputs['attention_mask'].cuda()
+        outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
+        bert_emb = outputs.pooler_output.cuda() # torch.Size([16, 768])
 
         # Reshape images for ResNet or CLIP
         reshaped_images = images.view(-1, 3, 224, 224)  # 新しい形状: [16, 3, 224, 224]
 
         #CLIP
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        text_inputs = self.clip_processor(text=text, return_tensors="pt", padding=True, truncation=True)
-        text_inputs = {key: val.to(device) for key, val in text_inputs.items()}
-        outputs = self.clip(**text_inputs, pixel_values=reshaped_images)
-        clip_text = outputs['text_embeds']
-        clip_image = outputs['image_embeds']
-        clip_image = clip_image.view(len(text), -1) # torch.Size([batch_size, 512])
+        # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        # text_inputs = self.clip_processor(text=text, return_tensors="pt", padding=True, truncation=True)
+        # text_inputs = {key: val.to(device) for key, val in text_inputs.items()}
+        # outputs = self.clip(**text_inputs, pixel_values=reshaped_images)
+        # clip_text = outputs['text_embeds']
+        # clip_image = outputs['image_embeds']
+        # clip_image = clip_image.view(len(text), -1) # torch.Size([batch_size, 512])
 
-        # # ResNet
+        # ResNet
         # reshaped_images = self.batch_norm_before_resnet(reshaped_images)
-        # res_images = self.resnet(reshaped_images)  # 出力形状: [16, 2048, 1, 1]
-        # res_images = res_images.view(len(text), -1)  # 新しい形状: [4, 8192] (2048*4 = 8192)
+        res_images = self.resnet(reshaped_images)  # 出力形状: [16, 2048, 1, 1]
+        res_images = res_images.view(len(text), -1)  # 新しい形状: [4, 8192] (2048*4 = 8192)
 
-        x = torch.cat([clip_text, clip_image], dim=1)
+        x = torch.cat([bert_emb, res_images], dim=1)
         x = self.fc1(x)
         x = self.batch_norm(x)
         x = self.relu(x)
         x = self.fc2(x)
-        # _, predicted = torch.max(x, 1)
-        # print(predicted)
 
         return x
 
@@ -111,17 +109,7 @@ class SceneNarrativeEvaluator(nn.Module):
         # Reshape images for ResNet or CLIP
         reshaped_images = images.view(-1, 3, 224, 224)  # 新しい形状: [16, 3, 224, 224]
 
-        #CLIP
-        # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        # text_inputs = self.clip_processor(text=text, return_tensors="pt", padding=True, truncation=True)
-        # text_inputs = {key: val.to(device) for key, val in text_inputs.items()}
-        # outputs = self.clip(**text_inputs, pixel_values=reshaped_images)
-        # clip_text = outputs['text_embeds']
-        # clip_image = outputs['image_embeds']
-        # clip_image = clip_image.view(len(text), -1) # torch.Size([batch_size, 512])
-
-        # # ResNet
-        # reshaped_images = self.batch_norm_before_resnet(reshaped_images)
+        # ResNet
         res_images = self.resnet(reshaped_images)  # 出力形状: [16, 2048, 1, 1]
         res_images = res_images.view(len(text), -1)  # 新しい形状: [4, 8192] (2048*4 = 8192)
 

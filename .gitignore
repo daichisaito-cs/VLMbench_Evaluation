@@ -1,6 +1,6 @@
 data/*
-temps
-checkpoints/
+temps/
+checkpoints/*
 wandb/
 *.png
 .python-version
