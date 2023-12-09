@@ -2,7 +2,7 @@ import torch
 from tqdm import tqdm
 import wandb
 
-def train_model(model, train_loader, optimizer, criterion, device, epoch, scheduler=None):
+def train_model(model, train_loader, optimizer, criterion, device, epoch):
     model.train()
     num_zeros, num_ones = 0, 0
     true_predicted, false_predicted = 0, 0
@@ -17,8 +17,6 @@ def train_model(model, train_loader, optimizer, criterion, device, epoch, schedu
         loss = criterion(output, target)
         loss.backward()
         optimizer.step()
-        if scheduler:
-            scheduler.step()
 
         if (epoch == 0 and batch_idx >= 100) or epoch > 0:
             wandb.log({"train_loss": loss.item()})
