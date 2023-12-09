@@ -1,3 +1,5 @@
+from email.mime import image
+from sympy import im
 import torch
 import torch.nn as nn
 from transformers import BertTokenizer, BertModel, CLIPProcessor, CLIPModel
@@ -8,59 +10,103 @@ from huggingface_hub import hf_hub_download
 import torch.nn.functional as Fn
 from einops import rearrange
 import timm
-
+import clip
+import torch.nn.functional as F
 class VLMbenchEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
         super(VLMbenchEvaluator, self).__init__()
+        self.num_images = NUM_IMAGES
         # input_dim = 768 + 2048 * NUM_IMAGES
-        input_dim = 768 + 512 * NUM_IMAGES
-        self.fc1 = nn.Linear(input_dim, 64)
-        self.batch_norm = nn.BatchNorm1d(64)
-        self.relu = nn.ReLU()
-        self.fc2 = nn.Linear(64, 2)
-        self.bert_model = BertModel.from_pretrained('bert-base-uncased').cuda()
-        self.bert_tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-        self.MAX_LENGTH = MAX_LENGTH
-        # self.batch_norm_before_resnet = nn.BatchNorm2d(3)
-        # self.resnet = models.resnet101(pretrained=True).cuda()
-        self.resnet = models.resnet18(pretrained=True).cuda()
-        self.resnet.fc = nn.Identity()
+        self.input_dim = 512 + 512 * NUM_IMAGES
 
-        # self.clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
-        # self.clip = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").cuda()
+        self.image_feature_dim = 512
+        self.text_feature_dim = 512
+        self.combined_dim = 512  # 特徴量の次元を統一
+
+        self.layers = nn.ModuleList([
+            SublayerUnit(self.image_feature_dim, self.combined_dim)
+            for _ in range(24)
+        ])
+        self.fc = nn.Linear(self.combined_dim, 2)
+
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.clip, self.preprocessor = clip.load("RN101", device=self.device)
+        # make clip not trainable
+        for param in self.clip.parameters():
+            param.requires_grad = False
+
+        # self.hook = self.res_clip.vision_model.register_forward_hook(self.get_intermediate_output)
+
+        # print(self.clip)
 
     def forward(self, text, images, ada):
+        # images : torch.Size([32, 2, 3, 224, 224])
         # BERT
-        inputs = self.bert_tokenizer(text, padding=True, truncation=True, return_tensors="pt", max_length=self.MAX_LENGTH)
-        inputs['input_ids'] = inputs['input_ids'].cuda()
-        inputs['attention_mask'] = inputs['attention_mask'].cuda()
-        outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
-        bert_emb = outputs.pooler_output.cuda() # torch.Size([16, 768])
+        # inputs = self.bert_tokenizer(text, padding=True, truncation=True, return_tensors="pt", max_length=self.MAX_LENGTH)
+        # inputs['input_ids'] = inputs['input_ids'].cuda()
+        # inputs['attention_mask'] = inputs['attention_mask'].cuda()
+        # outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
+        # bert_emb = outputs.pooler_output.cuda() # torch.Size([16, 768])
 
         # Reshape images for ResNet or CLIP
-        reshaped_images = images.view(-1, 3, 224, 224)  # 新しい形状: [16, 3, 224, 224]
+        reshaped_images = images.view(-1, 3, 224, 224)  # 新しい形状: [batch_size*2, 3, 224, 224]
 
         #CLIP
-        # device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        # text_inputs = self.clip_processor(text=text, return_tensors="pt", padding=True, truncation=True)
-        # text_inputs = {key: val.to(device) for key, val in text_inputs.items()}
-        # outputs = self.clip(**text_inputs, pixel_values=reshaped_images)
-        # clip_text = outputs['text_embeds']
-        # clip_image = outputs['image_embeds']
-        # clip_image = clip_image.view(len(text), -1) # torch.Size([batch_size, 512])
+        processed_text = clip.tokenize(text).to(self.device)
+        # logits_per_image, logits_per_text = self.clip(reshaped_images, processed_text)
+        image_features = self.clip.encode_image(reshaped_images).float()
+        text_features = self.clip.encode_text(processed_text).float()
 
-        # ResNet
-        # reshaped_images = self.batch_norm_before_resnet(reshaped_images)
-        res_images = self.resnet(reshaped_images)  # 出力形状: [16, 2048, 1, 1]
-        res_images = res_images.view(len(text), -1)  # 新しい形状: [4, 8192] (2048*4 = 8192)
+        image_features = image_features.view(-1, self.num_images, self.image_feature_dim)
+        text_features = text_features.unsqueeze(1).expand(-1, self.num_images, -1)
 
-        x = torch.cat([bert_emb, res_images], dim=1)
-        x = self.fc1(x)
-        x = self.batch_norm(x)
-        x = self.relu(x)
-        x = self.fc2(x)
+        combined_features = image_features
+        for layer in self.layers:
+            combined_features = layer(combined_features, text_features)
+        combined_features = combined_features.mean(dim=1)
 
-        return x
+        output = self.fc(combined_features)
+
+        return output
+
+    # def get_intermediate_output(self, module, input, output):
+    #     # 中間層の出力を取得
+    #     self.intermediate_output = output
+
+class CrossAttention(nn.Module):
+    def __init__(self, query_dim, key_dim, value_dim, output_dim):
+        super(CrossAttention, self).__init__()
+        self.query_proj = nn.Linear(query_dim, output_dim)
+        self.key_proj = nn.Linear(key_dim, output_dim)
+        self.value_proj = nn.Linear(value_dim, output_dim)
+        self.scale = output_dim ** -0.5
+
+    def forward(self, query, key, value):
+        query_proj = self.query_proj(query)
+        key_proj = self.key_proj(key)
+        value_proj = self.value_proj(value)
+
+        attention_scores = torch.matmul(query_proj, key_proj.transpose(-2, -1)) * self.scale
+        attention_probs = F.softmax(attention_scores, dim=-1)
+        context = torch.matmul(attention_probs, value_proj)
+        return context
+
+class SublayerUnit(nn.Module):
+    def __init__(self, input_dim, output_dim):
+        super(SublayerUnit, self).__init__()
+        self.cross_attn = CrossAttention(input_dim, input_dim, input_dim, output_dim)
+        self.linear1 = nn.Linear(output_dim, output_dim)
+        self.linear2 = nn.Linear(output_dim, output_dim)
+        self.norm = nn.LayerNorm(output_dim)
+
+    def forward(self, x, text_features):
+        # クロスアテンション層
+        attention_output = self.cross_attn(x, text_features, text_features)
+        # 2層の線形層
+        linear_output = F.relu(self.linear1(attention_output))
+        linear_output = self.linear2(linear_output)
+        # 残差接続とレイヤー正規化
+        return self.norm(linear_output + x)
 
 class SceneNarrativeEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
@@ -99,14 +145,14 @@ class SceneNarrativeEvaluator(nn.Module):
         inputs['attention_mask'] = inputs['attention_mask'].cuda()
         outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
         scene_narrative_bert2 = outputs.pooler_output.cuda() # torch.Size([16, 768])
-        
+
         # BERT
         inputs = self.bert_tokenizer(text, padding=True, truncation=True, return_tensors="pt", max_length=self.MAX_LENGTH)
         inputs['input_ids'] = inputs['input_ids'].cuda()
         inputs['attention_mask'] = inputs['attention_mask'].cuda()
         outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
         bert_emb = outputs.pooler_output.cuda() # torch.Size([16, 768])
-        
+
         # Reshape images for ResNet or CLIP
         reshaped_images = images.view(-1, 3, 224, 224)  # 新しい形状: [16, 3, 224, 224]
 
@@ -136,7 +182,7 @@ class FlamingoBasedEvaluator(nn.Module):
         self.bert_model = BertModel.from_pretrained('bert-base-uncased').cuda()
         self.bert_tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
         self.MAX_LENGTH = MAX_LENGTH
-        
+
         self.flamingo, image_processor, self.flamingo_tokenizer = create_model_and_transforms(
             clip_vision_encoder_path="ViT-L-14",
             clip_vision_encoder_pretrained="openai",
@@ -154,7 +200,7 @@ class FlamingoBasedEvaluator(nn.Module):
         # for name, param in self.flamingo.named_parameters():
         #     if param.requires_grad:
         #         print(name)
-        
+
         for param in self.flamingo.parameters():
             param.requires_grad = False
         for layer in self.flamingo.lang_encoder.transformer.blocks[-1:]:
@@ -183,7 +229,7 @@ class FlamingoBasedEvaluator(nn.Module):
             padding_length = max_length - len(self.flamingo_tokenizer.encode(question))
             padded_question = "<PAD>" * padding_length + question
             questions.append(padded_question)
-        
+
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         lang_x = self.flamingo_tokenizer(
             questions,

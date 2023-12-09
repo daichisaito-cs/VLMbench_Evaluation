@@ -36,7 +36,7 @@ def main():
     model = VLMbenchEvaluator(NUM_IMAGES=NUM_IMAGES)
     # model = SceneNarrativeEvaluator(NUM_IMAGES=NUM_IMAGES)
     model.to(device)
-    model.apply(init_weights_he_normal)
+    # model.apply(init_weights_he_normal)
     params = 0
     for p in model.parameters():
         if p.requires_grad:

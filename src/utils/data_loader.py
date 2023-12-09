@@ -7,6 +7,7 @@ import json
 import numpy as np
 from tqdm import tqdm
 from transformers import CLIPProcessor
+import clip
 
 # データセットクラスの定義
 class CustomDataset(Dataset):
@@ -19,8 +20,9 @@ class CustomDataset(Dataset):
             transforms.ToTensor(),
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])  # ImageNetの平均と標準偏差で正規化
         ])
-        # self.clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
-        self.load_data()
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        _, self.preprocessor = clip.load("RN101", device=self.device)
+        self.load_data_for_clip()
         # self.load_data_scene_narrative()
 
     def load_data(self):
@@ -47,6 +49,42 @@ class CustomDataset(Dataset):
                         # print(f"Error: {task}/{episode}/{angle} has {len(episode_images)} images")
                         continue
                     stacked_episode_image = [self.transform(episode_image) for episode_image in episode_images]
+                    stacked_episode_image = torch.stack(stacked_episode_image)
+                    text = json_file[episode]['description']
+                    ada = np.load(json_file[episode]['embedding_path'])
+                    label = json_file[episode]["succeeded"]
+                    self.data.append({
+                        "image": stacked_episode_image,
+                        "image_paths": image_paths,
+                        "text": text,
+                        "ada": ada,
+                        "label": label
+                    })
+
+    def load_data_for_clip(self):
+        for task in tqdm(os.listdir(self.data_dir), total=len(os.listdir(self.data_dir))):
+            with open(f"{self.data_dir}/{task}/new_evaluations.json") as f:
+                json_file = json.load(f)
+            episodes = [e for e in os.listdir(f"{self.data_dir}/{task}") if os.path.isdir(f"{self.data_dir}/{task}/{e}")]
+            episodes = sorted(episodes, key=lambda x: int(x[7:]))
+            for episode in episodes:
+                if not episode in json_file:
+                    continue
+                angles = ["overhead", "left", "right", "wrist"]
+                for angle in angles:
+                    episode_images = []
+                    image_paths = []
+                    for img in sorted(os.listdir(f"{self.data_dir}/{task}/{episode}")):
+                        if not angle in img:
+                            continue
+                        img_path = f"{self.data_dir}/{task}/{episode}/{img}"
+                        image_paths.append(img_path)
+                        image = Image.open(img_path)
+                        episode_images.append(image)
+                    if len(episode_images) != self.num_images:
+                        # print(f"Error: {task}/{episode}/{angle} has {len(episode_images)} images")
+                        continue
+                    stacked_episode_image = [self.preprocessor(episode_image) for episode_image in episode_images]
                     stacked_episode_image = torch.stack(stacked_episode_image)
                     text = json_file[episode]['description']
                     ada = np.load(json_file[episode]['embedding_path'])
