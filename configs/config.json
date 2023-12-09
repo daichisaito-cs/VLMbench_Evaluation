@@ -1,5 +1,5 @@
 {
-    "lr": 1e-6,
+    "lr": 3e-6,
     "batch_size": 32,
     "max_epoch": 100,
     "patience": 30,
