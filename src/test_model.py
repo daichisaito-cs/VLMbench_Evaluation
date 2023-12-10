@@ -76,7 +76,7 @@ def test_model(model, test_loader, device, checkpoint_path):
     return test_acc
 
 def main():
-    with open("config.json") as config_file:
+    with open("configs/config.json") as config_file:
         config = json.load(config_file)
     torch_fix_seed(config["seed"])
     train = config["train_data_path"]
@@ -95,7 +95,7 @@ def main():
     model = VLMbenchEvaluator(NUM_IMAGES=NUM_IMAGES)
     model.to(device)
 
-    checkpoint_path = "checkpoints/20231130-082402/epoch_4_model.pth"
+    checkpoint_path = "checkpoints/20231209-172815/epoch_6_model.pth"
 
     # テスト
     print(checkpoint_path)

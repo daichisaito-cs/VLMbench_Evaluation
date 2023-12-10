@@ -35,9 +35,9 @@ class VLMbenchEvaluator(nn.Module):
         for param in self.clip.parameters():
             param.requires_grad = False
 
-        # self.hook = self.res_clip.vision_model.register_forward_hook(self.get_intermediate_output)
+        self.hook = self.clip.visual.layer3.register_forward_hook(self.get_intermediate_output)
+        self.conv = nn.Conv2d(1024, 512, kernel_size=1)
 
-        # print(self.clip)
 
     def forward(self, text, images, ada):
         # images : torch.Size([32, 2, 3, 224, 224])
@@ -57,21 +57,26 @@ class VLMbenchEvaluator(nn.Module):
         image_features = self.clip.encode_image(reshaped_images).float()
         text_features = self.clip.encode_text(processed_text).float()
 
-        image_features = image_features.view(-1, self.num_images, self.image_feature_dim)
+        image_features = image_features.view(-1, self.num_images, self.image_feature_dim) # torch.Size([32, 2, 512])
         text_features = text_features.unsqueeze(1).expand(-1, self.num_images, -1)
 
-        combined_features = image_features
+        position_features = self.conv(self.intermediate_output.float())
+        position_features = torch.nn.functional.adaptive_avg_pool2d(position_features, (1, 1))
+        position_features = position_features.view(-1, self.num_images, 512)  # [batch_size, num_images, 512]
+
+        combined_features = image_features + position_features
         for layer in self.layers:
-            combined_features = layer(combined_features, text_features)
-        combined_features = combined_features.mean(dim=1)
+            combined_features = layer(combined_features, text_features) + position_features # torch.Size([batch_size, 2, 512])
+        # TODO 二枚の画像の合わせ方を変更する
+        combined_features = combined_features.mean(dim=1) # torch.Size([batch_size, 512])
 
         output = self.fc(combined_features)
 
         return output
 
-    # def get_intermediate_output(self, module, input, output):
-    #     # 中間層の出力を取得
-    #     self.intermediate_output = output
+    def get_intermediate_output(self, module, input, output):
+        # 中間層の出力を取得
+        self.intermediate_output = output # torch.Size([batch_size*num_images, 1024, 14, 14])
 
 class CrossAttention(nn.Module):
     def __init__(self, query_dim, key_dim, value_dim, output_dim):
@@ -95,18 +100,18 @@ class SublayerUnit(nn.Module):
     def __init__(self, input_dim, output_dim):
         super(SublayerUnit, self).__init__()
         self.cross_attn = CrossAttention(input_dim, input_dim, input_dim, output_dim)
-        self.linear1 = nn.Linear(output_dim, output_dim)
-        self.linear2 = nn.Linear(output_dim, output_dim)
+        self.linear1 = nn.Linear(output_dim, output_dim*4)
+        self.linear2 = nn.Linear(output_dim*4, output_dim)
         self.norm = nn.LayerNorm(output_dim)
 
     def forward(self, x, text_features):
         # クロスアテンション層
-        attention_output = self.cross_attn(x, text_features, text_features)
+        attention_output = self.cross_attn(x, text_features, text_features) # torch.Size([batch_size, 2, 512])
         # 2層の線形層
         linear_output = F.relu(self.linear1(attention_output))
         linear_output = self.linear2(linear_output)
         # 残差接続とレイヤー正規化
-        return self.norm(linear_output + x)
+        return self.norm(linear_output)
 
 class SceneNarrativeEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):

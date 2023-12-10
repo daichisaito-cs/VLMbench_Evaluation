@@ -44,7 +44,7 @@ def main():
     print(f"Total Trainable Params: {params}")
     wandb.watch(model, log_freq=100)
     optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=1e-5)
-    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.3)
+    # scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.3)
     criterion = nn.CrossEntropyLoss()
     # criterion = FocalLoss(gamma=config["focal_loss_gamma"], alpha=config["focal_loss_alpha"])
 
@@ -63,15 +63,15 @@ def main():
     best_checkpoint_path = ""
     for epoch in range(max_epoch):
         train_model(model, train_loader, optimizer, criterion, device, epoch)
-        if epoch < 5:
-            scheduler.step()
+        # if epoch < 5:
+        #     scheduler.step()
         print("lr: ", optimizer.param_groups[0]['lr'])
         checkpoint_path = os.path.join(checkpoint_dir, f"epoch_{epoch}_model.pth")
         save_checkpoint(model, checkpoint_path)
         valid_acc, avg_valid_loss = validate_model(model, valid_loader, criterion, device, epoch)
         print(f"Valid Accuracy: {valid_acc}%")
 
-        #EarlyStopping
+        # EarlyStopping
         # if valid_acc > best_acc:
         #     best_acc = valid_acc
         #     best_checkpoint_path = checkpoint_path
