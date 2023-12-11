@@ -17,70 +17,110 @@ class VLMbenchEvaluator(nn.Module):
         super(VLMbenchEvaluator, self).__init__()
         self.num_images = NUM_IMAGES
         # input_dim = 768 + 2048 * NUM_IMAGES
-        self.input_dim = 512 + 512 * NUM_IMAGES
+        # self.input_dim = 512 + 512 * NUM_IMAGES
 
-        self.image_feature_dim = 512
-        self.text_feature_dim = 512
+        self.image_feature_dim = 14*14
         self.combined_dim = 512  # 特徴量の次元を統一
 
-        self.layers = nn.ModuleList([
-            SublayerUnit(self.image_feature_dim, self.combined_dim)
-            for _ in range(24)
+        self.clip2d_linear = nn.Linear(self.image_feature_dim*NUM_IMAGES, self.combined_dim)
+
+        self.attention_layers = nn.ModuleList([
+            Attention(query_dim=self.combined_dim, key_dim=self.combined_dim, value_dim=self.combined_dim, output_dim=self.combined_dim)
+            for _ in range(2)
         ])
-        self.fc = nn.Linear(self.combined_dim, 2)
+        # self.mlp = MLP(1024 + 768, self.combined_dim*4, self.combined_dim, 6)
+        # self.fc = nn.Linear(self.combined_dim, 2)
 
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.clip, self.preprocessor = clip.load("RN101", device=self.device)
-        # make clip not trainable
         for param in self.clip.parameters():
             param.requires_grad = False
-
         self.hook = self.clip.visual.layer3.register_forward_hook(self.get_intermediate_output)
-        self.conv = nn.Conv2d(1024, 512, kernel_size=1)
 
+        self.bert_model = BertModel.from_pretrained('bert-base-uncased').cuda()
+        self.bert_tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        self.MAX_LENGTH = MAX_LENGTH
+
+        # self.resnet = models.resnet101(pretrained=True).cuda()
+        # self.resnet.fc = nn.Identity()
+
+        self.linear1 = nn.Linear(512+768, 512)
+        self.linear2 = nn.Linear(512, 512)
+        self.linear3 = nn.Linear(512, 512)
+        self.linear4 = nn.Linear(512, 512)
+        self.linear5 = nn.Linear(512, 512)
+        self.linear6 = nn.Linear(512, 512)
+        self.linear7 = nn.Linear(512, 128)
+        self.linear8 = nn.Linear(128, 2)
+
+        # Layer normalization 層
+        self.norm1 = nn.LayerNorm(512)
+        self.norm2 = nn.LayerNorm(512)
+        self.norm3 = nn.LayerNorm(512)
+        self.norm4 = nn.LayerNorm(512)
+        self.norm5 = nn.LayerNorm(512)
+        self.norm6 = nn.LayerNorm(512)
+        self.norm7 = nn.LayerNorm(128)
+
+        # make resnet and bert_model not trainable
+        # for param in self.resnet.parameters():
+        #     param.requires_grad = False
+        # for param in self.bert_model.parameters():
+        #     param.requires_grad = False
 
     def forward(self, text, images, ada):
         # images : torch.Size([32, 2, 3, 224, 224])
-        # BERT
-        # inputs = self.bert_tokenizer(text, padding=True, truncation=True, return_tensors="pt", max_length=self.MAX_LENGTH)
-        # inputs['input_ids'] = inputs['input_ids'].cuda()
-        # inputs['attention_mask'] = inputs['attention_mask'].cuda()
-        # outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
-        # bert_emb = outputs.pooler_output.cuda() # torch.Size([16, 768])
-
         # Reshape images for ResNet or CLIP
         reshaped_images = images.view(-1, 3, 224, 224)  # 新しい形状: [batch_size*2, 3, 224, 224]
-
-        #CLIP
+        # CLIP Processing
         processed_text = clip.tokenize(text).to(self.device)
-        # logits_per_image, logits_per_text = self.clip(reshaped_images, processed_text)
-        image_features = self.clip.encode_image(reshaped_images).float()
-        text_features = self.clip.encode_text(processed_text).float()
+        image_features = self.clip.encode_image(reshaped_images).float()  # [batch_size*2, 512]
+        # text_features = self.clip.encode_text(processed_text).float()  # [32, 512]
+        clip2d_features = self.intermediate_output.float()  # [batch_size*num_images, 1024, 14, 14]
+        
+        # Calculate the product of the last two dimensions
+        last_dim_product = clip2d_features.size(-2) * clip2d_features.size(-1)
+        clip2d_features = clip2d_features.view(-1, 1024, last_dim_product)  # [batch_size*num_images, 1024, 14*14]
+        clip2d_features = clip2d_features.view(-1, self.num_images, 1024, last_dim_product)  # [batch_size, 2, 1024, 14*14]
 
-        image_features = image_features.view(-1, self.num_images, self.image_feature_dim) # torch.Size([32, 2, 512])
-        text_features = text_features.unsqueeze(1).expand(-1, self.num_images, -1)
+        # Reshaping and concatenating position features
+        clip2d_features = torch.cat((clip2d_features[:, 0, :, :], clip2d_features[:, 1, :, :]), dim=2)  # [batch_size, 1024, 2*14*14]
+        clip2d_features = self.clip2d_linear(clip2d_features)  # [batch_size, 1024, 512]
+        attention_output = clip2d_features
+        for attn_layer in self.attention_layers:
+            attention_output = attn_layer(attention_output, attention_output, attention_output)
+        attention_output = attention_output + clip2d_features  # residual connection
+        # average pooling
+        attention_output = torch.mean(attention_output, dim=1)  # [batch_size, 512]
+        # cls_tokens = clip2d_features[:, 0, :]  # [batch_size, 512]
 
-        position_features = self.conv(self.intermediate_output.float())
-        position_features = torch.nn.functional.adaptive_avg_pool2d(position_features, (1, 1))
-        position_features = position_features.view(-1, self.num_images, 512)  # [batch_size, num_images, 512]
+        # BERT
+        inputs = self.bert_tokenizer(text, padding=True, truncation=True, return_tensors="pt", max_length=self.MAX_LENGTH)
+        inputs['input_ids'] = inputs['input_ids'].cuda()
+        inputs['attention_mask'] = inputs['attention_mask'].cuda()
+        outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
+        bert_emb = outputs.pooler_output.cuda() # torch.Size([batch_size, 768])
 
-        combined_features = image_features + position_features
-        for layer in self.layers:
-            combined_features = layer(combined_features, text_features) + position_features # torch.Size([batch_size, 2, 512])
-        # TODO 二枚の画像の合わせ方を変更する
-        combined_features = combined_features.mean(dim=1) # torch.Size([batch_size, 512])
+        x = torch.cat((bert_emb.float(), attention_output), dim=1)  # [batch_size, 512*2]
+        
+        x = self.norm1(nn.functional.relu(self.linear1(x)))
+        x = self.norm2(nn.functional.relu(self.linear2(x)))
+        x = self.norm3(nn.functional.relu(self.linear3(x)))
+        x = self.norm4(nn.functional.relu(self.linear4(x)))
+        x = self.norm5(nn.functional.relu(self.linear5(x)))
+        x = self.norm6(nn.functional.relu(self.linear6(x)))
+        x = self.norm7(nn.functional.relu(self.linear7(x)))
+        x = self.linear8(x)
 
-        output = self.fc(combined_features)
-
-        return output
+        return x
 
     def get_intermediate_output(self, module, input, output):
         # 中間層の出力を取得
         self.intermediate_output = output # torch.Size([batch_size*num_images, 1024, 14, 14])
 
-class CrossAttention(nn.Module):
+class Attention(nn.Module):
     def __init__(self, query_dim, key_dim, value_dim, output_dim):
-        super(CrossAttention, self).__init__()
+        super(Attention, self).__init__()
         self.query_proj = nn.Linear(query_dim, output_dim)
         self.key_proj = nn.Linear(key_dim, output_dim)
         self.value_proj = nn.Linear(value_dim, output_dim)
@@ -96,22 +136,26 @@ class CrossAttention(nn.Module):
         context = torch.matmul(attention_probs, value_proj)
         return context
 
-class SublayerUnit(nn.Module):
-    def __init__(self, input_dim, output_dim):
-        super(SublayerUnit, self).__init__()
-        self.cross_attn = CrossAttention(input_dim, input_dim, input_dim, output_dim)
-        self.linear1 = nn.Linear(output_dim, output_dim*4)
-        self.linear2 = nn.Linear(output_dim*4, output_dim)
-        self.norm = nn.LayerNorm(output_dim)
+class MLP(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size, repeat_num):
+        super(MLP, self).__init__()
+        layers = [nn.Linear(input_size, hidden_size), nn.ReLU()]
 
-    def forward(self, x, text_features):
-        # クロスアテンション層
-        attention_output = self.cross_attn(x, text_features, text_features) # torch.Size([batch_size, 2, 512])
-        # 2層の線形層
-        linear_output = F.relu(self.linear1(attention_output))
-        linear_output = self.linear2(linear_output)
-        # 残差接続とレイヤー正規化
-        return self.norm(linear_output)
+        # 追加の隠れ層を repeat_num - 1 回追加
+        for _ in range(repeat_num - 1):
+            layers.append(nn.Linear(hidden_size, hidden_size))
+            layers.append(nn.ReLU())
+
+        # 出力層を追加
+        layers.append(nn.Linear(hidden_size, output_size))
+        
+        # ModuleListに層を格納
+        self.layers = nn.ModuleList(layers)
+
+    def forward(self, x):
+        for layer in self.layers:
+            x = layer(x)
+        return x
 
 class SceneNarrativeEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):

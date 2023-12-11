@@ -95,7 +95,7 @@ def main():
     model = VLMbenchEvaluator(NUM_IMAGES=NUM_IMAGES)
     model.to(device)
 
-    checkpoint_path = "checkpoints/20231209-172815/epoch_6_model.pth"
+    checkpoint_path = "/home/initial/workspace/VLMbench_Evaluation/checkpoints/20231211-113447/epoch_15_model.pth"
 
     # テスト
     print(checkpoint_path)
