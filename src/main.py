@@ -61,15 +61,21 @@ def main():
     best_acc = 0
     checkpoint_dir = create_checkpoint_dir()
     best_checkpoint_path = ""
-    freeze_after_epoch = 8
+    # freeze_after_epoch = 8
+    bert_params = [p for name, p in model.named_parameters() if "bert" in name]
+    other_params = [p for name, p in model.named_parameters() if "bert" not in name]
+    optimizer = torch.optim.Adam([
+        {'params': bert_params, 'lr': lr*0.1},  # BERTパラメータに対する低い学習率
+        {'params': other_params, 'lr': lr}  # BERT以外のパラメータに対する標準の学習率
+    ])
     for epoch in range(max_epoch):
         # freeze_after_epochを超えたら、特定のパラメータを凍結
-        if epoch == freeze_after_epoch:
-            for name, param in model.named_parameters():
-                if "bert" in name:
-                    param.requires_grad = False
-            # オプティマイザーを更新（凍結したパラメータを除外）
-            optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=lr, weight_decay=1e-5)
+        # if epoch == freeze_after_epoch:
+        #     for name, param in model.named_parameters():
+        #         if "bert" in name:
+        #             param.requires_grad = False
+        #     # オプティマイザーを更新（凍結したパラメータを除外）
+        #     optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=lr, weight_decay=1e-5)
         train_model(model, train_loader, optimizer, criterion, device, epoch)
         # if epoch < 5:
         #     scheduler.step()
