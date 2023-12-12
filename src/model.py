@@ -33,8 +33,6 @@ class VLMbenchEvaluator(nn.Module):
 
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.clip, self.preprocessor = clip.load("RN101", device=self.device)
-        for param in self.clip.parameters():
-            param.requires_grad = False
         self.hook = self.clip.visual.layer3.register_forward_hook(self.get_intermediate_output)
 
         self.bert_model = BertModel.from_pretrained('bert-base-uncased').cuda()
@@ -43,30 +41,16 @@ class VLMbenchEvaluator(nn.Module):
 
         # self.resnet = models.resnet101(pretrained=True).cuda()
         # self.resnet.fc = nn.Identity()
-
-        self.linear1 = nn.Linear(512+768, 512)
-        self.linear2 = nn.Linear(512, 512)
-        self.linear3 = nn.Linear(512, 512)
-        self.linear4 = nn.Linear(512, 512)
-        self.linear5 = nn.Linear(512, 512)
-        self.linear6 = nn.Linear(512, 512)
-        self.linear7 = nn.Linear(512, 128)
-        self.linear8 = nn.Linear(128, 2)
-
-        # Layer normalization 層
-        self.norm1 = nn.LayerNorm(512)
-        self.norm2 = nn.LayerNorm(512)
-        self.norm3 = nn.LayerNorm(512)
-        self.norm4 = nn.LayerNorm(512)
-        self.norm5 = nn.LayerNorm(512)
-        self.norm6 = nn.LayerNorm(512)
-        self.norm7 = nn.LayerNorm(128)
+        
+        self.mlp = MLP(768+512+512+512*2, 1024, 2, 8)
 
         # make resnet and bert_model not trainable
         # for param in self.resnet.parameters():
         #     param.requires_grad = False
-        # for param in self.bert_model.parameters():
-        #     param.requires_grad = False
+        for param in self.clip.parameters():
+            param.requires_grad = False
+        for param in self.bert_model.parameters():
+            param.requires_grad = False
 
     def forward(self, text, images, ada):
         # images : torch.Size([32, 2, 3, 224, 224])
@@ -75,7 +59,8 @@ class VLMbenchEvaluator(nn.Module):
         # CLIP Processing
         processed_text = clip.tokenize(text).to(self.device)
         image_features = self.clip.encode_image(reshaped_images).float()  # [batch_size*2, 512]
-        # text_features = self.clip.encode_text(processed_text).float()  # [32, 512]
+        image_features = image_features.view(-1, self.num_images*512)  # [batch_size, 2*512]
+        text_features = self.clip.encode_text(processed_text).float()  # [32, 512]
         clip2d_features = self.intermediate_output.float()  # [batch_size*num_images, 1024, 14, 14]
         
         # Calculate the product of the last two dimensions
@@ -101,16 +86,9 @@ class VLMbenchEvaluator(nn.Module):
         outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
         bert_emb = outputs.pooler_output.cuda() # torch.Size([batch_size, 768])
 
-        x = torch.cat((bert_emb.float(), attention_output), dim=1)  # [batch_size, 512*2]
+        x = torch.cat((bert_emb.float(), text_features, image_features, attention_output), dim=1)  # [batch_size, 512*2]
         
-        x = self.norm1(nn.functional.relu(self.linear1(x)))
-        x = self.norm2(nn.functional.relu(self.linear2(x)))
-        x = self.norm3(nn.functional.relu(self.linear3(x)))
-        x = self.norm4(nn.functional.relu(self.linear4(x)))
-        x = self.norm5(nn.functional.relu(self.linear5(x)))
-        x = self.norm6(nn.functional.relu(self.linear6(x)))
-        x = self.norm7(nn.functional.relu(self.linear7(x)))
-        x = self.linear8(x)
+        x = self.mlp(x)
 
         return x
 
@@ -139,12 +117,13 @@ class Attention(nn.Module):
 class MLP(nn.Module):
     def __init__(self, input_size, hidden_size, output_size, repeat_num):
         super(MLP, self).__init__()
-        layers = [nn.Linear(input_size, hidden_size), nn.ReLU()]
+        layers = [nn.Linear(input_size, hidden_size), nn.ReLU(), nn.LayerNorm(hidden_size)]
 
         # 追加の隠れ層を repeat_num - 1 回追加
         for _ in range(repeat_num - 1):
             layers.append(nn.Linear(hidden_size, hidden_size))
             layers.append(nn.ReLU())
+            layers.append(nn.LayerNorm(hidden_size))
 
         # 出力層を追加
         layers.append(nn.Linear(hidden_size, output_size))
