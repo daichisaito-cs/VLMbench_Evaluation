@@ -26,7 +26,7 @@ class VLMbenchEvaluator(nn.Module):
 
         self.attention_layers = nn.ModuleList([
             Attention(query_dim=self.combined_dim, key_dim=self.combined_dim, value_dim=self.combined_dim, output_dim=self.combined_dim)
-            for _ in range(2)
+            for _ in range(4)
         ])
         # self.mlp = MLP(1024 + 768, self.combined_dim*4, self.combined_dim, 6)
         # self.fc = nn.Linear(self.combined_dim, 2)
@@ -42,7 +42,7 @@ class VLMbenchEvaluator(nn.Module):
         # self.resnet = models.resnet101(pretrained=True).cuda()
         # self.resnet.fc = nn.Identity()
         
-        self.mlp = MLP(768+512+512+512*2, 1024, 2, 8)
+        self.mlp = MLP(768+512+512, 1024, 2, 12)
 
         # make resnet and bert_model not trainable
         # for param in self.resnet.parameters():
@@ -59,7 +59,7 @@ class VLMbenchEvaluator(nn.Module):
         # CLIP Processing
         processed_text = clip.tokenize(text).to(self.device)
         image_features = self.clip.encode_image(reshaped_images).float()  # [batch_size*2, 512]
-        image_features = image_features.view(-1, self.num_images*512)  # [batch_size, 2*512]
+        # image_features = image_features.view(-1, self.num_images*512)  # [batch_size, 2*512]
         text_features = self.clip.encode_text(processed_text).float()  # [32, 512]
         clip2d_features = self.intermediate_output.float()  # [batch_size*num_images, 1024, 14, 14]
         
@@ -73,8 +73,8 @@ class VLMbenchEvaluator(nn.Module):
         clip2d_features = self.clip2d_linear(clip2d_features)  # [batch_size, 1024, 512]
         attention_output = clip2d_features
         for attn_layer in self.attention_layers:
-            attention_output = attn_layer(attention_output, attention_output, attention_output)
-        attention_output = attention_output + clip2d_features  # residual connection
+            attention_output = attn_layer(attention_output, attention_output, attention_output) + attention_output
+        attention_output = attention_output  # residual connection
         # average pooling
         attention_output = torch.mean(attention_output, dim=1)  # [batch_size, 512]
         # cls_tokens = clip2d_features[:, 0, :]  # [batch_size, 512]
@@ -86,7 +86,7 @@ class VLMbenchEvaluator(nn.Module):
         outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
         bert_emb = outputs.pooler_output.cuda() # torch.Size([batch_size, 768])
 
-        x = torch.cat((bert_emb.float(), text_features, image_features, attention_output), dim=1)  # [batch_size, 512*2]
+        x = torch.cat((bert_emb.float(), text_features, attention_output), dim=1)  # [batch_size, 512*2]
         
         x = self.mlp(x)
 
