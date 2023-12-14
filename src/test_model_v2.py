@@ -8,6 +8,9 @@ from utils.utils import torch_fix_seed, save_checkpoint, load_checkpoint, create
 import wandb
 import json
 import torch.optim as optim
+from sklearn.metrics import confusion_matrix
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 def test_model(model, test_loader, device, checkpoint_path):
     load_checkpoint(model, checkpoint_path)
@@ -17,6 +20,9 @@ def test_model(model, test_loader, device, checkpoint_path):
     task_TP = {}
     task_FP = {}
     task_FN = {}
+
+    all_predicted = []
+    all_targets = []
 
     with torch.no_grad():
         for images, text, ada, image_paths, target in tqdm(test_loader, total=len(test_loader)):
@@ -42,6 +48,23 @@ def test_model(model, test_loader, device, checkpoint_path):
                 task_TP[task_name] += ((predicted[i] == 1) & (target[i] == 1)).item()
                 task_FP[task_name] += ((predicted[i] == 1) & (target[i] == 0)).item()
                 task_FN[task_name] += ((predicted[i] == 0) & (target[i] == 1)).item()
+            # 予測結果と正解ラベルをリストに追加
+            all_predicted.extend(predicted.cpu().numpy())
+            all_targets.extend(target.cpu().numpy())
+            if "pick_cube_color" in task_name:
+                print(f"predicted: {predicted}, target: {target}")
+                print(f"image_paths: {image_paths}")
+
+    cm = confusion_matrix(all_targets, all_predicted)
+        # 混同行列の可視化
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
+    plt.title('Confusion Matrix')
+    plt.ylabel('True Label')
+    plt.xlabel('Predicted Label')
+
+    # 画像として保存
+    plt.savefig('confusion_matrix.png')
 
     # 各タスクの正解率を表示
     total = 0

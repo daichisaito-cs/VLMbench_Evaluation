@@ -1,4 +1,5 @@
 from email.mime import image
+from matplotlib.transforms import Transform
 from sympy import im
 import torch
 import torch.nn as nn
@@ -12,6 +13,7 @@ from einops import rearrange
 import timm
 import clip
 import torch.nn.functional as F
+Transformer = nn.Transformer
 class VLMbenchEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
         super(VLMbenchEvaluator, self).__init__()
