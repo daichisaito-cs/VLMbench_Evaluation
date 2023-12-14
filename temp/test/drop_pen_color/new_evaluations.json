@@ -1,0 +1,847 @@
+{
+    "episode0": {
+        "succeeded": true,
+        "description": "Drop the magenta pencil into the purple container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode0.npy"
+    },
+    "episode1": {
+        "succeeded": true,
+        "description": "Drop the magenta pencil into the red container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode1.npy"
+    },
+    "episode2": {
+        "succeeded": false,
+        "description": "Drop the magenta pencil into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode2.npy"
+    },
+    "episode3": {
+        "succeeded": true,
+        "description": "Drop the magenta pencil into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode3.npy"
+    },
+    "episode4": {
+        "succeeded": true,
+        "description": "Drop the magenta pencil into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode4.npy"
+    },
+    "episode5": {
+        "succeeded": false,
+        "description": "Drop the silver pencil into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode5.npy"
+    },
+    "episode6": {
+        "succeeded": false,
+        "description": "Drop the silver pencil into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode6.npy"
+    },
+    "episode7": {
+        "succeeded": true,
+        "description": "Drop the silver pencil into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode7.npy"
+    },
+    "episode8": {
+        "succeeded": true,
+        "description": "Drop the silver pencil into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode8.npy"
+    },
+    "episode9": {
+        "succeeded": false,
+        "description": "Drop the silver pencil into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode9.npy"
+    },
+    "episode10": {
+        "succeeded": false,
+        "description": "Drop the gray pencil into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode10.npy"
+    },
+    "episode11": {
+        "succeeded": true,
+        "description": "Drop the gray pencil into the olive container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode11.npy"
+    },
+    "episode12": {
+        "succeeded": true,
+        "description": "Drop the gray pencil into the navy container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode12.npy"
+    },
+    "episode13": {
+        "succeeded": false,
+        "description": "Drop the gray pencil into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode13.npy"
+    },
+    "episode14": {
+        "succeeded": true,
+        "description": "Drop the gray pencil into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode14.npy"
+    },
+    "episode15": {
+        "succeeded": true,
+        "description": "Drop the black pencil into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode15.npy"
+    },
+    "episode16": {
+        "succeeded": false,
+        "description": "Drop the black pencil into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode16.npy"
+    },
+    "episode17": {
+        "succeeded": true,
+        "description": "Drop the black pencil into the purple container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode17.npy"
+    },
+    "episode18": {
+        "succeeded": true,
+        "description": "Drop the black pencil into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode18.npy"
+    },
+    "episode19": {
+        "succeeded": true,
+        "description": "Drop the black pencil into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode19.npy"
+    },
+    "episode20": {
+        "succeeded": true,
+        "description": "Drop the teal pencil into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode20.npy"
+    },
+    "episode21": {
+        "succeeded": true,
+        "description": "Drop the teal pencil into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode21.npy"
+    },
+    "episode22": {
+        "succeeded": false,
+        "description": "Drop the teal pencil into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode22.npy"
+    },
+    "episode23": {
+        "succeeded": true,
+        "description": "Drop the teal pencil into the purple container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode23.npy"
+    },
+    "episode24": {
+        "succeeded": false,
+        "description": "Drop the teal pencil into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode24.npy"
+    },
+    "episode25": {
+        "succeeded": true,
+        "description": "Drop the violet pencil into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode25.npy"
+    },
+    "episode26": {
+        "succeeded": true,
+        "description": "Drop the violet pencil into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode26.npy"
+    },
+    "episode27": {
+        "succeeded": true,
+        "description": "Drop the violet pencil into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode27.npy"
+    },
+    "episode28": {
+        "succeeded": false,
+        "description": "Drop the violet pencil into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode28.npy"
+    },
+    "episode29": {
+        "succeeded": false,
+        "description": "Drop the violet pencil into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode29.npy"
+    },
+    "episode30": {
+        "succeeded": true,
+        "description": "Drop the blue pencil into the olive container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode30.npy"
+    },
+    "episode31": {
+        "succeeded": true,
+        "description": "Drop the blue pencil into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode31.npy"
+    },
+    "episode32": {
+        "succeeded": true,
+        "description": "Drop the blue pencil into the white container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode32.npy"
+    },
+    "episode33": {
+        "succeeded": false,
+        "description": "Drop the blue pencil into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode33.npy"
+    },
+    "episode34": {
+        "succeeded": false,
+        "description": "Drop the blue pencil into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode34.npy"
+    },
+    "episode35": {
+        "succeeded": true,
+        "description": "Drop the red pencil into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode35.npy"
+    },
+    "episode36": {
+        "succeeded": true,
+        "description": "Drop the red pencil into the navy container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode36.npy"
+    },
+    "episode37": {
+        "succeeded": true,
+        "description": "Drop the red pencil into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode37.npy"
+    },
+    "episode38": {
+        "succeeded": true,
+        "description": "Drop the red pencil into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode38.npy"
+    },
+    "episode39": {
+        "succeeded": true,
+        "description": "Drop the red pencil into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode39.npy"
+    },
+    "episode40": {
+        "succeeded": true,
+        "description": "Drop the azure pencil into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode40.npy"
+    },
+    "episode41": {
+        "succeeded": true,
+        "description": "Drop the azure pencil into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode41.npy"
+    },
+    "episode42": {
+        "succeeded": true,
+        "description": "Drop the azure pencil into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode42.npy"
+    },
+    "episode43": {
+        "succeeded": false,
+        "description": "Drop the azure pencil into the black container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode43.npy"
+    },
+    "episode44": {
+        "succeeded": false,
+        "description": "Drop the azure pencil into the orange container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode44.npy"
+    },
+    "episode45": {
+        "succeeded": false,
+        "description": "Drop the rose pencil into the white container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode45.npy"
+    },
+    "episode46": {
+        "succeeded": true,
+        "description": "Drop the rose pencil into the olive container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode46.npy"
+    },
+    "episode47": {
+        "succeeded": true,
+        "description": "Drop the rose pencil into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode47.npy"
+    },
+    "episode48": {
+        "succeeded": true,
+        "description": "Drop the rose pencil into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode48.npy"
+    },
+    "episode49": {
+        "succeeded": true,
+        "description": "Drop the rose pencil into the white container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode49.npy"
+    },
+    "episode50": {
+        "succeeded": false,
+        "description": "Drop the olive pencil into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode50.npy"
+    },
+    "episode51": {
+        "succeeded": false,
+        "description": "Drop the olive pencil into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode51.npy"
+    },
+    "episode52": {
+        "succeeded": true,
+        "description": "Drop the olive pencil into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode52.npy"
+    },
+    "episode53": {
+        "succeeded": true,
+        "description": "Drop the olive pencil into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode53.npy"
+    },
+    "episode54": {
+        "succeeded": true,
+        "description": "Drop the olive pencil into the purple container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode54.npy"
+    },
+    "episode55": {
+        "succeeded": false,
+        "description": "Drop the orange pencil into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode55.npy"
+    },
+    "episode56": {
+        "succeeded": true,
+        "description": "Drop the orange pencil into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode56.npy"
+    },
+    "episode57": {
+        "succeeded": true,
+        "description": "Drop the orange pencil into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode57.npy"
+    },
+    "episode58": {
+        "succeeded": false,
+        "description": "Drop the orange pencil into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode58.npy"
+    },
+    "episode59": {
+        "succeeded": false,
+        "description": "Drop the orange pencil into the navy container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode59.npy"
+    },
+    "episode60": {
+        "succeeded": true,
+        "description": "Drop the purple pencil into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode60.npy"
+    },
+    "episode61": {
+        "succeeded": false,
+        "description": "Drop the purple pencil into the yellow container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode61.npy"
+    },
+    "episode62": {
+        "succeeded": true,
+        "description": "Drop the purple pencil into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode62.npy"
+    },
+    "episode63": {
+        "succeeded": true,
+        "description": "Drop the purple pencil into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode63.npy"
+    },
+    "episode64": {
+        "succeeded": true,
+        "description": "Drop the purple pencil into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode64.npy"
+    },
+    "episode65": {
+        "succeeded": true,
+        "description": "Drop the cyan pencil into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode65.npy"
+    },
+    "episode66": {
+        "succeeded": true,
+        "description": "Drop the cyan pencil into the orange container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode66.npy"
+    },
+    "episode67": {
+        "succeeded": true,
+        "description": "Drop the cyan pencil into the purple container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode67.npy"
+    },
+    "episode68": {
+        "succeeded": true,
+        "description": "Drop the cyan pencil into the purple container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode68.npy"
+    },
+    "episode69": {
+        "succeeded": false,
+        "description": "Drop the cyan pencil into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode69.npy"
+    },
+    "episode70": {
+        "succeeded": true,
+        "description": "Drop the yellow pencil into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode70.npy"
+    },
+    "episode71": {
+        "succeeded": false,
+        "description": "Drop the yellow pencil into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode71.npy"
+    },
+    "episode72": {
+        "succeeded": true,
+        "description": "Drop the yellow pencil into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode72.npy"
+    },
+    "episode73": {
+        "succeeded": false,
+        "description": "Drop the yellow pencil into the orange container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode73.npy"
+    },
+    "episode74": {
+        "succeeded": false,
+        "description": "Drop the yellow pencil into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode74.npy"
+    },
+    "episode75": {
+        "succeeded": true,
+        "description": "Drop the lime pencil into the black container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode75.npy"
+    },
+    "episode76": {
+        "succeeded": false,
+        "description": "Drop the lime pencil into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode76.npy"
+    },
+    "episode77": {
+        "succeeded": true,
+        "description": "Drop the lime pencil into the olive container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode77.npy"
+    },
+    "episode78": {
+        "succeeded": false,
+        "description": "Drop the lime pencil into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode78.npy"
+    },
+    "episode79": {
+        "succeeded": false,
+        "description": "Drop the lime pencil into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode79.npy"
+    },
+    "episode80": {
+        "succeeded": true,
+        "description": "Drop the maroon pencil into the navy container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode80.npy"
+    },
+    "episode81": {
+        "succeeded": true,
+        "description": "Drop the maroon pencil into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode81.npy"
+    },
+    "episode82": {
+        "succeeded": true,
+        "description": "Drop the maroon pencil into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode82.npy"
+    },
+    "episode83": {
+        "succeeded": true,
+        "description": "Drop the maroon pencil into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode83.npy"
+    },
+    "episode84": {
+        "succeeded": true,
+        "description": "Drop the maroon pencil into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode84.npy"
+    },
+    "episode85": {
+        "succeeded": false,
+        "description": "Drop the green pencil into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode85.npy"
+    },
+    "episode86": {
+        "succeeded": true,
+        "description": "Drop the green pencil into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode86.npy"
+    },
+    "episode87": {
+        "succeeded": true,
+        "description": "Drop the green pencil into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode87.npy"
+    },
+    "episode88": {
+        "succeeded": true,
+        "description": "Drop the green pencil into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode88.npy"
+    },
+    "episode89": {
+        "succeeded": true,
+        "description": "Drop the green pencil into the white container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode89.npy"
+    },
+    "episode90": {
+        "succeeded": true,
+        "description": "Drop the navy pencil into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode90.npy"
+    },
+    "episode91": {
+        "succeeded": true,
+        "description": "Drop the navy pencil into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode91.npy"
+    },
+    "episode92": {
+        "succeeded": true,
+        "description": "Drop the navy pencil into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode92.npy"
+    },
+    "episode93": {
+        "succeeded": true,
+        "description": "Drop the navy pencil into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode93.npy"
+    },
+    "episode94": {
+        "succeeded": true,
+        "description": "Drop the navy pencil into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode94.npy"
+    },
+    "episode95": {
+        "succeeded": true,
+        "description": "Drop the white pencil into the olive container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode95.npy"
+    },
+    "episode96": {
+        "succeeded": true,
+        "description": "Drop the white pencil into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode96.npy"
+    },
+    "episode97": {
+        "succeeded": true,
+        "description": "Drop the white pencil into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode97.npy"
+    },
+    "episode98": {
+        "succeeded": true,
+        "description": "Drop the white pencil into the red container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode98.npy"
+    },
+    "episode99": {
+        "succeeded": false,
+        "description": "Drop the white pencil into the red container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode99.npy"
+    },
+    "episode100": {
+        "succeeded": false,
+        "description": "Drop the blue pencil into the olive container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode0.npy"
+    },
+    "episode101": {
+        "succeeded": false,
+        "description": "Drop the azure pencil into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode1.npy"
+    },
+    "episode102": {
+        "succeeded": false,
+        "description": "Drop the gray pencil into the orange container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode3.npy"
+    },
+    "episode103": {
+        "succeeded": false,
+        "description": "Drop the olive pencil into the yellow container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode4.npy"
+    },
+    "episode104": {
+        "succeeded": false,
+        "description": "Drop the yellow pencil into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode7.npy"
+    },
+    "episode105": {
+        "succeeded": false,
+        "description": "Drop the violet pencil into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode8.npy"
+    },
+    "episode106": {
+        "succeeded": false,
+        "description": "Drop the violet pencil into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode11.npy"
+    },
+    "episode107": {
+        "succeeded": false,
+        "description": "Drop the blue pencil into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode12.npy"
+    },
+    "episode108": {
+        "succeeded": false,
+        "description": "Drop the magenta pencil into the white container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode14.npy"
+    },
+    "episode109": {
+        "succeeded": false,
+        "description": "Drop the cyan pencil into the red container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode15.npy"
+    },
+    "episode110": {
+        "succeeded": false,
+        "description": "Drop the magenta pencil into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode17.npy"
+    },
+    "episode111": {
+        "succeeded": false,
+        "description": "Drop the cyan pencil into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode18.npy"
+    },
+    "episode112": {
+        "succeeded": false,
+        "description": "Drop the olive pencil into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode19.npy"
+    },
+    "episode113": {
+        "succeeded": false,
+        "description": "Drop the lime pencil into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode20.npy"
+    },
+    "episode114": {
+        "succeeded": false,
+        "description": "Drop the white pencil into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode21.npy"
+    },
+    "episode115": {
+        "succeeded": false,
+        "description": "Drop the violet pencil into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode23.npy"
+    },
+    "episode116": {
+        "succeeded": false,
+        "description": "Drop the olive pencil into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode25.npy"
+    },
+    "episode117": {
+        "succeeded": false,
+        "description": "Drop the green pencil into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode26.npy"
+    },
+    "episode118": {
+        "succeeded": false,
+        "description": "Drop the gray pencil into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode27.npy"
+    },
+    "episode119": {
+        "succeeded": false,
+        "description": "Drop the lime pencil into the orange container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode30.npy"
+    },
+    "episode120": {
+        "succeeded": false,
+        "description": "Drop the gray pencil into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode31.npy"
+    },
+    "episode121": {
+        "succeeded": false,
+        "description": "Drop the violet pencil into the red container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode32.npy"
+    },
+    "episode122": {
+        "succeeded": false,
+        "description": "Drop the white pencil into the red container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode35.npy"
+    },
+    "episode123": {
+        "succeeded": false,
+        "description": "Drop the magenta pencil into the white container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode36.npy"
+    },
+    "episode124": {
+        "succeeded": false,
+        "description": "Drop the azure pencil into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode37.npy"
+    },
+    "episode125": {
+        "succeeded": false,
+        "description": "Drop the teal pencil into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode38.npy"
+    },
+    "episode126": {
+        "succeeded": false,
+        "description": "Drop the navy pencil into the red container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode39.npy"
+    },
+    "episode127": {
+        "succeeded": false,
+        "description": "Drop the silver pencil into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode40.npy"
+    },
+    "episode128": {
+        "succeeded": false,
+        "description": "Drop the green pencil into the white container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode41.npy"
+    },
+    "episode129": {
+        "succeeded": false,
+        "description": "Drop the yellow pencil into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode42.npy"
+    },
+    "episode130": {
+        "succeeded": false,
+        "description": "Drop the white pencil into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode46.npy"
+    },
+    "episode131": {
+        "succeeded": false,
+        "description": "Drop the silver pencil into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode47.npy"
+    },
+    "episode132": {
+        "succeeded": false,
+        "description": "Drop the blue pencil into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode48.npy"
+    },
+    "episode133": {
+        "succeeded": false,
+        "description": "Drop the green pencil into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode49.npy"
+    },
+    "episode134": {
+        "succeeded": false,
+        "description": "Drop the black pencil into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode52.npy"
+    },
+    "episode135": {
+        "succeeded": false,
+        "description": "Drop the purple pencil into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode53.npy"
+    },
+    "episode136": {
+        "succeeded": false,
+        "description": "Drop the black pencil into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode54.npy"
+    },
+    "episode137": {
+        "succeeded": false,
+        "description": "Drop the purple pencil into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode56.npy"
+    },
+    "episode138": {
+        "succeeded": false,
+        "description": "Drop the teal pencil into the white container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode57.npy"
+    },
+    "episode139": {
+        "succeeded": false,
+        "description": "Drop the green pencil into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode60.npy"
+    },
+    "episode140": {
+        "succeeded": false,
+        "description": "Drop the blue pencil into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode62.npy"
+    },
+    "episode141": {
+        "succeeded": false,
+        "description": "Drop the orange pencil into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode63.npy"
+    },
+    "episode142": {
+        "succeeded": false,
+        "description": "Drop the olive pencil into the yellow container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode64.npy"
+    },
+    "episode143": {
+        "succeeded": false,
+        "description": "Drop the rose pencil into the orange container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode65.npy"
+    },
+    "episode144": {
+        "succeeded": false,
+        "description": "Drop the purple pencil into the navy container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode66.npy"
+    },
+    "episode145": {
+        "succeeded": false,
+        "description": "Drop the magenta pencil into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode67.npy"
+    },
+    "episode146": {
+        "succeeded": false,
+        "description": "Drop the silver pencil into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode68.npy"
+    },
+    "episode147": {
+        "succeeded": false,
+        "description": "Drop the blue pencil into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode70.npy"
+    },
+    "episode148": {
+        "succeeded": false,
+        "description": "Drop the black pencil into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode72.npy"
+    },
+    "episode149": {
+        "succeeded": false,
+        "description": "Drop the olive pencil into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode75.npy"
+    },
+    "episode150": {
+        "succeeded": false,
+        "description": "Drop the black pencil into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode77.npy"
+    },
+    "episode151": {
+        "succeeded": false,
+        "description": "Drop the black pencil into the white container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode80.npy"
+    },
+    "episode152": {
+        "succeeded": false,
+        "description": "Drop the purple pencil into the purple container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode81.npy"
+    },
+    "episode153": {
+        "succeeded": false,
+        "description": "Drop the magenta pencil into the purple container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode82.npy"
+    },
+    "episode154": {
+        "succeeded": false,
+        "description": "Drop the rose pencil into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode83.npy"
+    },
+    "episode155": {
+        "succeeded": false,
+        "description": "Drop the cyan pencil into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode84.npy"
+    },
+    "episode156": {
+        "succeeded": false,
+        "description": "Drop the olive pencil into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode86.npy"
+    },
+    "episode157": {
+        "succeeded": false,
+        "description": "Drop the navy pencil into the yellow container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode87.npy"
+    },
+    "episode158": {
+        "succeeded": false,
+        "description": "Drop the orange pencil into the olive container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode88.npy"
+    },
+    "episode159": {
+        "succeeded": false,
+        "description": "Drop the violet pencil into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode89.npy"
+    },
+    "episode160": {
+        "succeeded": false,
+        "description": "Drop the silver pencil into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode90.npy"
+    },
+    "episode161": {
+        "succeeded": false,
+        "description": "Drop the orange pencil into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode91.npy"
+    },
+    "episode162": {
+        "succeeded": false,
+        "description": "Drop the magenta pencil into the orange container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode92.npy"
+    },
+    "episode163": {
+        "succeeded": false,
+        "description": "Drop the azure pencil into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode93.npy"
+    },
+    "episode164": {
+        "succeeded": false,
+        "description": "Drop the lime pencil into the black container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode94.npy"
+    },
+    "episode165": {
+        "succeeded": false,
+        "description": "Drop the navy pencil into the purple container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode95.npy"
+    },
+    "episode166": {
+        "succeeded": false,
+        "description": "Drop the cyan pencil into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode96.npy"
+    },
+    "episode167": {
+        "succeeded": false,
+        "description": "Drop the olive pencil into the purple container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode97.npy"
+    },
+    "episode168": {
+        "succeeded": false,
+        "description": "Drop the gray pencil into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/drop_pen_color/episode98.npy"
+    }
+}

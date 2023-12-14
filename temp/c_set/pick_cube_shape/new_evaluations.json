@@ -1,0 +1,957 @@
+{
+    "episode0": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode0.npy"
+    },
+    "episode1": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode1.npy"
+    },
+    "episode2": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode2.npy"
+    },
+    "episode3": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode3.npy"
+    },
+    "episode4": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the olive container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode4.npy"
+    },
+    "episode5": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode5.npy"
+    },
+    "episode6": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode6.npy"
+    },
+    "episode7": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode7.npy"
+    },
+    "episode8": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode8.npy"
+    },
+    "episode9": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode9.npy"
+    },
+    "episode10": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the black container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode10.npy"
+    },
+    "episode11": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode11.npy"
+    },
+    "episode12": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode12.npy"
+    },
+    "episode13": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the black container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode13.npy"
+    },
+    "episode14": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the red container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode14.npy"
+    },
+    "episode15": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode15.npy"
+    },
+    "episode16": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode16.npy"
+    },
+    "episode17": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode17.npy"
+    },
+    "episode18": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode18.npy"
+    },
+    "episode19": {
+        "succeeded": true,
+        "description": "Pick up the moon and place it into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode19.npy"
+    },
+    "episode20": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode20.npy"
+    },
+    "episode21": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode21.npy"
+    },
+    "episode22": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the red container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode22.npy"
+    },
+    "episode23": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the orange container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode23.npy"
+    },
+    "episode24": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode24.npy"
+    },
+    "episode25": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode25.npy"
+    },
+    "episode26": {
+        "succeeded": false,
+        "description": "Pick up the star and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode26.npy"
+    },
+    "episode27": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode27.npy"
+    },
+    "episode28": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode28.npy"
+    },
+    "episode29": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode29.npy"
+    },
+    "episode30": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode30.npy"
+    },
+    "episode31": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the yellow container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode31.npy"
+    },
+    "episode32": {
+        "succeeded": false,
+        "description": "Pick up the star and place it into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode32.npy"
+    },
+    "episode33": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode33.npy"
+    },
+    "episode34": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode34.npy"
+    },
+    "episode35": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode35.npy"
+    },
+    "episode36": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode36.npy"
+    },
+    "episode37": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode37.npy"
+    },
+    "episode38": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode38.npy"
+    },
+    "episode39": {
+        "succeeded": true,
+        "description": "Pick up the star and place it into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode39.npy"
+    },
+    "episode40": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode40.npy"
+    },
+    "episode41": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the white container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode41.npy"
+    },
+    "episode42": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the purple container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode42.npy"
+    },
+    "episode43": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode43.npy"
+    },
+    "episode44": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode44.npy"
+    },
+    "episode45": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode45.npy"
+    },
+    "episode46": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the yellow container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode46.npy"
+    },
+    "episode47": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode47.npy"
+    },
+    "episode48": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode48.npy"
+    },
+    "episode49": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode49.npy"
+    },
+    "episode50": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the red container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode50.npy"
+    },
+    "episode51": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the navy container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode51.npy"
+    },
+    "episode52": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode52.npy"
+    },
+    "episode53": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode53.npy"
+    },
+    "episode54": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode54.npy"
+    },
+    "episode55": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode55.npy"
+    },
+    "episode56": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the black container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode56.npy"
+    },
+    "episode57": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode57.npy"
+    },
+    "episode58": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode58.npy"
+    },
+    "episode59": {
+        "succeeded": true,
+        "description": "Pick up the cylinder and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode59.npy"
+    },
+    "episode60": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode60.npy"
+    },
+    "episode61": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode61.npy"
+    },
+    "episode62": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the navy container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode62.npy"
+    },
+    "episode63": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the purple container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode63.npy"
+    },
+    "episode64": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode64.npy"
+    },
+    "episode65": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the black container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode65.npy"
+    },
+    "episode66": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the olive container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode66.npy"
+    },
+    "episode67": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode67.npy"
+    },
+    "episode68": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode68.npy"
+    },
+    "episode69": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode69.npy"
+    },
+    "episode70": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode70.npy"
+    },
+    "episode71": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the red container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode71.npy"
+    },
+    "episode72": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the olive container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode72.npy"
+    },
+    "episode73": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the olive container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode73.npy"
+    },
+    "episode74": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode74.npy"
+    },
+    "episode75": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode75.npy"
+    },
+    "episode76": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode76.npy"
+    },
+    "episode77": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the black container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode77.npy"
+    },
+    "episode78": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode78.npy"
+    },
+    "episode79": {
+        "succeeded": true,
+        "description": "Pick up the triangular prism and place it into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode79.npy"
+    },
+    "episode80": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode80.npy"
+    },
+    "episode81": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the black container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode81.npy"
+    },
+    "episode82": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the white container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode82.npy"
+    },
+    "episode83": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the red container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode83.npy"
+    },
+    "episode84": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode84.npy"
+    },
+    "episode85": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode85.npy"
+    },
+    "episode86": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode86.npy"
+    },
+    "episode87": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the black container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode87.npy"
+    },
+    "episode88": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode88.npy"
+    },
+    "episode89": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode89.npy"
+    },
+    "episode90": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode90.npy"
+    },
+    "episode91": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the yellow container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode91.npy"
+    },
+    "episode92": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the purple container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode92.npy"
+    },
+    "episode93": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the navy container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode93.npy"
+    },
+    "episode94": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode94.npy"
+    },
+    "episode95": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode95.npy"
+    },
+    "episode96": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode96.npy"
+    },
+    "episode97": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the orange container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode97.npy"
+    },
+    "episode98": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode98.npy"
+    },
+    "episode99": {
+        "succeeded": true,
+        "description": "Pick up the cube and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode99.npy"
+    },
+    "episode100": {
+        "succeeded": false,
+        "description": "Pick up the star and place it into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode100.npy"
+    },
+    "episode101": {
+        "succeeded": false,
+        "description": "Pick up the star and place it into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode101.npy"
+    },
+    "episode102": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode102.npy"
+    },
+    "episode103": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode103.npy"
+    },
+    "episode104": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the olive container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode104.npy"
+    },
+    "episode105": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode105.npy"
+    },
+    "episode106": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode106.npy"
+    },
+    "episode107": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode107.npy"
+    },
+    "episode108": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode108.npy"
+    },
+    "episode109": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode109.npy"
+    },
+    "episode110": {
+        "succeeded": false,
+        "description": "Pick up the star and place it into the black container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode110.npy"
+    },
+    "episode111": {
+        "succeeded": false,
+        "description": "Pick up the star and place it into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode111.npy"
+    },
+    "episode112": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode112.npy"
+    },
+    "episode113": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the black container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode113.npy"
+    },
+    "episode114": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode114.npy"
+    },
+    "episode115": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode115.npy"
+    },
+    "episode116": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode116.npy"
+    },
+    "episode117": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode117.npy"
+    },
+    "episode118": {
+        "succeeded": false,
+        "description": "Pick up the star and place it into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode118.npy"
+    },
+    "episode119": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode119.npy"
+    },
+    "episode120": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode120.npy"
+    },
+    "episode121": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the red container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode121.npy"
+    },
+    "episode122": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the orange container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode122.npy"
+    },
+    "episode123": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode123.npy"
+    },
+    "episode124": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode124.npy"
+    },
+    "episode125": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode125.npy"
+    },
+    "episode126": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode126.npy"
+    },
+    "episode127": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode127.npy"
+    },
+    "episode128": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode128.npy"
+    },
+    "episode129": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the yellow container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode129.npy"
+    },
+    "episode130": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode130.npy"
+    },
+    "episode131": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode131.npy"
+    },
+    "episode132": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode132.npy"
+    },
+    "episode133": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode133.npy"
+    },
+    "episode134": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode134.npy"
+    },
+    "episode135": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode135.npy"
+    },
+    "episode136": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode136.npy"
+    },
+    "episode137": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode137.npy"
+    },
+    "episode138": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the white container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode138.npy"
+    },
+    "episode139": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the purple container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode139.npy"
+    },
+    "episode140": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode140.npy"
+    },
+    "episode141": {
+        "succeeded": false,
+        "description": "Pick up the star and place it into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode141.npy"
+    },
+    "episode142": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the yellow container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode142.npy"
+    },
+    "episode143": {
+        "succeeded": false,
+        "description": "Pick up the star and place it into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode143.npy"
+    },
+    "episode144": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode144.npy"
+    },
+    "episode145": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode145.npy"
+    },
+    "episode146": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the red container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode146.npy"
+    },
+    "episode147": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the navy container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode147.npy"
+    },
+    "episode148": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode148.npy"
+    },
+    "episode149": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode149.npy"
+    },
+    "episode150": {
+        "succeeded": false,
+        "description": "Pick up the star and place it into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode150.npy"
+    },
+    "episode151": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the black container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode151.npy"
+    },
+    "episode152": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the gray container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode152.npy"
+    },
+    "episode153": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode153.npy"
+    },
+    "episode154": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode154.npy"
+    },
+    "episode155": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode155.npy"
+    },
+    "episode156": {
+        "succeeded": false,
+        "description": "Pick up the star and place it into the navy container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode156.npy"
+    },
+    "episode157": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the purple container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode157.npy"
+    },
+    "episode158": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode158.npy"
+    },
+    "episode159": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the black container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode159.npy"
+    },
+    "episode160": {
+        "succeeded": false,
+        "description": "Pick up the star and place it into the olive container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode160.npy"
+    },
+    "episode161": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode161.npy"
+    },
+    "episode162": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode162.npy"
+    },
+    "episode163": {
+        "succeeded": false,
+        "description": "Pick up the star and place it into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode163.npy"
+    },
+    "episode164": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode164.npy"
+    },
+    "episode165": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the red container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode165.npy"
+    },
+    "episode166": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the olive container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode166.npy"
+    },
+    "episode167": {
+        "succeeded": false,
+        "description": "Pick up the cube and place it into the silver container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode167.npy"
+    },
+    "episode168": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the magenta container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode168.npy"
+    },
+    "episode169": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode169.npy"
+    },
+    "episode170": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the blue container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode170.npy"
+    },
+    "episode171": {
+        "succeeded": false,
+        "description": "Pick up the star and place it into the rose container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode171.npy"
+    },
+    "episode172": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the azure container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode172.npy"
+    },
+    "episode173": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the black container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode173.npy"
+    },
+    "episode174": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the white container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode174.npy"
+    },
+    "episode175": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the red container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode175.npy"
+    },
+    "episode176": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the teal container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode176.npy"
+    },
+    "episode177": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode177.npy"
+    },
+    "episode178": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the maroon container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode178.npy"
+    },
+    "episode179": {
+        "succeeded": false,
+        "description": "Pick up the star and place it into the black container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode179.npy"
+    },
+    "episode180": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode180.npy"
+    },
+    "episode181": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode181.npy"
+    },
+    "episode182": {
+        "succeeded": false,
+        "description": "Pick up the moon and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode182.npy"
+    },
+    "episode183": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the purple container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode183.npy"
+    },
+    "episode184": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the navy container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode184.npy"
+    },
+    "episode185": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the lime container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode185.npy"
+    },
+    "episode186": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the cyan container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode186.npy"
+    },
+    "episode187": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode187.npy"
+    },
+    "episode188": {
+        "succeeded": false,
+        "description": "Pick up the triangular prism and place it into the orange container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode188.npy"
+    },
+    "episode189": {
+        "succeeded": false,
+        "description": "Pick up the cylinder and place it into the green container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode189.npy"
+    },
+    "episode190": {
+        "succeeded": false,
+        "description": "Pick up the star and place it into the violet container.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/pick_cube_shape/episode190.npy"
+    }
+}

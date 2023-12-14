@@ -1,0 +1,402 @@
+{
+    "episode0": {
+        "succeeded": true,
+        "description": "Pick up the magenta object and place it into the blue container."
+    },
+    "episode1": {
+        "succeeded": false,
+        "description": "Pick up the magenta object and place it into the black container."
+    },
+    "episode2": {
+        "succeeded": true,
+        "description": "Pick up the magenta object and place it into the orange container."
+    },
+    "episode3": {
+        "succeeded": true,
+        "description": "Pick up the magenta object and place it into the violet container."
+    },
+    "episode4": {
+        "succeeded": true,
+        "description": "Pick up the magenta object and place it into the lime container."
+    },
+    "episode5": {
+        "succeeded": true,
+        "description": "Pick up the silver object and place it into the blue container."
+    },
+    "episode6": {
+        "succeeded": true,
+        "description": "Pick up the silver object and place it into the rose container."
+    },
+    "episode7": {
+        "succeeded": true,
+        "description": "Pick up the silver object and place it into the magenta container."
+    },
+    "episode8": {
+        "succeeded": true,
+        "description": "Pick up the silver object and place it into the purple container."
+    },
+    "episode9": {
+        "succeeded": true,
+        "description": "Pick up the silver object and place it into the black container."
+    },
+    "episode10": {
+        "succeeded": true,
+        "description": "Pick up the gray object and place it into the silver container."
+    },
+    "episode11": {
+        "succeeded": true,
+        "description": "Pick up the gray object and place it into the magenta container."
+    },
+    "episode12": {
+        "succeeded": true,
+        "description": "Pick up the gray object and place it into the maroon container."
+    },
+    "episode13": {
+        "succeeded": true,
+        "description": "Pick up the gray object and place it into the black container."
+    },
+    "episode14": {
+        "succeeded": true,
+        "description": "Pick up the gray object and place it into the olive container."
+    },
+    "episode15": {
+        "succeeded": true,
+        "description": "Pick up the black object and place it into the gray container."
+    },
+    "episode16": {
+        "succeeded": true,
+        "description": "Pick up the black object and place it into the magenta container."
+    },
+    "episode17": {
+        "succeeded": true,
+        "description": "Pick up the black object and place it into the orange container."
+    },
+    "episode18": {
+        "succeeded": true,
+        "description": "Pick up the black object and place it into the magenta container."
+    },
+    "episode19": {
+        "succeeded": true,
+        "description": "Pick up the black object and place it into the green container."
+    },
+    "episode20": {
+        "succeeded": true,
+        "description": "Pick up the teal object and place it into the orange container."
+    },
+    "episode21": {
+        "succeeded": true,
+        "description": "Pick up the teal object and place it into the maroon container."
+    },
+    "episode22": {
+        "succeeded": false,
+        "description": "Pick up the teal object and place it into the black container."
+    },
+    "episode23": {
+        "succeeded": true,
+        "description": "Pick up the teal object and place it into the azure container."
+    },
+    "episode24": {
+        "succeeded": true,
+        "description": "Pick up the teal object and place it into the rose container."
+    },
+    "episode25": {
+        "succeeded": true,
+        "description": "Pick up the violet object and place it into the gray container."
+    },
+    "episode26": {
+        "succeeded": false,
+        "description": "Pick up the violet object and place it into the orange container."
+    },
+    "episode27": {
+        "succeeded": true,
+        "description": "Pick up the violet object and place it into the green container."
+    },
+    "episode28": {
+        "succeeded": true,
+        "description": "Pick up the violet object and place it into the navy container."
+    },
+    "episode29": {
+        "succeeded": true,
+        "description": "Pick up the violet object and place it into the red container."
+    },
+    "episode30": {
+        "succeeded": true,
+        "description": "Pick up the blue object and place it into the lime container."
+    },
+    "episode31": {
+        "succeeded": true,
+        "description": "Pick up the blue object and place it into the olive container."
+    },
+    "episode32": {
+        "succeeded": true,
+        "description": "Pick up the blue object and place it into the blue container."
+    },
+    "episode33": {
+        "succeeded": true,
+        "description": "Pick up the blue object and place it into the red container."
+    },
+    "episode34": {
+        "succeeded": true,
+        "description": "Pick up the blue object and place it into the black container."
+    },
+    "episode35": {
+        "succeeded": true,
+        "description": "Pick up the red object and place it into the cyan container."
+    },
+    "episode36": {
+        "succeeded": true,
+        "description": "Pick up the red object and place it into the orange container."
+    },
+    "episode37": {
+        "succeeded": true,
+        "description": "Pick up the red object and place it into the yellow container."
+    },
+    "episode38": {
+        "succeeded": true,
+        "description": "Pick up the red object and place it into the cyan container."
+    },
+    "episode39": {
+        "succeeded": true,
+        "description": "Pick up the red object and place it into the maroon container."
+    },
+    "episode40": {
+        "succeeded": true,
+        "description": "Pick up the azure object and place it into the green container."
+    },
+    "episode41": {
+        "succeeded": true,
+        "description": "Pick up the azure object and place it into the silver container."
+    },
+    "episode42": {
+        "succeeded": true,
+        "description": "Pick up the azure object and place it into the silver container."
+    },
+    "episode43": {
+        "succeeded": true,
+        "description": "Pick up the azure object and place it into the purple container."
+    },
+    "episode44": {
+        "succeeded": true,
+        "description": "Pick up the azure object and place it into the teal container."
+    },
+    "episode45": {
+        "succeeded": true,
+        "description": "Pick up the rose object and place it into the red container."
+    },
+    "episode46": {
+        "succeeded": true,
+        "description": "Pick up the rose object and place it into the gray container."
+    },
+    "episode47": {
+        "succeeded": true,
+        "description": "Pick up the rose object and place it into the gray container."
+    },
+    "episode48": {
+        "succeeded": true,
+        "description": "Pick up the rose object and place it into the rose container."
+    },
+    "episode49": {
+        "succeeded": true,
+        "description": "Pick up the rose object and place it into the gray container."
+    },
+    "episode50": {
+        "succeeded": true,
+        "description": "Pick up the olive object and place it into the teal container."
+    },
+    "episode51": {
+        "succeeded": true,
+        "description": "Pick up the olive object and place it into the olive container."
+    },
+    "episode52": {
+        "succeeded": true,
+        "description": "Pick up the olive object and place it into the magenta container."
+    },
+    "episode53": {
+        "succeeded": true,
+        "description": "Pick up the olive object and place it into the purple container."
+    },
+    "episode54": {
+        "succeeded": false,
+        "description": "Pick up the olive object and place it into the silver container."
+    },
+    "episode55": {
+        "succeeded": true,
+        "description": "Pick up the orange object and place it into the violet container."
+    },
+    "episode56": {
+        "succeeded": true,
+        "description": "Pick up the orange object and place it into the green container."
+    },
+    "episode57": {
+        "succeeded": true,
+        "description": "Pick up the orange object and place it into the cyan container."
+    },
+    "episode58": {
+        "succeeded": true,
+        "description": "Pick up the orange object and place it into the white container."
+    },
+    "episode59": {
+        "succeeded": true,
+        "description": "Pick up the orange object and place it into the maroon container."
+    },
+    "episode60": {
+        "succeeded": true,
+        "description": "Pick up the purple object and place it into the teal container."
+    },
+    "episode61": {
+        "succeeded": true,
+        "description": "Pick up the purple object and place it into the yellow container."
+    },
+    "episode62": {
+        "succeeded": true,
+        "description": "Pick up the purple object and place it into the azure container."
+    },
+    "episode63": {
+        "succeeded": true,
+        "description": "Pick up the purple object and place it into the violet container."
+    },
+    "episode64": {
+        "succeeded": true,
+        "description": "Pick up the purple object and place it into the rose container."
+    },
+    "episode65": {
+        "succeeded": true,
+        "description": "Pick up the cyan object and place it into the purple container."
+    },
+    "episode66": {
+        "succeeded": true,
+        "description": "Pick up the cyan object and place it into the navy container."
+    },
+    "episode67": {
+        "succeeded": true,
+        "description": "Pick up the cyan object and place it into the cyan container."
+    },
+    "episode68": {
+        "succeeded": true,
+        "description": "Pick up the cyan object and place it into the white container."
+    },
+    "episode69": {
+        "succeeded": false,
+        "description": "Pick up the cyan object and place it into the red container."
+    },
+    "episode70": {
+        "succeeded": true,
+        "description": "Pick up the yellow object and place it into the green container."
+    },
+    "episode71": {
+        "succeeded": true,
+        "description": "Pick up the yellow object and place it into the green container."
+    },
+    "episode72": {
+        "succeeded": true,
+        "description": "Pick up the yellow object and place it into the olive container."
+    },
+    "episode73": {
+        "succeeded": true,
+        "description": "Pick up the yellow object and place it into the olive container."
+    },
+    "episode74": {
+        "succeeded": true,
+        "description": "Pick up the yellow object and place it into the orange container."
+    },
+    "episode75": {
+        "succeeded": true,
+        "description": "Pick up the lime object and place it into the blue container."
+    },
+    "episode76": {
+        "succeeded": true,
+        "description": "Pick up the lime object and place it into the lime container."
+    },
+    "episode77": {
+        "succeeded": true,
+        "description": "Pick up the lime object and place it into the lime container."
+    },
+    "episode78": {
+        "succeeded": true,
+        "description": "Pick up the lime object and place it into the olive container."
+    },
+    "episode79": {
+        "succeeded": true,
+        "description": "Pick up the lime object and place it into the silver container."
+    },
+    "episode80": {
+        "succeeded": true,
+        "description": "Pick up the maroon object and place it into the white container."
+    },
+    "episode81": {
+        "succeeded": true,
+        "description": "Pick up the maroon object and place it into the navy container."
+    },
+    "episode82": {
+        "succeeded": true,
+        "description": "Pick up the maroon object and place it into the lime container."
+    },
+    "episode83": {
+        "succeeded": true,
+        "description": "Pick up the maroon object and place it into the azure container."
+    },
+    "episode84": {
+        "succeeded": true,
+        "description": "Pick up the maroon object and place it into the white container."
+    },
+    "episode85": {
+        "succeeded": true,
+        "description": "Pick up the green object and place it into the green container."
+    },
+    "episode86": {
+        "succeeded": true,
+        "description": "Pick up the green object and place it into the cyan container."
+    },
+    "episode87": {
+        "succeeded": true,
+        "description": "Pick up the green object and place it into the white container."
+    },
+    "episode88": {
+        "succeeded": true,
+        "description": "Pick up the green object and place it into the purple container."
+    },
+    "episode89": {
+        "succeeded": false,
+        "description": "Pick up the green object and place it into the white container."
+    },
+    "episode90": {
+        "succeeded": true,
+        "description": "Pick up the navy object and place it into the gray container."
+    },
+    "episode91": {
+        "succeeded": true,
+        "description": "Pick up the navy object and place it into the gray container."
+    },
+    "episode92": {
+        "succeeded": true,
+        "description": "Pick up the navy object and place it into the gray container."
+    },
+    "episode93": {
+        "succeeded": true,
+        "description": "Pick up the navy object and place it into the teal container."
+    },
+    "episode94": {
+        "succeeded": true,
+        "description": "Pick up the navy object and place it into the purple container."
+    },
+    "episode95": {
+        "succeeded": true,
+        "description": "Pick up the white object and place it into the black container."
+    },
+    "episode96": {
+        "succeeded": true,
+        "description": "Pick up the white object and place it into the teal container."
+    },
+    "episode97": {
+        "succeeded": false,
+        "description": "Pick up the white object and place it into the lime container."
+    },
+    "episode98": {
+        "succeeded": true,
+        "description": "Pick up the white object and place it into the teal container."
+    },
+    "episode99": {
+        "succeeded": true,
+        "description": "Pick up the white object and place it into the rose container."
+    }
+}

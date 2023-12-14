@@ -1,0 +1,912 @@
+{
+    "episode0": {
+        "succeeded": true,
+        "description": "Stack the magenta star and the blue star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode0.npy"
+    },
+    "episode1": {
+        "succeeded": true,
+        "description": "Stack the magenta triangular prism and the white triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode1.npy"
+    },
+    "episode2": {
+        "succeeded": true,
+        "description": "Stack the magenta moon and the navy moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode2.npy"
+    },
+    "episode3": {
+        "succeeded": true,
+        "description": "Stack the magenta moon and the olive moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode3.npy"
+    },
+    "episode4": {
+        "succeeded": true,
+        "description": "Stack the magenta star and the yellow star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode4.npy"
+    },
+    "episode5": {
+        "succeeded": true,
+        "description": "Stack the silver star and the purple star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode5.npy"
+    },
+    "episode6": {
+        "succeeded": true,
+        "description": "Stack the silver moon and the lime moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode6.npy"
+    },
+    "episode7": {
+        "succeeded": true,
+        "description": "Stack the silver triangular prism and the navy triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode7.npy"
+    },
+    "episode8": {
+        "succeeded": true,
+        "description": "Stack the silver moon and the yellow moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode8.npy"
+    },
+    "episode9": {
+        "succeeded": true,
+        "description": "Stack the silver cylinder and the magenta cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode9.npy"
+    },
+    "episode10": {
+        "succeeded": true,
+        "description": "Stack the gray cube and the silver cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode10.npy"
+    },
+    "episode11": {
+        "succeeded": true,
+        "description": "Stack the gray cylinder and the rose cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode11.npy"
+    },
+    "episode12": {
+        "succeeded": true,
+        "description": "Stack the gray moon and the blue moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode12.npy"
+    },
+    "episode13": {
+        "succeeded": true,
+        "description": "Stack the gray moon and the black moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode13.npy"
+    },
+    "episode14": {
+        "succeeded": true,
+        "description": "Stack the gray cube and the lime cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode14.npy"
+    },
+    "episode15": {
+        "succeeded": true,
+        "description": "Stack the black star and the white star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode15.npy"
+    },
+    "episode16": {
+        "succeeded": false,
+        "description": "Stack the black triangular prism and the white triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode16.npy"
+    },
+    "episode17": {
+        "succeeded": true,
+        "description": "Stack the black star and the red star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode17.npy"
+    },
+    "episode18": {
+        "succeeded": false,
+        "description": "Stack the black cylinder and the magenta cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode18.npy"
+    },
+    "episode19": {
+        "succeeded": false,
+        "description": "Stack the black cylinder and the violet cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode19.npy"
+    },
+    "episode20": {
+        "succeeded": true,
+        "description": "Stack the teal cube and the cyan cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode20.npy"
+    },
+    "episode21": {
+        "succeeded": false,
+        "description": "Stack the teal star and the maroon star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode21.npy"
+    },
+    "episode22": {
+        "succeeded": true,
+        "description": "Stack the teal star and the purple star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode22.npy"
+    },
+    "episode23": {
+        "succeeded": true,
+        "description": "Stack the teal cube and the red cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode23.npy"
+    },
+    "episode24": {
+        "succeeded": true,
+        "description": "Stack the teal cube and the black cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode24.npy"
+    },
+    "episode25": {
+        "succeeded": true,
+        "description": "Stack the violet star and the purple star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode25.npy"
+    },
+    "episode26": {
+        "succeeded": true,
+        "description": "Stack the violet star and the azure star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode26.npy"
+    },
+    "episode27": {
+        "succeeded": true,
+        "description": "Stack the violet star and the green star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode27.npy"
+    },
+    "episode28": {
+        "succeeded": true,
+        "description": "Stack the violet cylinder and the rose cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode28.npy"
+    },
+    "episode29": {
+        "succeeded": true,
+        "description": "Stack the violet star and the yellow star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode29.npy"
+    },
+    "episode30": {
+        "succeeded": false,
+        "description": "Stack the blue triangular prism and the yellow triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode30.npy"
+    },
+    "episode31": {
+        "succeeded": true,
+        "description": "Stack the blue moon and the gray moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode31.npy"
+    },
+    "episode32": {
+        "succeeded": true,
+        "description": "Stack the blue moon and the orange moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode32.npy"
+    },
+    "episode33": {
+        "succeeded": true,
+        "description": "Stack the blue cube and the navy cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode33.npy"
+    },
+    "episode34": {
+        "succeeded": true,
+        "description": "Stack the blue moon and the orange moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode34.npy"
+    },
+    "episode35": {
+        "succeeded": false,
+        "description": "Stack the red cylinder and the magenta cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode35.npy"
+    },
+    "episode36": {
+        "succeeded": true,
+        "description": "Stack the red cylinder and the cyan cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode36.npy"
+    },
+    "episode37": {
+        "succeeded": false,
+        "description": "Stack the red cube and the black cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode37.npy"
+    },
+    "episode38": {
+        "succeeded": true,
+        "description": "Stack the red cylinder and the azure cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode38.npy"
+    },
+    "episode39": {
+        "succeeded": true,
+        "description": "Stack the red cube and the navy cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode39.npy"
+    },
+    "episode40": {
+        "succeeded": true,
+        "description": "Stack the azure triangular prism and the gray triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode40.npy"
+    },
+    "episode41": {
+        "succeeded": true,
+        "description": "Stack the azure triangular prism and the blue triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode41.npy"
+    },
+    "episode42": {
+        "succeeded": true,
+        "description": "Stack the azure cube and the rose cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode42.npy"
+    },
+    "episode43": {
+        "succeeded": true,
+        "description": "Stack the azure cylinder and the orange cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode43.npy"
+    },
+    "episode44": {
+        "succeeded": false,
+        "description": "Stack the azure triangular prism and the teal triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode44.npy"
+    },
+    "episode45": {
+        "succeeded": true,
+        "description": "Stack the rose cube and the black cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode45.npy"
+    },
+    "episode46": {
+        "succeeded": true,
+        "description": "Stack the rose star and the yellow star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode46.npy"
+    },
+    "episode47": {
+        "succeeded": true,
+        "description": "Stack the rose star and the purple star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode47.npy"
+    },
+    "episode48": {
+        "succeeded": true,
+        "description": "Stack the rose star and the yellow star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode48.npy"
+    },
+    "episode49": {
+        "succeeded": false,
+        "description": "Stack the rose triangular prism and the black triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode49.npy"
+    },
+    "episode50": {
+        "succeeded": true,
+        "description": "Stack the olive star and the blue star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode50.npy"
+    },
+    "episode51": {
+        "succeeded": true,
+        "description": "Stack the olive cube and the yellow cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode51.npy"
+    },
+    "episode52": {
+        "succeeded": true,
+        "description": "Stack the olive cylinder and the violet cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode52.npy"
+    },
+    "episode53": {
+        "succeeded": true,
+        "description": "Stack the olive cube and the violet cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode53.npy"
+    },
+    "episode54": {
+        "succeeded": true,
+        "description": "Stack the olive moon and the navy moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode54.npy"
+    },
+    "episode55": {
+        "succeeded": true,
+        "description": "Stack the orange cylinder and the green cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode55.npy"
+    },
+    "episode56": {
+        "succeeded": false,
+        "description": "Stack the orange cylinder and the maroon cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode56.npy"
+    },
+    "episode57": {
+        "succeeded": true,
+        "description": "Stack the orange moon and the cyan moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode57.npy"
+    },
+    "episode58": {
+        "succeeded": true,
+        "description": "Stack the orange triangular prism and the violet triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode58.npy"
+    },
+    "episode59": {
+        "succeeded": true,
+        "description": "Stack the orange cube and the black cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode59.npy"
+    },
+    "episode60": {
+        "succeeded": true,
+        "description": "Stack the purple cylinder and the blue cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode60.npy"
+    },
+    "episode61": {
+        "succeeded": true,
+        "description": "Stack the purple cube and the azure cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode61.npy"
+    },
+    "episode62": {
+        "succeeded": true,
+        "description": "Stack the purple star and the silver star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode62.npy"
+    },
+    "episode63": {
+        "succeeded": true,
+        "description": "Stack the purple star and the white star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode63.npy"
+    },
+    "episode64": {
+        "succeeded": false,
+        "description": "Stack the purple moon and the magenta moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode64.npy"
+    },
+    "episode65": {
+        "succeeded": true,
+        "description": "Stack the cyan cylinder and the teal cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode65.npy"
+    },
+    "episode66": {
+        "succeeded": false,
+        "description": "Stack the cyan cylinder and the red cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode66.npy"
+    },
+    "episode67": {
+        "succeeded": true,
+        "description": "Stack the cyan cylinder and the olive cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode67.npy"
+    },
+    "episode68": {
+        "succeeded": false,
+        "description": "Stack the cyan moon and the white moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode68.npy"
+    },
+    "episode69": {
+        "succeeded": true,
+        "description": "Stack the cyan cube and the lime cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode69.npy"
+    },
+    "episode70": {
+        "succeeded": true,
+        "description": "Stack the yellow moon and the navy moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode70.npy"
+    },
+    "episode71": {
+        "succeeded": false,
+        "description": "Stack the yellow cylinder and the maroon cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode71.npy"
+    },
+    "episode72": {
+        "succeeded": true,
+        "description": "Stack the yellow cylinder and the green cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode72.npy"
+    },
+    "episode73": {
+        "succeeded": true,
+        "description": "Stack the yellow cylinder and the silver cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode73.npy"
+    },
+    "episode74": {
+        "succeeded": true,
+        "description": "Stack the yellow cylinder and the lime cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode74.npy"
+    },
+    "episode75": {
+        "succeeded": true,
+        "description": "Stack the lime moon and the gray moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode75.npy"
+    },
+    "episode76": {
+        "succeeded": true,
+        "description": "Stack the lime cylinder and the red cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode76.npy"
+    },
+    "episode77": {
+        "succeeded": true,
+        "description": "Stack the lime cylinder and the maroon cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode77.npy"
+    },
+    "episode78": {
+        "succeeded": true,
+        "description": "Stack the lime cube and the silver cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode78.npy"
+    },
+    "episode79": {
+        "succeeded": true,
+        "description": "Stack the lime moon and the red moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode79.npy"
+    },
+    "episode80": {
+        "succeeded": true,
+        "description": "Stack the maroon moon and the rose moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode80.npy"
+    },
+    "episode81": {
+        "succeeded": true,
+        "description": "Stack the maroon cube and the rose cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode81.npy"
+    },
+    "episode82": {
+        "succeeded": true,
+        "description": "Stack the maroon cylinder and the navy cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode82.npy"
+    },
+    "episode83": {
+        "succeeded": true,
+        "description": "Stack the maroon cube and the cyan cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode83.npy"
+    },
+    "episode84": {
+        "succeeded": false,
+        "description": "Stack the maroon triangular prism and the olive triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode84.npy"
+    },
+    "episode85": {
+        "succeeded": true,
+        "description": "Stack the green cube and the blue cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode85.npy"
+    },
+    "episode86": {
+        "succeeded": true,
+        "description": "Stack the green cylinder and the azure cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode86.npy"
+    },
+    "episode87": {
+        "succeeded": false,
+        "description": "Stack the green triangular prism and the teal triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode87.npy"
+    },
+    "episode88": {
+        "succeeded": true,
+        "description": "Stack the green triangular prism and the gray triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode88.npy"
+    },
+    "episode89": {
+        "succeeded": true,
+        "description": "Stack the green moon and the purple moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode89.npy"
+    },
+    "episode90": {
+        "succeeded": true,
+        "description": "Stack the navy moon and the azure moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode90.npy"
+    },
+    "episode91": {
+        "succeeded": true,
+        "description": "Stack the navy star and the lime star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode91.npy"
+    },
+    "episode92": {
+        "succeeded": true,
+        "description": "Stack the navy cylinder and the azure cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode92.npy"
+    },
+    "episode93": {
+        "succeeded": true,
+        "description": "Stack the navy cube and the maroon cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode93.npy"
+    },
+    "episode94": {
+        "succeeded": true,
+        "description": "Stack the navy triangular prism and the rose triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode94.npy"
+    },
+    "episode95": {
+        "succeeded": false,
+        "description": "Stack the white triangular prism and the olive triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode95.npy"
+    },
+    "episode96": {
+        "succeeded": true,
+        "description": "Stack the white moon and the maroon moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode96.npy"
+    },
+    "episode97": {
+        "succeeded": false,
+        "description": "Stack the white star and the maroon star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode97.npy"
+    },
+    "episode98": {
+        "succeeded": true,
+        "description": "Stack the white cylinder and the blue cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode98.npy"
+    },
+    "episode99": {
+        "succeeded": true,
+        "description": "Stack the white star and the red star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode99.npy"
+    },
+    "episode100": {
+        "succeeded": false,
+        "description": "Stack the purple star and the black star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode0.npy"
+    },
+    "episode101": {
+        "succeeded": false,
+        "description": "Stack the navy triangular prism and the green triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode1.npy"
+    },
+    "episode102": {
+        "succeeded": false,
+        "description": "Stack the orange moon and the blue moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode2.npy"
+    },
+    "episode103": {
+        "succeeded": false,
+        "description": "Stack the teal moon and the silver moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode3.npy"
+    },
+    "episode104": {
+        "succeeded": false,
+        "description": "Stack the blue star and the cyan star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode4.npy"
+    },
+    "episode105": {
+        "succeeded": false,
+        "description": "Stack the gray star and the red star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode5.npy"
+    },
+    "episode106": {
+        "succeeded": false,
+        "description": "Stack the olive moon and the blue moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode6.npy"
+    },
+    "episode107": {
+        "succeeded": false,
+        "description": "Stack the olive triangular prism and the rose triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode7.npy"
+    },
+    "episode108": {
+        "succeeded": false,
+        "description": "Stack the violet moon and the violet moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode8.npy"
+    },
+    "episode109": {
+        "succeeded": false,
+        "description": "Stack the olive cylinder and the white cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode9.npy"
+    },
+    "episode110": {
+        "succeeded": false,
+        "description": "Stack the green cube and the navy cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode10.npy"
+    },
+    "episode111": {
+        "succeeded": false,
+        "description": "Stack the maroon cylinder and the white cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode11.npy"
+    },
+    "episode112": {
+        "succeeded": false,
+        "description": "Stack the teal moon and the maroon moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode12.npy"
+    },
+    "episode113": {
+        "succeeded": false,
+        "description": "Stack the yellow moon and the silver moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode13.npy"
+    },
+    "episode114": {
+        "succeeded": false,
+        "description": "Stack the azure cube and the white cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode14.npy"
+    },
+    "episode115": {
+        "succeeded": false,
+        "description": "Stack the red star and the violet star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode15.npy"
+    },
+    "episode116": {
+        "succeeded": false,
+        "description": "Stack the orange star and the magenta star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode17.npy"
+    },
+    "episode117": {
+        "succeeded": false,
+        "description": "Stack the rose cube and the red cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode20.npy"
+    },
+    "episode118": {
+        "succeeded": false,
+        "description": "Stack the blue star and the azure star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode22.npy"
+    },
+    "episode119": {
+        "succeeded": false,
+        "description": "Stack the azure cube and the cyan cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode23.npy"
+    },
+    "episode120": {
+        "succeeded": false,
+        "description": "Stack the purple cube and the blue cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode24.npy"
+    },
+    "episode121": {
+        "succeeded": false,
+        "description": "Stack the blue star and the gray star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode25.npy"
+    },
+    "episode122": {
+        "succeeded": false,
+        "description": "Stack the teal star and the magenta star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode26.npy"
+    },
+    "episode123": {
+        "succeeded": false,
+        "description": "Stack the gray star and the azure star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode27.npy"
+    },
+    "episode124": {
+        "succeeded": false,
+        "description": "Stack the gray cylinder and the teal cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode28.npy"
+    },
+    "episode125": {
+        "succeeded": false,
+        "description": "Stack the maroon star and the purple star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode29.npy"
+    },
+    "episode126": {
+        "succeeded": false,
+        "description": "Stack the navy moon and the navy moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode31.npy"
+    },
+    "episode127": {
+        "succeeded": false,
+        "description": "Stack the teal moon and the teal moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode32.npy"
+    },
+    "episode128": {
+        "succeeded": false,
+        "description": "Stack the orange cube and the yellow cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode33.npy"
+    },
+    "episode129": {
+        "succeeded": false,
+        "description": "Stack the azure moon and the green moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode34.npy"
+    },
+    "episode130": {
+        "succeeded": false,
+        "description": "Stack the gray cylinder and the purple cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode36.npy"
+    },
+    "episode131": {
+        "succeeded": false,
+        "description": "Stack the cyan cylinder and the yellow cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode38.npy"
+    },
+    "episode132": {
+        "succeeded": false,
+        "description": "Stack the yellow cube and the gray cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode39.npy"
+    },
+    "episode133": {
+        "succeeded": false,
+        "description": "Stack the red triangular prism and the silver triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode40.npy"
+    },
+    "episode134": {
+        "succeeded": false,
+        "description": "Stack the magenta triangular prism and the cyan triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode41.npy"
+    },
+    "episode135": {
+        "succeeded": false,
+        "description": "Stack the silver cube and the magenta cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode42.npy"
+    },
+    "episode136": {
+        "succeeded": false,
+        "description": "Stack the green cylinder and the white cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode43.npy"
+    },
+    "episode137": {
+        "succeeded": false,
+        "description": "Stack the maroon cube and the blue cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode45.npy"
+    },
+    "episode138": {
+        "succeeded": false,
+        "description": "Stack the purple star and the lime star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode46.npy"
+    },
+    "episode139": {
+        "succeeded": false,
+        "description": "Stack the azure star and the black star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode47.npy"
+    },
+    "episode140": {
+        "succeeded": false,
+        "description": "Stack the cyan star and the lime star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode48.npy"
+    },
+    "episode141": {
+        "succeeded": false,
+        "description": "Stack the navy star and the white star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode50.npy"
+    },
+    "episode142": {
+        "succeeded": false,
+        "description": "Stack the orange cube and the silver cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode51.npy"
+    },
+    "episode143": {
+        "succeeded": false,
+        "description": "Stack the gray cylinder and the lime cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode52.npy"
+    },
+    "episode144": {
+        "succeeded": false,
+        "description": "Stack the white cube and the white cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode53.npy"
+    },
+    "episode145": {
+        "succeeded": false,
+        "description": "Stack the red moon and the silver moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode54.npy"
+    },
+    "episode146": {
+        "succeeded": false,
+        "description": "Stack the blue cylinder and the magenta cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode55.npy"
+    },
+    "episode147": {
+        "succeeded": false,
+        "description": "Stack the blue moon and the yellow moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode57.npy"
+    },
+    "episode148": {
+        "succeeded": false,
+        "description": "Stack the navy triangular prism and the lime triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode58.npy"
+    },
+    "episode149": {
+        "succeeded": false,
+        "description": "Stack the blue cube and the blue cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode59.npy"
+    },
+    "episode150": {
+        "succeeded": false,
+        "description": "Stack the rose cylinder and the rose cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode60.npy"
+    },
+    "episode151": {
+        "succeeded": false,
+        "description": "Stack the maroon cube and the white cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode61.npy"
+    },
+    "episode152": {
+        "succeeded": false,
+        "description": "Stack the gray star and the rose star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode62.npy"
+    },
+    "episode153": {
+        "succeeded": false,
+        "description": "Stack the red star and the teal star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode63.npy"
+    },
+    "episode154": {
+        "succeeded": false,
+        "description": "Stack the blue cylinder and the orange cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode65.npy"
+    },
+    "episode155": {
+        "succeeded": false,
+        "description": "Stack the orange cylinder and the orange cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode67.npy"
+    },
+    "episode156": {
+        "succeeded": false,
+        "description": "Stack the white cube and the olive cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode69.npy"
+    },
+    "episode157": {
+        "succeeded": false,
+        "description": "Stack the red moon and the silver moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode70.npy"
+    },
+    "episode158": {
+        "succeeded": false,
+        "description": "Stack the gray cylinder and the olive cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode72.npy"
+    },
+    "episode159": {
+        "succeeded": false,
+        "description": "Stack the azure cylinder and the maroon cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode73.npy"
+    },
+    "episode160": {
+        "succeeded": false,
+        "description": "Stack the azure cylinder and the gray cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode74.npy"
+    },
+    "episode161": {
+        "succeeded": false,
+        "description": "Stack the rose moon and the black moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode75.npy"
+    },
+    "episode162": {
+        "succeeded": false,
+        "description": "Stack the navy cylinder and the navy cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode76.npy"
+    },
+    "episode163": {
+        "succeeded": false,
+        "description": "Stack the orange cylinder and the black cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode77.npy"
+    },
+    "episode164": {
+        "succeeded": false,
+        "description": "Stack the magenta cube and the maroon cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode78.npy"
+    },
+    "episode165": {
+        "succeeded": false,
+        "description": "Stack the azure moon and the orange moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode79.npy"
+    },
+    "episode166": {
+        "succeeded": false,
+        "description": "Stack the silver moon and the black moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode80.npy"
+    },
+    "episode167": {
+        "succeeded": false,
+        "description": "Stack the white cube and the olive cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode81.npy"
+    },
+    "episode168": {
+        "succeeded": false,
+        "description": "Stack the violet cylinder and the violet cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode82.npy"
+    },
+    "episode169": {
+        "succeeded": false,
+        "description": "Stack the blue cube and the red cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode83.npy"
+    },
+    "episode170": {
+        "succeeded": false,
+        "description": "Stack the gray cube and the red cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode85.npy"
+    },
+    "episode171": {
+        "succeeded": false,
+        "description": "Stack the violet cylinder and the olive cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode86.npy"
+    },
+    "episode172": {
+        "succeeded": false,
+        "description": "Stack the violet triangular prism and the orange triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode88.npy"
+    },
+    "episode173": {
+        "succeeded": false,
+        "description": "Stack the white moon and the maroon moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode89.npy"
+    },
+    "episode174": {
+        "succeeded": false,
+        "description": "Stack the yellow moon and the violet moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode90.npy"
+    },
+    "episode175": {
+        "succeeded": false,
+        "description": "Stack the green star and the silver star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode91.npy"
+    },
+    "episode176": {
+        "succeeded": false,
+        "description": "Stack the magenta cylinder and the orange cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode92.npy"
+    },
+    "episode177": {
+        "succeeded": false,
+        "description": "Stack the blue cube and the olive cube in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode93.npy"
+    },
+    "episode178": {
+        "succeeded": false,
+        "description": "Stack the teal triangular prism and the teal triangular prism in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode94.npy"
+    },
+    "episode179": {
+        "succeeded": false,
+        "description": "Stack the black moon and the rose moon in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode96.npy"
+    },
+    "episode180": {
+        "succeeded": false,
+        "description": "Stack the red cylinder and the green cylinder in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode98.npy"
+    },
+    "episode181": {
+        "succeeded": false,
+        "description": "Stack the black star and the yellow star in sequence.",
+        "embedding_path": "/home/initial/workspace/Dissertation/ada_embeddings/stack_cubes_color/episode99.npy"
+    }
+}

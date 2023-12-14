@@ -104,7 +104,7 @@ class CustomDataset(Dataset):
                 continue
             with open(f"{self.data_dir}/{task}/new_evaluations.json") as f:
                 json_file = json.load(f)
-            with open(f"data/instruct_blip/{self.data_dir.split('/')[1]}/{task}_instruct_blip.json") as f:
+            with open(f"{self.data_dir.split('/')[0]}/instruct_blip/{self.data_dir.split('/')[1]}/{task}_instruct_blip.json") as f:
                 # print(f"data/instruct_blip/{self.data_dir.split('/')[1]}/{task}_instruct_blip.json")
                 scene_narrative_json = json.load(f)
             episodes = [e for e in os.listdir(f"{self.data_dir}/{task}") if os.path.isdir(f"{self.data_dir}/{task}/{e}")]
