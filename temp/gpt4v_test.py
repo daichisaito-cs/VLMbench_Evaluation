@@ -67,7 +67,10 @@ def main():
         for i, text in enumerate(texts[0]):
             # print(f"text: {texts[0][i]}")
             # print(f"image_path1: {image_paths[0][i]}, image_path2: {image_paths[1][i]}")
-            prompt = f"You will now be assessing the success of a task. These images are a sequence captured from a single viewpoint camera, showing a robot performing a task following the instruction '{texts[0][i]}'. Based on these images and the instruction, please determine whether the robot has successfully completed the task and answer with 'true' or 'false'."
+            # prompt = f"These are images taken from a single viewpoint, showing a robot performing a task with the instruction '{texts[0][i]}' Do you think it has succeeded? Answer with yes or no."
+            # prompt = f"You will now be assessing the success of a task. These images are a sequence captured from a single viewpoint camera, showing a robot performing a task following the instruction '{texts[0][i]}'. Based on these images and the instruction, please determine whether the robot has successfully completed the task and answer with 'true' or 'false'. Espacially, you should focus on the color, shape, size, and position of the objects in the images."
+            prompt = f"You will now be assessing the success of a task. These images are a sequence captured from a single viewpoint camera, showing a robot performing a task following the instruction '{texts[0][i]}'. Based on these images and the instruction, please determine whether the robot has successfully completed the task and answer with 'true' or 'false'. In addition, give a reason for your answer."
+            # prompt = "Describe these two images."
             payload = {
                 "model": "gpt-4-vision-preview",
                 "messages": [
