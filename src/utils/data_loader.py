@@ -22,8 +22,8 @@ class CustomDataset(Dataset):
         ])
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         _, self.preprocessor = clip.load("RN101", device=self.device)
-        self.load_data_for_clip()
-        # self.load_data_scene_narrative()
+        # self.load_data_for_clip()
+        self.load_data_scene_narrative_with_clip()
 
     def load_data(self):
         for task in tqdm(os.listdir(self.data_dir), total=len(os.listdir(self.data_dir))):
@@ -97,9 +97,11 @@ class CustomDataset(Dataset):
                         "label": label
                     })
 
-    def load_data_scene_narrative(self):
+    def load_data_scene_narrative_with_clip(self):
         # Include scene narrative embedding
         for task in tqdm(os.listdir(self.data_dir), total=len(os.listdir(self.data_dir))):
+            if "pick_cube_shape" in task:
+                continue
             with open(f"{self.data_dir}/{task}/new_evaluations.json") as f:
                 json_file = json.load(f)
             with open(f"data/instruct_blip/{self.data_dir.split('/')[1]}/{task}_instruct_blip.json") as f:
@@ -126,7 +128,7 @@ class CustomDataset(Dataset):
                     if len(episode_images) != self.num_images:
                         # print(f"Error: {task}/{episode}/{angle} has {len(episode_images)} images")
                         continue
-                    stacked_episode_image = [self.transform(episode_image) for episode_image in episode_images]
+                    stacked_episode_image = [self.preprocessor(episode_image) for episode_image in episode_images]
                     stacked_episode_image = torch.stack(stacked_episode_image)
                     text = [json_file[episode]['description'], scene_narratives]
                     ada = np.load(json_file[episode]['embedding_path'])

@@ -33,7 +33,7 @@ def main():
     train_loader, valid_loader, test_loader = create_data_loaders(train_set, valid_set, test_set, batch_size=batch_size)
 
     wandb.init(project="flamingo_for_vlmbench", name="run_example")
-    model = VLMbenchEvaluator(NUM_IMAGES=NUM_IMAGES)
+    model = SceneNarrativeEvaluator(NUM_IMAGES=NUM_IMAGES)
     # model = SceneNarrativeEvaluator(NUM_IMAGES=NUM_IMAGES)
     model.to(device)
     # model.apply(init_weights_he_normal)
@@ -93,7 +93,7 @@ def main():
     # テスト
     print(best_checkpoint_path)
     load_checkpoint(model, best_checkpoint_path)
-    test_acc = test_model(model, test_loader, device, checkpoint_path)
+    test_acc = test_model(model, test_loader, device, best_checkpoint_path)
     print(f"Test Accuracy: {test_acc}")
     wandb.finish()
 

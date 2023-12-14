@@ -1,4 +1,5 @@
 from email.mime import image
+from math import comb
 from matplotlib.transforms import Transform
 from sympy import im
 import torch
@@ -13,7 +14,7 @@ from einops import rearrange
 import timm
 import clip
 import torch.nn.functional as F
-Transformer = nn.Transformer
+
 class VLMbenchEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
         super(VLMbenchEvaluator, self).__init__()
@@ -119,55 +120,103 @@ class SceneNarrativeEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
         super(SceneNarrativeEvaluator, self).__init__()
         input_dim = 768 * 3 + 512 * NUM_IMAGES
+        self.num_images = NUM_IMAGES
         # input_dim = 512 + 512 * NUM_IMAGES
-        self.fc1 = nn.Linear(input_dim, 128)
-        self.batch_norm = nn.BatchNorm1d(128)
-        self.relu = nn.ReLU()
-        self.fc2 = nn.Linear(128, 2)
+
         self.bert_model = BertModel.from_pretrained('bert-base-uncased').cuda()
         self.bert_tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
         # make bert_model not trainable
         for param in self.bert_model.parameters():
             param.requires_grad = False
-        self.MAX_LENGTH = MAX_LENGTH
-        # self.batch_norm_before_resnet = nn.BatchNorm2d(3)
         # self.resnet = models.resnet101(pretrained=True).cuda()
-        self.resnet = models.resnet18(pretrained=True).cuda()
-        self.resnet.fc = nn.Identity()
+        # self.resnet = models.resnet18(pretrained=True).cuda()
+        # self.resnet.fc = nn.Identity()
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-        # self.clip_processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
-        # self.clip = CLIPModel.from_pretrained("openai/clip-vit-base-patch32").cuda()
+        self.transformer = nn.Transformer(
+            d_model=512,
+            nhead=4,
+            num_encoder_layers=2,
+            num_decoder_layers=2,
+            dim_feedforward=2048,
+            dropout=0.1,
+            activation='relu',
+            batch_first=True
+        )
+
+        # self.transformer_encoder = self.transformer.encoder
+
+        self.clip, self.preprocessor = clip.load("RN101", device=self.device)
+        # make clip not trainable
+        for param in self.clip.parameters():
+            param.requires_grad = False
+        self.clip2d_linear = nn.Linear(1024, 512)
+        self.text_linear = nn.Linear(768*3+512, 512)
+        self.fc1 = nn.Linear(512, 128)
+        self.batch_norm = nn.BatchNorm1d(128)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(128, 2)
+        # self.conv = nn.Conv2d(1024, 512, kernel_size=1)
+
+        self.hook = self.clip.visual.layer3.register_forward_hook(self.get_intermediate_output)
 
     def forward(self, texts, images, ada):
-        text = texts[0]
-        # Get scene narrative embedding using BERT
-        inputs = self.bert_tokenizer(texts[1][0], padding=True, truncation=True, return_tensors="pt", max_length=128)
-        inputs['input_ids'] = inputs['input_ids'].cuda()
-        inputs['attention_mask'] = inputs['attention_mask'].cuda()
-        outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
-        scene_narrative_bert1 = outputs.pooler_output.cuda() # torch.Size([16, 768])
+        instruction = texts[0]
+        scene_narrative = texts[1]
 
-        inputs = self.bert_tokenizer(texts[1][1], padding=True, truncation=True, return_tensors="pt", max_length=128)
+        # Scene narrative embedding
+        inputs = self.bert_tokenizer(scene_narrative[0], padding=True, truncation=True, return_tensors="pt", max_length=256)
         inputs['input_ids'] = inputs['input_ids'].cuda()
         inputs['attention_mask'] = inputs['attention_mask'].cuda()
         outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
-        scene_narrative_bert2 = outputs.pooler_output.cuda() # torch.Size([16, 768])
+        scene_narrative_bert1 = outputs.pooler_output.cuda() # torch.Size([batch, 768])
 
-        # BERT
-        inputs = self.bert_tokenizer(text, padding=True, truncation=True, return_tensors="pt", max_length=self.MAX_LENGTH)
+        inputs = self.bert_tokenizer(scene_narrative[1], padding=True, truncation=True, return_tensors="pt", max_length=256)
         inputs['input_ids'] = inputs['input_ids'].cuda()
         inputs['attention_mask'] = inputs['attention_mask'].cuda()
         outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
-        bert_emb = outputs.pooler_output.cuda() # torch.Size([16, 768])
+        scene_narrative_bert2 = outputs.pooler_output.cuda() # torch.Size([batch, 768])
+
+        # Instruction
+        inputs = self.bert_tokenizer(instruction, padding=True, truncation=True, return_tensors="pt", max_length=24)
+        inputs['input_ids'] = inputs['input_ids'].cuda()
+        inputs['attention_mask'] = inputs['attention_mask'].cuda()
+        outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
+        bert_emb = outputs.pooler_output.cuda() # torch.Size([batch, 768])
 
         # Reshape images for ResNet or CLIP
-        reshaped_images = images.view(-1, 3, 224, 224)  # 新しい形状: [16, 3, 224, 224]
+        reshaped_images = images.view(-1, 3, 224, 224)  # 新しい形状: [batch*num_images, 3, 224, 224]
 
-        # ResNet
-        res_images = self.resnet(reshaped_images)  # 出力形状: [16, 2048, 1, 1]
-        res_images = res_images.view(len(text), -1)  # 新しい形状: [4, 8192] (2048*4 = 8192)
+        #CLIP
+        processed_text = clip.tokenize(instruction).to(self.device)
+        clip_image = self.clip.encode_image(reshaped_images).float()
+        clip_text = self.clip.encode_text(processed_text).float() # torch.Size([32, 512])
 
-        x = torch.cat([scene_narrative_bert1, scene_narrative_bert2, bert_emb, res_images], dim=1)
+        text_features = torch.cat([scene_narrative_bert1, scene_narrative_bert2, bert_emb, clip_text], dim=1) # torch.Size([32, 768*3+512])
+        text_features = self.text_linear(text_features) # torch.Size([32, 512])
+        text_features = text_features.unsqueeze(1) # torch.Size([32, 1, 512])
+
+        # image_features = image_features.view(-1, self.num_images, self.image_feature_dim) # torch.Size([32, 2, 512])
+        # text_features = text_features.unsqueeze(1).expand(-1, self.num_images, -1)
+
+        clip2d_image = self.intermediate_output.float()  # [batch_size*num_images, 1024, 14, 14]
+        clip2d_image = clip2d_image.view(-1, self.num_images*14*14, 1024) # [batch_size, num_images*14*14, 1024]
+
+        # clip2d_image = self.conv(clip2d_image) # [batch_size*num_images, 512, 14, 14]
+        # clip2d_image = torch.nn.functional.adaptive_avg_pool2d(clip2d_image, (1, 1)) # [batch_size*num_images, 512, 1, 1]
+        # clip2d_image = clip2d_image.view(-1, self.num_images, 512)  # [batch_size, num_images, 512]
+
+        clip2d_image = self.clip2d_linear(clip2d_image) # [batch_size, num_images*14*14, 512]
+
+        combined_features = self.transformer(text_features, clip2d_image) # [batch_size, num_images*14*14, 512]
+        x = combined_features.mean(dim=1) # [batch_size, 512]
+        # x = combined_features[:, 0, :] # [batch_size, 512]
+
+        # # ResNet
+        # res_images = self.resnet(reshaped_images)  # 出力形状: [batch*num_images, 2048, 1, 1]
+        # res_images = res_images.view(len(instruction), -1)  # 新しい形状: [batch, 2048*num_images] (2048*4 = 8192)
+
+        # x = torch.cat([scene_narrative_bert1, scene_narrative_bert2, bert_emb, res_images], dim=1)
         x = self.fc1(x)
         x = self.batch_norm(x)
         x = self.relu(x)
@@ -176,6 +225,10 @@ class SceneNarrativeEvaluator(nn.Module):
         # print(predicted)
 
         return x
+
+    def get_intermediate_output(self, module, input, output):
+        # 中間層の出力を取得
+        self.intermediate_output = output # torch.Size([batch_size*num_images, 1024, 14, 14])
 
 class FlamingoBasedEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):

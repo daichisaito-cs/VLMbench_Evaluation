@@ -2,12 +2,13 @@ import torch
 from tqdm import tqdm
 from utils.utils import load_checkpoint
 from utils.utils import plot_confusion_matrices
-from src.model import VLMbenchEvaluator
+from src.model import VLMbenchEvaluator, SceneNarrativeEvaluator
 from utils.data_loader import CustomDataset, create_data_loaders
 from utils.utils import torch_fix_seed, save_checkpoint, load_checkpoint, create_checkpoint_dir, find_trainable_layers, init_weights_he_normal, init_weights_he_normal, text_to_ids, FocalLoss
 import wandb
 import json
 import torch.optim as optim
+from torch.utils.data import Dataset, DataLoader, TensorDataset
 
 def test_model(model, test_loader, device, checkpoint_path):
     load_checkpoint(model, checkpoint_path)
@@ -85,17 +86,17 @@ def main():
     batch_size = config["batch_size"]
     NUM_IMAGES = config["input_image_num"]
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-    train_set = CustomDataset(train, NUM_IMAGES=NUM_IMAGES)
-    valid_set = CustomDataset(valid, NUM_IMAGES=NUM_IMAGES)
+    model = SceneNarrativeEvaluator(NUM_IMAGES=NUM_IMAGES)
+    model.to(device)
+    # train_set = CustomDataset(train, NUM_IMAGES=NUM_IMAGES)
+    # valid_set = CustomDataset(valid, NUM_IMAGES=NUM_IMAGES)
     test_set = CustomDataset(test, NUM_IMAGES=NUM_IMAGES)
 
-    _, _, test_loader = create_data_loaders(train_set, valid_set, test_set, batch_size=batch_size)
+    test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=True)
 
-    model = VLMbenchEvaluator(NUM_IMAGES=NUM_IMAGES)
-    model.to(device)
+    # _, _, test_loader = create_data_loaders(valid_set, valid_set, test_set, batch_size=batch_size)
 
-    checkpoint_path = "/home/initial/workspace/VLMbench_Evaluation/checkpoints/20231214-124036/epoch_39_model.pth"
+    checkpoint_path = "/home/initial/workspace/VLMbench_Evaluation/checkpoints/20231214-203251/epoch_22_model.pth"
 
     # テスト
     print(checkpoint_path)
