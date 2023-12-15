@@ -158,11 +158,14 @@ class SceneNarrativeEvaluator(nn.Module):
         self.fc2 = nn.Linear(128, 2)
         # self.conv = nn.Conv2d(1024, 512, kernel_size=1)
 
+        self.positional_encoding = nn.Parameter(torch.randn(1, 14*14, 1024))
+
         self.hook = self.clip.visual.layer3.register_forward_hook(self.get_intermediate_output)
 
     def forward(self, texts, images, ada):
         instruction = texts[0]
         scene_narrative = texts[1]
+        batch_size = len(instruction)
 
         # Scene narrative embedding
         inputs = self.bert_tokenizer(scene_narrative[0], padding=True, truncation=True, return_tensors="pt", max_length=256)
@@ -200,7 +203,12 @@ class SceneNarrativeEvaluator(nn.Module):
         # text_features = text_features.unsqueeze(1).expand(-1, self.num_images, -1)
 
         clip2d_image = self.intermediate_output.float()  # [batch_size*num_images, 1024, 14, 14]
-        clip2d_image = clip2d_image.view(-1, self.num_images*14*14, 1024) # [batch_size, num_images*14*14, 1024]
+        clip2d_image = clip2d_image.flatten(2) + self.positional_encoding # [batch_size*num_images, 1024, 196]
+        clip2d_image = clip2d_image.view(batch_size, self.num_images, 1024, 14*14) # [batch_size, num_images, 1024, 196]
+        # time embedding
+        clip2d_image[:, 1, :, :] = clip2d_image[:, 1, :, :] + 1
+
+        clip2d_image = clip2d_image.view(batch_size, self.num_images*14*14, 1024) # [batch_size, num_images*14*14, 1024]
 
         # clip2d_image = self.conv(clip2d_image) # [batch_size*num_images, 512, 14, 14]
         # clip2d_image = torch.nn.functional.adaptive_avg_pool2d(clip2d_image, (1, 1)) # [batch_size*num_images, 512, 1, 1]

@@ -100,8 +100,8 @@ class CustomDataset(Dataset):
     def load_data_scene_narrative_with_clip(self):
         # Include scene narrative embedding
         for task in tqdm(os.listdir(self.data_dir), total=len(os.listdir(self.data_dir))):
-            if "pick_cube_shape" in task:
-                continue
+            # if "pick_cube_shape" in task:
+            #     continue
             with open(f"{self.data_dir}/{task}/new_evaluations.json") as f:
                 json_file = json.load(f)
             with open(f"{self.data_dir.split('/')[0]}/instruct_blip/{self.data_dir.split('/')[1]}/{task}_instruct_blip.json") as f:
