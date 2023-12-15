@@ -157,6 +157,11 @@ class SceneNarrativeEvaluator(nn.Module):
         # for name, param in self.clip.named_parameters():
         #     print(name, param.requires_grad)
 
+        self.scene_narrative1 = nn.Linear(768, 512)
+        self.scene_narrative2 = nn.Linear(768, 512)
+
+        self.instruction_linear = nn.Linear(768, 512)
+
         self.clip2d_linear = nn.Linear(1024, 512)
         self.text_linear = nn.Linear(768*3+512, 512)
         self.fc1 = nn.Linear(512, 128)
@@ -165,7 +170,7 @@ class SceneNarrativeEvaluator(nn.Module):
         self.fc2 = nn.Linear(128, 2)
         # self.conv = nn.Conv2d(1024, 512, kernel_size=1)
 
-        self.positional_encoding = nn.Parameter(torch.randn(1, self.num_images, 1024, 14*14))
+        # self.positional_encoding = nn.Parameter(torch.randn(1, self.num_images, 1024, 14*14))
 
         self.hook = self.clip.visual.layer3.register_forward_hook(self.get_intermediate_output)
 
@@ -179,13 +184,15 @@ class SceneNarrativeEvaluator(nn.Module):
         inputs['input_ids'] = inputs['input_ids'].cuda()
         inputs['attention_mask'] = inputs['attention_mask'].cuda()
         outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
-        scene_narrative_bert1 = outputs.pooler_output.cuda() # torch.Size([batch, 768])
+        scene_narrative_bert1 = outputs.pooler_output.cuda().unsqueeze(1) # torch.Size([batch, 1, 768])
+        scene_narrative_bert1 = self.scene_narrative1(scene_narrative_bert1) # torch.Size([batch, 1, 512])
 
         inputs = self.bert_tokenizer(scene_narrative[1], padding=True, truncation=True, return_tensors="pt", max_length=256)
         inputs['input_ids'] = inputs['input_ids'].cuda()
         inputs['attention_mask'] = inputs['attention_mask'].cuda()
         outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
-        scene_narrative_bert2 = outputs.pooler_output.cuda() # torch.Size([batch, 768])
+        scene_narrative_bert2 = outputs.pooler_output.cuda().unsqueeze(1) # torch.Size([batch, 1, 768])
+        scene_narrative_bert2 = self.scene_narrative2(scene_narrative_bert2) # torch.Size([batch, 1, 512])
 
         # Instruction
         inputs = self.bert_tokenizer(instruction, padding=True, truncation=True, return_tensors="pt", max_length=24)
@@ -193,6 +200,8 @@ class SceneNarrativeEvaluator(nn.Module):
         inputs['attention_mask'] = inputs['attention_mask'].cuda()
         outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
         bert_emb = outputs.pooler_output.cuda() # torch.Size([batch, 768])
+        bert_emb = self.instruction_linear(bert_emb) # torch.Size([batch, 512])
+        bert_emb = bert_emb.unsqueeze(1) # torch.Size([batch, 1, 512])
 
         # Reshape images for ResNet or CLIP
         reshaped_images = images.view(-1, 3, 224, 224)  # 新しい形状: [batch*num_images, 3, 224, 224]
@@ -202,9 +211,11 @@ class SceneNarrativeEvaluator(nn.Module):
         clip_image = self.clip.encode_image(reshaped_images).float()
         clip_text = self.clip.encode_text(processed_text).float() # torch.Size([32, 512])
 
-        text_features = torch.cat([scene_narrative_bert1, scene_narrative_bert2, bert_emb, clip_text], dim=1) # torch.Size([32, 768*3+512])
-        text_features = self.text_linear(text_features) # torch.Size([32, 512])
-        text_features = text_features.unsqueeze(1) # torch.Size([32, 1, 512])
+        clip_text = clip_text.unsqueeze(1) # torch.Size([32, 1, 512])
+
+        # text_features = torch.cat([scene_narrative_bert1, scene_narrative_bert2, bert_emb, clip_text], dim=1) # torch.Size([32, 768*3+512])
+        # text_features = self.text_linear(text_features) # torch.Size([32, 512])
+        # text_features = text_features.unsqueeze(1) # torch.Size([32, 1, 512])
 
         # image_features = image_features.view(-1, self.num_images, self.image_feature_dim) # torch.Size([32, 2, 512])
         # text_features = text_features.unsqueeze(1).expand(-1, self.num_images, -1)
@@ -212,7 +223,7 @@ class SceneNarrativeEvaluator(nn.Module):
         clip2d_image = self.intermediate_output.float()  # [batch_size*num_images, 1024, 14, 14]
         clip2d_image = clip2d_image.view(batch_size, self.num_images, 1024, 14, 14) # [batch_size, num_images, 1024, 14, 14]
 
-        clip2d_image = clip2d_image.flatten(3) + self.positional_encoding # [batch_size, num_images, 1024, 196]
+        clip2d_image = clip2d_image.flatten(3) # [batch_size, num_images, 1024, 196]
 
         clip2d_image = clip2d_image.permute(0, 1, 3, 2) # [batch_size, num_images, 196, 1024]
         # print(clip2d_image.shape)
@@ -225,8 +236,9 @@ class SceneNarrativeEvaluator(nn.Module):
         # clip2d_image = clip2d_image.view(-1, self.num_images, 512)  # [batch_size, num_images, 512]
 
         clip2d_image = self.clip2d_linear(clip2d_image) # [batch_size, num_images*14*14, 512]
+        clip2d_image = torch.cat([clip2d_image, scene_narrative_bert1, scene_narrative_bert2], dim=1) # [batch_size, num_images*14*14+2, 512]
 
-        combined_features = self.transformer(text_features, clip2d_image) # [batch_size, num_images*14*14, 512]
+        combined_features = self.transformer(bert_emb, clip2d_image) # [batch_size, num_images*14*14, 512]
         x = combined_features.mean(dim=1) # [batch_size, 512]
         # x = combined_features[:, 0, :] # [batch_size, 512]
 
