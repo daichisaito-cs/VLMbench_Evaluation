@@ -208,6 +208,8 @@ class SceneNarrativeEvaluator(nn.Module):
         # time embedding
         clip2d_image[:, 1, :, :] = clip2d_image[:, 1, :, :] + 1
 
+        clip2d_image = clip2d_image.permute(0, 1, 3, 2) # [batch_size, num_images, 196, 1024]
+
         clip2d_image = clip2d_image.view(batch_size, self.num_images*14*14, 1024) # [batch_size, num_images*14*14, 1024]
 
         # clip2d_image = self.conv(clip2d_image) # [batch_size*num_images, 512, 14, 14]
