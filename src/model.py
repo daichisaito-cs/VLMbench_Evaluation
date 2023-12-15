@@ -152,8 +152,8 @@ class SceneNarrativeEvaluator(nn.Module):
         for param in self.clip.parameters():
             param.requires_grad = False
         
-        self.integrate_lora_to_specific_layers(self.clip)
-        lora.mark_only_lora_as_trainable(self.clip)
+        # self.integrate_lora_to_specific_layers(self.clip)
+        # lora.mark_only_lora_as_trainable(self.clip)
         # for name, param in self.clip.named_parameters():
         #     print(name, param.requires_grad)
 

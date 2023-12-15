@@ -61,7 +61,7 @@ def main():
     best_acc = 0
     checkpoint_dir = create_checkpoint_dir()
     best_checkpoint_path = ""
-    adopt_lora = True
+    adopt_lora = False
     for epoch in range(max_epoch):
         train_model(model, train_loader, optimizer, criterion, device, epoch)
         # if epoch < 5:
