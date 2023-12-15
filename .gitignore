@@ -1,5 +1,7 @@
 data/*/
 temp/
+temps/
+dataset.zip
 checkpoints/*/
 wandb/
 *.png

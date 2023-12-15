@@ -96,7 +96,7 @@ def main():
 
     # _, _, test_loader = create_data_loaders(valid_set, valid_set, test_set, batch_size=batch_size)
 
-    checkpoint_path = "/home/initial/workspace/VLMbench_Evaluation/checkpoints/20231214-203251/epoch_22_model.pth"
+    checkpoint_path = "checkpoints/20231215-093144/epoch_32_model.pth"
 
     # テスト
     print(checkpoint_path)
