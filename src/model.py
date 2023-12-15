@@ -165,7 +165,7 @@ class SceneNarrativeEvaluator(nn.Module):
         self.fc2 = nn.Linear(128, 2)
         # self.conv = nn.Conv2d(1024, 512, kernel_size=1)
 
-        self.positional_encoding = nn.Parameter(torch.randn(1, 1024, 14*14))
+        self.positional_encoding = nn.Parameter(torch.randn(1, self.num_images, 1024, 14*14))
 
         self.hook = self.clip.visual.layer3.register_forward_hook(self.get_intermediate_output)
 
@@ -210,10 +210,9 @@ class SceneNarrativeEvaluator(nn.Module):
         # text_features = text_features.unsqueeze(1).expand(-1, self.num_images, -1)
 
         clip2d_image = self.intermediate_output.float()  # [batch_size*num_images, 1024, 14, 14]
-        clip2d_image = clip2d_image.flatten(2) + self.positional_encoding # [batch_size*num_images, 1024, 196]
-        clip2d_image = clip2d_image.view(batch_size, self.num_images, 1024, 14*14) # [batch_size, num_images, 1024, 196]
-        # time embedding
-        clip2d_image[:, 1, :, :] = clip2d_image[:, 1, :, :] + 1
+        clip2d_image = clip2d_image.view(batch_size, self.num_images, 1024, 14, 14) # [batch_size, num_images, 1024, 14, 14]
+
+        clip2d_image = clip2d_image.flatten(3) + self.positional_encoding # [batch_size, num_images, 1024, 196]
 
         clip2d_image = clip2d_image.permute(0, 1, 3, 2) # [batch_size, num_images, 196, 1024]
         # print(clip2d_image.shape)

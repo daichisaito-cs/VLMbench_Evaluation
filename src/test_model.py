@@ -11,8 +11,6 @@ import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader, TensorDataset
 
 def test_model(model, test_loader, device, checkpoint_path):
-    load_checkpoint(model, checkpoint_path)
-
     task_correct = {}
     task_total = {}
     task_TP = {}
@@ -96,7 +94,7 @@ def main():
 
     # _, _, test_loader = create_data_loaders(valid_set, valid_set, test_set, batch_size=batch_size)
 
-    checkpoint_path = "/home/initial/workspace/VLMbench_Evaluation/checkpoints/20231214-224456/epoch_26_model.pth"
+    checkpoint_path = "checkpoints/20231215-111446/epoch_39_model.pth"
 
     # テスト
     print(checkpoint_path)
