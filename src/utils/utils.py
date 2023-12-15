@@ -7,6 +7,7 @@ import torch.nn as nn
 import seaborn as sns
 import matplotlib.pyplot as plt
 from torchvision.ops import sigmoid_focal_loss
+import loralib as lora
 
 def torch_fix_seed(seed=42):
     # Python random
@@ -19,11 +20,19 @@ def torch_fix_seed(seed=42):
     torch.backends.cudnn.deterministic = True
     torch.use_deterministic_algorithms = True
 
-def save_checkpoint(model, filename):
-    torch.save(model.state_dict(), filename)
+def save_checkpoint(model, filename, adopt_lora=False):
+    if adopt_lora:
+        torch.save(model.state_dict(), filename)
+        torch.save(lora.lora_state_dict(model), filename.replace(".pth", "_lora.pth"))
+    else:
+        torch.save(model.state_dict(), filename)
 
-def load_checkpoint(model, filename):
-    model.load_state_dict(torch.load(filename))
+def load_checkpoint(model, filename, adopt_lora=False):
+    if adopt_lora:
+        model.load_state_dict(torch.load(filename), strict=False)
+        model.load_state_dict(filename.replace(".pth", "_lora.pth"), strict=False)
+    else:
+        model.load_state_dict(torch.load(filename))
     model.eval()
 
 def create_checkpoint_dir(base_dir="checkpoints"):

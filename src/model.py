@@ -14,6 +14,7 @@ from einops import rearrange
 import timm
 import clip
 import torch.nn.functional as F
+import loralib as lora
 
 class VLMbenchEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
@@ -150,6 +151,12 @@ class SceneNarrativeEvaluator(nn.Module):
         # make clip not trainable
         for param in self.clip.parameters():
             param.requires_grad = False
+        
+        self.integrate_lora_to_specific_layers(self.clip)
+        lora.mark_only_lora_as_trainable(self.clip)
+        # for name, param in self.clip.named_parameters():
+        #     print(name, param.requires_grad)
+
         self.clip2d_linear = nn.Linear(1024, 512)
         self.text_linear = nn.Linear(768*3+512, 512)
         self.fc1 = nn.Linear(512, 128)
@@ -158,7 +165,7 @@ class SceneNarrativeEvaluator(nn.Module):
         self.fc2 = nn.Linear(128, 2)
         # self.conv = nn.Conv2d(1024, 512, kernel_size=1)
 
-        self.positional_encoding = nn.Parameter(torch.randn(1, 14*14, 1024))
+        self.positional_encoding = nn.Parameter(torch.randn(1, 1024, 14*14))
 
         self.hook = self.clip.visual.layer3.register_forward_hook(self.get_intermediate_output)
 
@@ -209,8 +216,10 @@ class SceneNarrativeEvaluator(nn.Module):
         clip2d_image[:, 1, :, :] = clip2d_image[:, 1, :, :] + 1
 
         clip2d_image = clip2d_image.permute(0, 1, 3, 2) # [batch_size, num_images, 196, 1024]
+        # print(clip2d_image.shape)
 
-        clip2d_image = clip2d_image.view(batch_size, self.num_images*14*14, 1024) # [batch_size, num_images*14*14, 1024]
+        # clip2d_image = clip2d_image.view(batch_size, self.num_images*14*14, 1024) # [batch_size, num_images*14*14, 1024]
+        clip2d_image = clip2d_image.reshape(batch_size, self.num_images*14*14, 1024)  # [batch_size, num_images*14*14, 1024]
 
         # clip2d_image = self.conv(clip2d_image) # [batch_size*num_images, 512, 14, 14]
         # clip2d_image = torch.nn.functional.adaptive_avg_pool2d(clip2d_image, (1, 1)) # [batch_size*num_images, 512, 1, 1]
@@ -239,6 +248,31 @@ class SceneNarrativeEvaluator(nn.Module):
     def get_intermediate_output(self, module, input, output):
         # 中間層の出力を取得
         self.intermediate_output = output # torch.Size([batch_size*num_images, 1024, 14, 14])
+    
+    def integrate_lora_to_specific_layers(clip_resnet, rank=16):
+        layer_names = [
+            "transformer.resblocks.11.attn.in_proj_weight",
+            "transformer.resblocks.11.attn.in_proj_bias",
+            "transformer.resblocks.11.attn.out_proj.weight",
+            "transformer.resblocks.11.attn.out_proj.bias",
+            "transformer.resblocks.11.ln_1.weight",
+            "transformer.resblocks.11.ln_1.bias",
+            "transformer.resblocks.11.mlp.c_fc.weight",
+            "transformer.resblocks.11.mlp.c_fc.bias",
+            "transformer.resblocks.11.mlp.c_proj.weight",
+            "transformer.resblocks.11.mlp.c_proj.bias",
+            "transformer.resblocks.11.ln_2.weight",
+            "transformer.resblocks.11.ln_2.bias"
+        ]
+
+        for name, module in clip_resnet.named_modules():
+            if name in layer_names and isinstance(module, nn.Linear):
+                in_features = module.in_features
+                out_features = module.out_features
+                new_module = lora.Linear(in_features, out_features, r=rank)
+                parent_name, child_name = name.rsplit('.', 1)
+                parent = dict(clip_resnet.named_modules())[parent_name]
+                setattr(parent, child_name, new_module)
 
 class FlamingoBasedEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
