@@ -14,7 +14,8 @@ from einops import rearrange
 import timm
 import clip
 import torch.nn.functional as F
-import loralib as lora
+import numpy as np
+# import loralib as lora
 
 class VLMbenchEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
@@ -169,7 +170,8 @@ class SceneNarrativeEvaluator(nn.Module):
         self.fc2 = nn.Linear(128, 2)
         self.conv = nn.Conv2d(1024, 512, kernel_size=1)
 
-        # self.attention_aggregator = AttentionAggregator(396, 512)
+        self.attention_aggregator = AttentionAggregator(396, 512)
+        self.pos_enc = AddPositionalEncoding(512, 1000)
 
         # self.positional_encoding = nn.Parameter(torch.randn(1, self.num_images, 1024, 14*14))
 
@@ -211,6 +213,7 @@ class SceneNarrativeEvaluator(nn.Module):
         #CLIP
         processed_text = clip.tokenize(instruction).to(self.device)
         clip_image = self.clip.encode_image(reshaped_images).float()
+        clip_image = clip_image.view(-1, self.num_images, 512) # torch.Size([32, 2, 512])
         clip_inst = self.clip.encode_text(processed_text).float().unsqueeze(1) # torch.Size([32, 1, 512])
 
         clip2d_image = self.intermediate_output.float()  # [batch_size*num_images, 1024, 14, 14]
@@ -223,19 +226,20 @@ class SceneNarrativeEvaluator(nn.Module):
         ada = self.ada_linear(ada.float()).unsqueeze(1)  # [batch, 1, 512]
 
         # text features
-        text_features = torch.cat([inst_bert, concatenated_scene_narrative_bert, ada], dim=1) # [batch_size, 4, 512]
+        text_features = torch.cat([inst_bert, clip_inst, ada], dim=1) # [batch_size, 4, 512]
         
         # scene_narrativesとclip2d_imageを結合
-        image_features = torch.cat([clip2d_image, concatenated_scene_narrative_bert], dim=1) # [batch_size, num_images*196+2, 512]
+        image_features = torch.cat([clip_image, clip2d_image, concatenated_scene_narrative_bert], dim=1) # [batch_size, num_images*196+4, 512]
 
-        combined_features = self.transformer(text_features, image_features) # [batch_size, num_images*196+2, 512]
-        # combined_featuresにself_attn(batch_first=True)を適用
-        # self_attn_output, _ = self.self_attn(combined_features, combined_features, combined_features) # [batch_size, num_images*196+2, 512]
+        image_features = self.pos_enc(image_features)
+        text_features = self.pos_enc(text_features)
 
-        # attn_weights = self.attention_aggregator(combined_features)
-        # x = (combined_features * attn_weights).sum(dim=1)
+        combined_features = self.transformer(text_features, image_features) # [batch_size, num_images*196+4, 512]
         
-        x = combined_features.mean(dim=1) # [batch_size, 512]
+        attn_weights = self.attention_aggregator(combined_features)
+        x = (combined_features * attn_weights).sum(dim=1)
+        
+        # x = combined_features.mean(dim=1) # [batch_size, 512]
         # x = combined_features[:, 0, :] # [batch_size, 512]
 
         x = self.fc1(x)
@@ -295,6 +299,34 @@ class AttentionAggregator(nn.Module):
         # 形状: (B, 1, d_model)
 
         return weighted_average
+
+class AddPositionalEncoding(nn.Module):
+    def __init__(
+        self, d_model: int, max_len: int, device: torch.device = torch.device("cpu")
+    ) -> None:
+        super().__init__()
+        self.d_model = d_model
+        self.max_len = max_len
+        positional_encoding_weight: torch.Tensor = self._initialize_weight().to(device,non_blocking=True)
+        self.register_buffer("positional_encoding_weight", positional_encoding_weight)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        seq_len = x.size(1)
+        return x + self.positional_encoding_weight[:seq_len, :].unsqueeze(0)
+
+    def _get_positional_encoding(self, pos: int, i: int) -> float:
+        w = pos / (10000 ** (((2 * i) // 2) / self.d_model))
+        if i % 2 == 0:
+            return np.sin(w)
+        else:
+            return np.cos(w)
+
+    def _initialize_weight(self) -> torch.Tensor:
+        positional_encoding_weight = [
+            [self._get_positional_encoding(pos, i) for i in range(1, self.d_model + 1)]
+            for pos in range(1, self.max_len + 1)
+        ]
+        return torch.tensor(positional_encoding_weight).float()
 
 class ResnetEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):

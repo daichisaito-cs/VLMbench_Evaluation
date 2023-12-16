@@ -74,19 +74,19 @@ def main():
         print(f"Valid Accuracy: {valid_acc}%")
 
         # EarlyStopping
-        # if valid_acc > best_acc:
-        #     best_acc = valid_acc
-        #     best_checkpoint_path = checkpoint_path
-        #     counter = 0
-        # else:
-        #     counter += 1
-
-        if avg_valid_loss < best_valid_loss:
-            best_valid_loss = avg_valid_loss
+        if valid_acc > best_acc:
+            best_acc = valid_acc
             best_checkpoint_path = checkpoint_path
             counter = 0
         else:
             counter += 1
+
+        # if avg_valid_loss < best_valid_loss:
+        #     best_valid_loss = avg_valid_loss
+        #     best_checkpoint_path = checkpoint_path
+        #     counter = 0
+        # else:
+        #     counter += 1
 
         if counter >= patience:
             print("EarlyStopping!")
