@@ -7,7 +7,7 @@ import torch.nn as nn
 from transformers import BertTokenizer, BertModel, CLIPProcessor, CLIPModel
 import torchvision.models as models
 from torchvision import transforms
-from open_flamingo import create_model_and_transforms
+# from open_flamingo import create_model_and_transforms
 from huggingface_hub import hf_hub_download
 import torch.nn.functional as Fn
 from einops import rearrange
@@ -251,105 +251,6 @@ class SceneNarrativeEvaluator(nn.Module):
                 parent_name, child_name = name.rsplit('.', 1)
                 parent = dict(clip_resnet.named_modules())[parent_name]
                 setattr(parent, child_name, new_module)
-
-class FlamingoBasedEvaluator(nn.Module):
-    def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
-        super(FlamingoBasedEvaluator, self).__init__()
-        # input_dim = 768 + 2048 * NUM_IMAGES
-        input_dim = 50280 + NUM_IMAGES * 64 * 1024
-        self.fc1 = nn.Linear(input_dim, 64)
-        self.batch_norm = nn.BatchNorm1d(64)
-        self.relu = nn.ReLU()
-        self.fc2 = nn.Linear(64, 2)
-        self.bert_model = BertModel.from_pretrained('bert-base-uncased').cuda()
-        self.bert_tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-        self.MAX_LENGTH = MAX_LENGTH
-
-        self.flamingo, image_processor, self.flamingo_tokenizer = create_model_and_transforms(
-            clip_vision_encoder_path="ViT-L-14",
-            clip_vision_encoder_pretrained="openai",
-            lang_encoder_path="anas-awadalla/mpt-1b-redpajama-200b-dolly",
-            tokenizer_path="anas-awadalla/mpt-1b-redpajama-200b-dolly",
-            cross_attn_every_n_layers=1
-        )
-        self.flamingo_tokenizer.padding_side = "left" # For generation padding tokens should be on the left
-
-        checkpoint_path = hf_hub_download("openflamingo/OpenFlamingo-3B-vitl-mpt1b-langinstruct", "checkpoint.pt")
-        self.flamingo.load_state_dict(torch.load(checkpoint_path), strict=False)
-        self.flamingo = self.flamingo.to("cuda")
-
-        # flamingoの学習可能なパラメータを出力
-        # for name, param in self.flamingo.named_parameters():
-        #     if param.requires_grad:
-        #         print(name)
-
-        for param in self.flamingo.parameters():
-            param.requires_grad = False
-        for layer in self.flamingo.lang_encoder.transformer.blocks[-1:]:
-            for param in layer.parameters():
-                param.requires_grad = True
-        # for block in self.flamingo.vision_encoder.transformer.resblocks[-2:]:
-        #     for param in block.parameters():
-        #         param.requires_grad = True
-        for layer in self.flamingo.perceiver.layers:
-            for param in layer.parameters():
-                param.requires_grad = True
-
-    def forward(self, text, images, ada):
-        # images: [batch_size, 2, 3, 224, 224]
-        # [batch_size, 2, 3, 224, 224]から[batch_size, 1, 2, 3, 224, 224]に変換
-        images = images.unsqueeze(2)
-        # print("images: ", images.shape)
-
-        # flamingo
-        max_length = max([len(self.flamingo_tokenizer.encode(f"<image>, <image>, <image>, <image> are images from four different angles showing the robot performing a task with the instruction: {decoded_text} Has it succeeded? Answer:")) for decoded_text in text])
-        questions = []
-        for decoded_text in text:
-            # question = f"<image><image><image><image>Question: Did it {decoded_text[:-1]}? Answer:"
-            question = f"<image>, <image>, <image>, <image> are images from four different angles showing the robot performing a task with the instruction: {decoded_text} Has it succeeded? Answer:"
-            # question = decoded_text
-            padding_length = max_length - len(self.flamingo_tokenizer.encode(question))
-            padded_question = "<PAD>" * padding_length + question
-            questions.append(padded_question)
-
-        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        lang_x = self.flamingo_tokenizer(
-            questions,
-            return_tensors="pt",
-        ).to(device)
-
-        outputs = self.flamingo(
-            vision_x=images,
-            lang_x=lang_x["input_ids"],
-            attention_mask=lang_x["attention_mask"]
-        )
-        # print("outputs: ", outputs)
-        logits = outputs.logits
-
-        logits = logits.mean(dim=1)      # [batch_size, 35, 50280] -> [batch_size, 50280]
-        # logits = Fn.relu(self.fc_logit(logits))
-        logits = Fn.relu(logits)
-
-        b, T, F = images.shape[:3]
-        # # # # print("b, T, F: ", b, T, F)
-
-        vision_x = rearrange(images, "b T F c h w -> (b T F) c h w")
-        # print("vision_x2: ", vision_x.shape)
-        vision_x = self.flamingo.vision_encoder(vision_x)[1]
-        vision_x = rearrange(vision_x, "(b T F) v d -> b T F v d", b=b, T=T, F=F)
-        vision_x = self.flamingo.perceiver(vision_x)     # [8, 4, 64, 1024]
-        # print("vision_x2: ", vision_x.shape)
-        vision_x = Fn.relu(vision_x.view(b, -1))   # [8, 4 * 64 * 1024]
-
-        x = torch.cat([vision_x, logits], dim=1)
-        x = self.fc1(x)
-        x = self.batch_norm(x)
-        x = self.relu(x)
-        x = self.fc2(x)
-        # _, predicted = torch.max(x, 1)
-        # print(predicted)
-
-        return x
 
 class ResnetEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
