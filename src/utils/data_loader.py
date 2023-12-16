@@ -169,11 +169,7 @@ class CustomDataset(Dataset):
                     ]
                     stacked_episode_image = torch.stack(stacked_episode_image)
                     text = [json_file[episode]["description"], scene_narratives]
-                    ada = np.load(
-                        json_file[episode]["embedding_path"]
-                        .replace("Dissertation", "VLMbench_Evaluation")
-                        .replace("VLMbench_Evaluation", "VLMbench_Evaluation/data")
-                    )
+                    ada = np.load(f"data/ada_embeddings/{task}/{episode}.npy")
                     label = json_file[episode]["succeeded"]
                     self.data.append(
                         {
