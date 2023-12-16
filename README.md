@@ -24,6 +24,10 @@ pip install -r requirements.txt
 
 - Our dataset can be downloaded at [this link](https://vlmbench-evaluation.s3.ap-northeast-1.amazonaws.com/dataset.zip).
   - Unzip and extract the `dataset`.
+- Ada embeddings can be downloaded at [this link](https://vlmbench-evaluation.s3.ap-northeast-1.amazonaws.com/ada_embeddings.zip).
+  -  Unzip and extract the `ada_embeddings`.
+- Scene narrative embeddings can be downloaded at [this link](https://vlmbench-evaluation.s3.ap-northeast-1.amazonaws.com/instruct_blip.zip).
+  -  Unzip and extract the `instruct_blip`.
 
 <!-- ### Checkpoint
 

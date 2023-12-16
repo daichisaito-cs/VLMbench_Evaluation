@@ -145,6 +145,8 @@ class SceneNarrativeEvaluator(nn.Module):
             batch_first=True
         )
 
+        # self.self_attn = nn.MultiheadAttention(512, 8, batch_first=True)
+
         # self.transformer_encoder = self.transformer.encoder
 
         self.clip, self.preprocessor = clip.load("RN101", device=self.device)
@@ -178,7 +180,6 @@ class SceneNarrativeEvaluator(nn.Module):
         # Scene narrative embedding
         scene_narrative_berts = []
         layers = [self.scene_narrative1, self.scene_narrative2]  # 異なる層のリスト
-
         for i, narrative in enumerate(scene_narratives):
             inputs = self.bert_tokenizer(narrative, padding=True, truncation=True, return_tensors="pt", max_length=256)
             inputs['input_ids'] = inputs['input_ids'].cuda()
@@ -189,51 +190,30 @@ class SceneNarrativeEvaluator(nn.Module):
             scene_narrative_berts.append(processed_narrative)
         concatenated_scene_narrative_bert = torch.cat(scene_narrative_berts, dim=1)  # [batch, 2, 512]
 
-        # Instruction
-        inputs = self.bert_tokenizer(instruction, padding=True, truncation=True, return_tensors="pt", max_length=24)
-        inputs['input_ids'] = inputs['input_ids'].cuda()
-        inputs['attention_mask'] = inputs['attention_mask'].cuda()
-        outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
-        bert_emb = outputs.pooler_output.cuda() # torch.Size([batch, 768])
-
         # Reshape images for ResNet or CLIP
         reshaped_images = images.view(-1, 3, 224, 224)  # 新しい形状: [batch*num_images, 3, 224, 224]
 
         #CLIP
         processed_text = clip.tokenize(instruction).to(self.device)
         clip_image = self.clip.encode_image(reshaped_images).float()
-        clip_text = self.clip.encode_text(processed_text).float() # torch.Size([32, 512])
-
-        text_features = torch.cat([bert_emb, clip_text], dim=1) # torch.Size([32, 768+512])
-        text_features = self.text_linear(text_features) # torch.Size([32, 512])
-        text_features = text_features.unsqueeze(1) # torch.Size([32, 1, 512])
-
-        # image_features = image_features.view(-1, self.num_images, self.image_feature_dim) # torch.Size([32, 2, 512])
-        # text_features = text_features.unsqueeze(1).expand(-1, self.num_images, -1)
+        clip_inst = self.clip.encode_text(processed_text).float().unsqueeze(1) # torch.Size([32, 1, 512])
 
         clip2d_image = self.intermediate_output.float()  # [batch_size*num_images, 1024, 14, 14]
-        # clip2d_image = clip2d_image.view(batch_size, self.num_images, 1024, 14, 14) # [batch_size, num_images, 1024, 14, 14]
-
-        # clip2d_image = clip2d_image.flatten(3) # [batch_size, num_images, 1024, 196]
-        # clip2d_image = clip2d_image.permute(0, 1, 3, 2) # [batch_size, num_images, 196, 1024]
-        # clip2d_image = clip2d_image.reshape(batch_size, self.num_images*14*14, 1024)  # [batch_size, num_images*14*14, 1024]
-
         clip2d_image = self.conv(clip2d_image) # [batch_size*num_images, 512, 14, 14]
-        clip2d_image = torch.nn.functional.adaptive_avg_pool2d(clip2d_image, (1, 1)) # [batch_size*num_images, 512, 1, 1]
-        clip2d_image = clip2d_image.view(-1, self.num_images, 512)  # [batch_size, num_images, 512]
+        clip2d_image = clip2d_image.flatten(2) # [batch_size*num_images, 512, 196]
+        clip2d_image = clip2d_image.permute(0, 2, 1) # [batch_size*num_images, 196, 512]
+        clip2d_image = clip2d_image.reshape(batch_size, self.num_images*196, 512) # [batch_size, num_images*196, 512]
 
-        # clip2d_image = self.clip2d_linear(clip2d_image) # [batch_size, num_images*14*14, 512]
-        clip2d_image = torch.cat([clip2d_image, concatenated_scene_narrative_bert], dim=1) # [batch_size, num_images+2, 512]
+        # scene_narrativesとclip2d_imageを結合
+        combined_image_features = torch.cat([clip2d_image, concatenated_scene_narrative_bert], dim=1) # [batch_size, num_images*196+2, 512]
 
-        combined_features = self.transformer(text_features, clip2d_image) # [batch_size, num_images*14*14, 512]
+        combined_features = self.transformer(clip_inst, combined_image_features) # [batch_size, num_images*196+2, 512]
+        # combined_featuresにself_attn(batch_first=True)を適用
+        # self_attn_output, _ = self.self_attn(combined_features, combined_features, combined_features) # [batch_size, num_images*196+2, 512]
+        
         x = combined_features.mean(dim=1) # [batch_size, 512]
         # x = combined_features[:, 0, :] # [batch_size, 512]
 
-        # # ResNet
-        # res_images = self.resnet(reshaped_images)  # 出力形状: [batch*num_images, 2048, 1, 1]
-        # res_images = res_images.view(len(instruction), -1)  # 新しい形状: [batch, 2048*num_images] (2048*4 = 8192)
-
-        # x = torch.cat([scene_narrative_bert1, scene_narrative_bert2, bert_emb, res_images], dim=1)
         x = self.fc1(x)
         x = self.batch_norm(x)
         x = self.relu(x)

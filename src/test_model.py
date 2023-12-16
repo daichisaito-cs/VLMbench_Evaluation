@@ -86,18 +86,13 @@ def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = SceneNarrativeEvaluator(NUM_IMAGES=NUM_IMAGES)
     model.to(device)
-    # train_set = CustomDataset(train, NUM_IMAGES=NUM_IMAGES)
-    # valid_set = CustomDataset(valid, NUM_IMAGES=NUM_IMAGES)
     test_set = CustomDataset(test, NUM_IMAGES=NUM_IMAGES)
-
     test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=True)
-
-    # _, _, test_loader = create_data_loaders(valid_set, valid_set, test_set, batch_size=batch_size)
-
-    checkpoint_path = "checkpoints/20231215-213855/epoch_26_model.pth"
+    checkpoint_path = "checkpoints/20231216-110732/epoch_62_model.pth"
 
     # テスト
     print(checkpoint_path)
+    load_checkpoint(model, checkpoint_path)
     test_acc = test_model(model, test_loader, device, checkpoint_path)
     print(f"Test Accuracy: {test_acc}")
 
