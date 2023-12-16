@@ -18,9 +18,9 @@ def test_model(model, test_loader, device, checkpoint_path):
     task_FN = {}
 
     with torch.no_grad():
-        for images, text, ada, image_paths, target in tqdm(test_loader, total=len(test_loader)):
-            images, ada, target = images.to(device), ada.to(device), target.to(device)
-            output = model(text, images, ada)
+        for images, texts, image_paths, target in tqdm(test_loader, total=len(test_loader)):
+            # images, ada, target = images.to(device), ada.to(device), target.to(device)
+            output = model(images, texts)
             _, predicted = torch.max(output, 1)
             if predicted.shape == torch.Size([]) or target.shape == torch.Size([]):
                 continue

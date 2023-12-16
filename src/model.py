@@ -125,11 +125,11 @@ class SceneNarrativeEvaluator(nn.Module):
         self.num_images = NUM_IMAGES
         # input_dim = 512 + 512 * NUM_IMAGES
 
-        self.bert_model = BertModel.from_pretrained('bert-base-uncased').cuda()
-        self.bert_tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+        # self.bert_model = BertModel.from_pretrained('bert-base-uncased').cuda()
+        # self.bert_tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
         # make bert_model not trainable
-        for param in self.bert_model.parameters():
-            param.requires_grad = False
+        # for param in self.bert_model.parameters():
+        #     param.requires_grad = False
         # self.resnet = models.resnet101(pretrained=True).cuda()
         # self.resnet = models.resnet18(pretrained=True).cuda()
         # self.resnet.fc = nn.Identity()
@@ -149,18 +149,17 @@ class SceneNarrativeEvaluator(nn.Module):
         # self.self_attn = nn.MultiheadAttention(512, 8, batch_first=True)
         # self.transformer_encoder = self.transformer.encoder
 
-        self.clip, self.preprocessor = clip.load("RN101", device=self.device)
+        # self.clip, self.preprocessor = clip.load("RN101", device=self.device)
         # make clip not trainable
-        for param in self.clip.parameters():
-            param.requires_grad = False
+        # for param in self.clip.parameters():
+        #     param.requires_grad = False
         
         # self.integrate_lora_to_specific_layers(self.clip)
         # lora.mark_only_lora_as_trainable(self.clip)
         # for name, param in self.clip.named_parameters():
         #     print(name, param.requires_grad)
 
-        self.scene_narrative1 = nn.Linear(768, 512)
-        self.scene_narrative2 = nn.Linear(768, 512)
+        self.bert_scene_narrative = nn.Linear(768, 512)
         self.bert_inst = nn.Linear(768, 512)
         self.ada_linear = nn.Linear(1536, 512)
         self.text_linear = nn.Linear(768+512, 512)
@@ -175,61 +174,51 @@ class SceneNarrativeEvaluator(nn.Module):
 
         # self.positional_encoding = nn.Parameter(torch.randn(1, self.num_images, 1024, 14*14))
 
-        self.hook = self.clip.visual.layer3.register_forward_hook(self.get_intermediate_output)
-    
-    def get_bert_emb(self, text, max_length):
-        inputs = self.bert_tokenizer(
-            text,
-            padding=True,
-            truncation=True,
-            return_tensors="pt",
-            max_length=max_length,
-        ).to(self.device)
-        return self.bert_model(
-            input_ids=inputs["input_ids"], attention_mask=inputs["attention_mask"]
-        ).pooler_output
+        # self.hook = self.clip.visual.layer3.register_forward_hook(self.get_intermediate_output)
 
-    def forward(self, texts, images, ada):
-        instruction = texts[0]
-        scene_narratives = texts[1]
-        batch_size = len(instruction)
+    def forward(self, images, texts):
+        inst_bert = texts["bert"].to(self.device) # torch.Size([32, 768])
+        clip_inst = texts["clip"].to(self.device) # torch.Size([32, 512])
+        ada_inst = texts["ada"].to(self.device) # torch.Size([32, 1536])
+        bert_scene_narrative = images["bert_scene_narratives"].to(self.device) # torch.Size([32, 2, 768])
+        ada_scene_narrative = images["ada_scene_narratives"].to(self.device) # torch.Size([32, 2, 1536])
+        clip2d_images = images["clip2d_images"].to(self.device) # torch.Size([32, 2, 1024, 14, 14])
+        clip_images = images["clip_images"].to(self.device) # torch.Size([32, 2, 512])
+        B, N, _ = clip_images.shape
 
         # Scene narrative embedding
-        scene_narrative_berts = []
-        layers = [self.scene_narrative1, self.scene_narrative2]  # 異なる層のリスト
-        for i, narrative in enumerate(scene_narratives):
-            scene_narrative_bert = self.get_bert_emb(narrative, max_length=128).unsqueeze(1)  # [batch, 1, 768]
-            processed_narrative = layers[i](scene_narrative_bert)  # [batch, 1, 512]
-            scene_narrative_berts.append(processed_narrative)
-        concatenated_scene_narrative_bert = torch.cat(scene_narrative_berts, dim=1)  # [batch, 2, 512]
+        bert_scene_narrative = self.bert_scene_narrative(bert_scene_narrative) # torch.Size([32, 2, 512])
 
         # BERT instruction embedding
-        inst_bert = self.get_bert_emb(instruction, max_length=128).unsqueeze(1)  # [batch, 1, 768]
+        inst_bert = inst_bert.unsqueeze(1)  # [batch, 1, 768]
         inst_bert = self.bert_inst(inst_bert)  # [batch, 1, 512]
 
         # Reshape images for ResNet or CLIP
-        reshaped_images = images.view(-1, 3, 224, 224)  # 新しい形状: [batch*num_images, 3, 224, 224]
+        # reshaped_images = images.view(-1, 3, 224, 224)  # 新しい形状: [batch*num_images, 3, 224, 224]
 
         #CLIP
-        processed_text = clip.tokenize(instruction).to(self.device)
-        clip_image = self.clip.encode_image(reshaped_images).float()
-        clip_image = clip_image.view(-1, self.num_images, 512) # torch.Size([32, 2, 512])
-        clip_inst = self.clip.encode_text(processed_text).float().unsqueeze(1) # torch.Size([32, 1, 512])
+        # processed_text = clip.tokenize(instruction).to(self.device)
+        # clip_image = self.clip.encode_image(reshaped_images).float()
+        # clip_image = clip_image.view(-1, self.num_images, 512) # torch.Size([32, 2, 512])
+        # clip_inst = self.clip.encode_text(processed_text).float().unsqueeze(1) # torch.Size([32, 1, 512])
+        clip_inst = clip_inst.unsqueeze(1) # torch.Size([32, 1, 512])
 
-        clip2d_image = self.intermediate_output.float()  # [batch_size*num_images, 1024, 14, 14]
+        # clip2d_image = self.intermediate_output.float()  # [batch_size*num_images, 1024, 14, 14]
+        clip2d_image = clip2d_images.view(-1, 1024, 14, 14)  # [batch_size*num_images, 1024, 14, 14]
         clip2d_image = self.conv(clip2d_image) # [batch_size*num_images, 512, 14, 14]
         clip2d_image = clip2d_image.flatten(2) # [batch_size*num_images, 512, 196]
         clip2d_image = clip2d_image.permute(0, 2, 1) # [batch_size*num_images, 196, 512]
-        clip2d_image = clip2d_image.reshape(batch_size, self.num_images*196, 512) # [batch_size, num_images*196, 512]
+        clip2d_image = clip2d_image.reshape(B, self.num_images*196, 512) # [batch_size, num_images*196, 512]
 
         # Process ada
-        ada = self.ada_linear(ada.float()).unsqueeze(1)  # [batch, 1, 512]
+        ada_inst = ada_inst.unsqueeze(1) # torch.Size([32, 1, 1536])
+        ada_inst = self.ada_linear(ada_inst.float())  # [batch, 1, 512]
 
         # text features
-        text_features = torch.cat([inst_bert, clip_inst, ada], dim=1) # [batch_size, 4, 512]
+        text_features = torch.cat([inst_bert, clip_inst, ada_inst], dim=1) # [batch_size, 4, 512]
         
         # scene_narrativesとclip2d_imageを結合
-        image_features = torch.cat([clip_image, clip2d_image, concatenated_scene_narrative_bert], dim=1) # [batch_size, num_images*196+4, 512]
+        image_features = torch.cat([clip_images, clip2d_image, bert_scene_narrative], dim=1) # [batch_size, num_images*196+4, 512]
 
         image_features = self.pos_enc(image_features)
         text_features = self.pos_enc(text_features)
@@ -251,10 +240,6 @@ class SceneNarrativeEvaluator(nn.Module):
 
         return x
 
-    def get_intermediate_output(self, module, input, output):
-        # 中間層の出力を取得
-        self.intermediate_output = output # torch.Size([batch_size*num_images, 1024, 14, 14])
-    
     def integrate_lora_to_specific_layers(clip_resnet, rank=16):
         layer_names = [
             "transformer.resblocks.11.attn.in_proj_weight",

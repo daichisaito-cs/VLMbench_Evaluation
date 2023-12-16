@@ -9,10 +9,12 @@ def validate_model(model, valid_loader, criterion, device, epoch):
     true_predicted, false_predicted = 0, 0
 
     with torch.no_grad():
-        for batch_idx, (images, text, ada, image_paths, target) in enumerate(valid_loader):
-            images, ada, target = images.to(device), ada.to(device), target.to(device)
-            output = model(text, images, ada)
+        for batch_idx, (images, texts, image_paths, target) in enumerate(valid_loader):
+            # images, ada, target = images.to(device), ada.to(device), target.to(device)
+            output = model(images, texts).to(device)
             _, predicted = torch.max(output, 1)
+            predicted = predicted.to(device)
+            target = target.to(device)
             true_predicted += (predicted == 1).sum().item()
             false_predicted += (predicted == 0).sum().item()
             num_ones += (target == 1).sum().item()

@@ -32,6 +32,8 @@ def main():
 
     train_loader, valid_loader, test_loader = create_data_loaders(train_set, valid_set, test_set, batch_size=batch_size)
 
+    del train_set, valid_set, test_set
+
     wandb.init(project="flamingo_for_vlmbench", name="run_example")
     model = SceneNarrativeEvaluator(NUM_IMAGES=NUM_IMAGES)
     # model = SceneNarrativeEvaluator(NUM_IMAGES=NUM_IMAGES)
@@ -46,6 +48,8 @@ def main():
     optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=1e-5)
     # scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.3)
     criterion = nn.CrossEntropyLoss()
+    # 正則化項の追加
+
     # criterion = FocalLoss(gamma=config["focal_loss_gamma"], alpha=config["focal_loss_alpha"])
 
     wandb.config.update({

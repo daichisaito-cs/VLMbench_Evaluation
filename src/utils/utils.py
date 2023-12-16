@@ -91,6 +91,10 @@ def find_trainable_layers(model):
     for name in non_trainable_layers.keys():
         print(f" - {name}")
 
+def freeze_model(model):
+    for param in model.parameters():
+        param.requires_grad = False
+
 def plot_confusion_matrices(task_names, task_metrics, output_path):
     rows = int(np.ceil(len(task_names) / 4))  # 4は1行あたりの混同行列の数
     fig, axes = plt.subplots(rows, 4, figsize=(20, 5 * rows))  # figsizeを適切に調整

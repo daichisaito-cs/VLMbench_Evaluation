@@ -7,14 +7,14 @@ def train_model(model, train_loader, optimizer, criterion, device, epoch):
     num_zeros, num_ones = 0, 0
     true_predicted, false_predicted = 0, 0
 
-    for batch_idx, (images, text, ada, image_paths, target) in tqdm(enumerate(train_loader), total=len(train_loader), desc=f"Epoch {epoch}"):
-        images, ada, target = images.to(device), ada.to(device), target.to(device)
+    for batch_idx, (images, texts, image_paths, target) in tqdm(enumerate(train_loader), total=len(train_loader), desc=f"Epoch {epoch}"):
+        # images, ada, target = images.to(device), ada.to(device), target.to(device)
         optimizer.zero_grad()
-        output = model(text, images, ada)
+        output = model(images, texts)
         _, predicted = torch.max(output, 1)
         true_predicted += (predicted == 1).sum().item()
         false_predicted += (predicted == 0).sum().item()
-        loss = criterion(output, target)
+        loss = criterion(output.to(device), target.to(device))
         loss.backward()
         optimizer.step()
 
