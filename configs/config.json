@@ -1,6 +1,6 @@
 {
     "lr": 1e-5,
-    "batch_size": 32,
+    "batch_size": 64,
     "max_epoch": 100,
     "patience": 20,
     "train_data_path": "data/train",

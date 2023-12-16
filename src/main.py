@@ -9,11 +9,23 @@ import wandb
 from model import *
 from torch.utils.data import DataLoader, random_split, ConcatDataset
 from utils.data_loader import CustomDataset, create_data_loaders
-from utils.utils import torch_fix_seed, save_checkpoint, load_checkpoint, create_checkpoint_dir, find_trainable_layers, init_weights_he_normal, init_weights_he_normal, text_to_ids, FocalLoss
+from utils.utils import (
+    torch_fix_seed,
+    save_checkpoint,
+    load_checkpoint,
+    create_checkpoint_dir,
+    find_trainable_layers,
+    init_weights_he_normal,
+    init_weights_he_normal,
+    text_to_ids,
+    FocalLoss,
+)
 from train_model import train_model
 from validate_model import validate_model
 from test_model import test_model
 import torchvision
+import datetime
+
 
 def main():
     with open("configs/config.json") as config_file:
@@ -24,16 +36,20 @@ def main():
     patience = config["patience"]
     batch_size = config["batch_size"]
     NUM_IMAGES = config["input_image_num"]
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     train_set = CustomDataset(config["train_data_path"], NUM_IMAGES=NUM_IMAGES)
     valid_set = CustomDataset(config["valid_data_path"], NUM_IMAGES=NUM_IMAGES)
     test_set = CustomDataset(config["test_data_path"], NUM_IMAGES=NUM_IMAGES)
 
-    train_loader, valid_loader, test_loader = create_data_loaders(train_set, valid_set, test_set, batch_size=batch_size)
+    train_loader, valid_loader, test_loader = create_data_loaders(
+        train_set, valid_set, test_set, batch_size=batch_size
+    )
 
-    wandb.init(project="flamingo_for_vlmbench", name="run_example")
-    model = SceneNarrativeEvaluator(NUM_IMAGES=NUM_IMAGES)
+    # get time yyyy-mm-dd-hh-mm-ss
+    time = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    wandb.init(project="vlmbench", name=f"vlmbench_{time}", config=config)
+    model = SceneNarrativeEvaluator(num_images=NUM_IMAGES)
     # model = SceneNarrativeEvaluator(NUM_IMAGES=NUM_IMAGES)
     model.to(device)
     # model.apply(init_weights_he_normal)
@@ -48,16 +64,18 @@ def main():
     criterion = nn.CrossEntropyLoss()
     # criterion = FocalLoss(gamma=config["focal_loss_gamma"], alpha=config["focal_loss_alpha"])
 
-    wandb.config.update({
-        "optimizer": "Adam",
-        "lr": lr,
-        "batch_size": batch_size,
-        "epoch": max_epoch,
-        "patience": patience
-    })
+    wandb.config.update(
+        {
+            "optimizer": "Adam",
+            "lr": lr,
+            "batch_size": batch_size,
+            "epoch": max_epoch,
+            "patience": patience,
+        }
+    )
 
     counter = 0  # 改善しないエポック数をカウント
-    best_valid_loss = float('inf')  # 最小の検証損失を保存
+    best_valid_loss = float("inf")  # 最小の検証損失を保存
     best_acc = 0
     checkpoint_dir = create_checkpoint_dir()
     best_checkpoint_path = ""
@@ -66,11 +84,13 @@ def main():
         train_model(model, train_loader, optimizer, criterion, device, epoch)
         # if epoch < 5:
         #     scheduler.step()
-        print("lr: ", optimizer.param_groups[0]['lr'])
+        print("lr: ", optimizer.param_groups[0]["lr"])
         checkpoint_path = os.path.join(checkpoint_dir, f"epoch_{epoch}_model.pth")
 
         save_checkpoint(model, checkpoint_path, adopt_lora=adopt_lora)
-        valid_acc, avg_valid_loss = validate_model(model, valid_loader, criterion, device, epoch)
+        valid_acc, avg_valid_loss = validate_model(
+            model, valid_loader, criterion, device, epoch
+        )
         print(f"Valid Accuracy: {valid_acc}%")
 
         # EarlyStopping
@@ -98,6 +118,7 @@ def main():
     test_acc = test_model(model, test_loader, device, best_checkpoint_path)
     print(f"Test Accuracy: {test_acc}")
     wandb.finish()
+
 
 if __name__ == "__main__":
     main()
