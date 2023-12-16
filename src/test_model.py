@@ -65,7 +65,7 @@ def test_model(model, test_loader, device, checkpoint_path):
     # 各タスクのメトリクスを計算し、視覚化
     task_names = list(task_correct.keys())
     task_metrics = {task_name: (task_TP[task_name], task_FP[task_name], task_FN[task_name], task_total[task_name]) for task_name in task_names}
-    plot_confusion_matrices(task_names, task_metrics, '/home/initial/workspace/VLMbench_Evaluation/task_confusion_matrices.png')
+    plot_confusion_matrices(task_names, task_metrics, 'task_confusion_matrices.png')
 
     # 総合的な正解率を計算
     total = sum(task_total.values())

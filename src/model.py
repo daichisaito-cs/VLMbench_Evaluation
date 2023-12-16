@@ -146,7 +146,6 @@ class SceneNarrativeEvaluator(nn.Module):
         )
 
         # self.self_attn = nn.MultiheadAttention(512, 8, batch_first=True)
-
         # self.transformer_encoder = self.transformer.encoder
 
         self.clip, self.preprocessor = clip.load("RN101", device=self.device)
@@ -161,6 +160,8 @@ class SceneNarrativeEvaluator(nn.Module):
 
         self.scene_narrative1 = nn.Linear(768, 512)
         self.scene_narrative2 = nn.Linear(768, 512)
+        self.bert_inst = nn.Linear(768, 512)
+        self.ada_linear = nn.Linear(1536, 512)
         self.text_linear = nn.Linear(768+512, 512)
         self.fc1 = nn.Linear(512, 128)
         self.batch_norm = nn.BatchNorm1d(128)
@@ -168,9 +169,23 @@ class SceneNarrativeEvaluator(nn.Module):
         self.fc2 = nn.Linear(128, 2)
         self.conv = nn.Conv2d(1024, 512, kernel_size=1)
 
+        # self.attention_aggregator = AttentionAggregator(396, 512)
+
         # self.positional_encoding = nn.Parameter(torch.randn(1, self.num_images, 1024, 14*14))
 
         self.hook = self.clip.visual.layer3.register_forward_hook(self.get_intermediate_output)
+    
+    def get_bert_emb(self, text, max_length):
+        inputs = self.bert_tokenizer(
+            text,
+            padding=True,
+            truncation=True,
+            return_tensors="pt",
+            max_length=max_length,
+        ).to(self.device)
+        return self.bert_model(
+            input_ids=inputs["input_ids"], attention_mask=inputs["attention_mask"]
+        ).pooler_output
 
     def forward(self, texts, images, ada):
         instruction = texts[0]
@@ -181,14 +196,14 @@ class SceneNarrativeEvaluator(nn.Module):
         scene_narrative_berts = []
         layers = [self.scene_narrative1, self.scene_narrative2]  # 異なる層のリスト
         for i, narrative in enumerate(scene_narratives):
-            inputs = self.bert_tokenizer(narrative, padding=True, truncation=True, return_tensors="pt", max_length=256)
-            inputs['input_ids'] = inputs['input_ids'].cuda()
-            inputs['attention_mask'] = inputs['attention_mask'].cuda()
-            outputs = self.bert_model(input_ids=inputs['input_ids'], attention_mask=inputs['attention_mask'])
-            scene_narrative_bert = outputs.pooler_output.cuda().unsqueeze(1)  # [batch, 1, 768]
+            scene_narrative_bert = self.get_bert_emb(narrative, max_length=128).unsqueeze(1)  # [batch, 1, 768]
             processed_narrative = layers[i](scene_narrative_bert)  # [batch, 1, 512]
             scene_narrative_berts.append(processed_narrative)
         concatenated_scene_narrative_bert = torch.cat(scene_narrative_berts, dim=1)  # [batch, 2, 512]
+
+        # BERT instruction embedding
+        inst_bert = self.get_bert_emb(instruction, max_length=128).unsqueeze(1)  # [batch, 1, 768]
+        inst_bert = self.bert_inst(inst_bert)  # [batch, 1, 512]
 
         # Reshape images for ResNet or CLIP
         reshaped_images = images.view(-1, 3, 224, 224)  # 新しい形状: [batch*num_images, 3, 224, 224]
@@ -204,12 +219,21 @@ class SceneNarrativeEvaluator(nn.Module):
         clip2d_image = clip2d_image.permute(0, 2, 1) # [batch_size*num_images, 196, 512]
         clip2d_image = clip2d_image.reshape(batch_size, self.num_images*196, 512) # [batch_size, num_images*196, 512]
 
-        # scene_narrativesとclip2d_imageを結合
-        combined_image_features = torch.cat([clip2d_image, concatenated_scene_narrative_bert], dim=1) # [batch_size, num_images*196+2, 512]
+        # Process ada
+        ada = self.ada_linear(ada.float()).unsqueeze(1)  # [batch, 1, 512]
 
-        combined_features = self.transformer(clip_inst, combined_image_features) # [batch_size, num_images*196+2, 512]
+        # text features
+        text_features = torch.cat([inst_bert, concatenated_scene_narrative_bert, ada], dim=1) # [batch_size, 4, 512]
+        
+        # scene_narrativesとclip2d_imageを結合
+        image_features = torch.cat([clip2d_image, concatenated_scene_narrative_bert], dim=1) # [batch_size, num_images*196+2, 512]
+
+        combined_features = self.transformer(text_features, image_features) # [batch_size, num_images*196+2, 512]
         # combined_featuresにself_attn(batch_first=True)を適用
         # self_attn_output, _ = self.self_attn(combined_features, combined_features, combined_features) # [batch_size, num_images*196+2, 512]
+
+        # attn_weights = self.attention_aggregator(combined_features)
+        # x = (combined_features * attn_weights).sum(dim=1)
         
         x = combined_features.mean(dim=1) # [batch_size, 512]
         # x = combined_features[:, 0, :] # [batch_size, 512]
@@ -251,6 +275,26 @@ class SceneNarrativeEvaluator(nn.Module):
                 parent_name, child_name = name.rsplit('.', 1)
                 parent = dict(clip_resnet.named_modules())[parent_name]
                 setattr(parent, child_name, new_module)
+
+class AttentionAggregator(nn.Module):
+    def __init__(self, seq_len, d_model):
+        super(AttentionAggregator, self).__init__()
+        self.seq_len = seq_len
+        self.d_model = d_model
+        self.attention_weights = nn.Linear(d_model, 1)
+
+    def forward(self, x):
+        # xの形状: (B, seq_len, d_model), ここでB=64, seq_len=396, d_model=512
+
+        # 各要素に対するスコアを計算
+        scores = self.attention_weights(x).squeeze(-1)  # 形状: (B, seq_len)
+        attention_weights = F.softmax(scores, dim=1)  # 形状: (B, seq_len)
+
+        # 加重平均を計算
+        weighted_average = torch.bmm(attention_weights.unsqueeze(1), x)
+        # 形状: (B, 1, d_model)
+
+        return weighted_average
 
 class ResnetEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
