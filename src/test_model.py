@@ -84,7 +84,7 @@ def main():
     batch_size = config["batch_size"]
     NUM_IMAGES = config["input_image_num"]
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model = SceneNarrativeEvaluator(NUM_IMAGES=NUM_IMAGES)
+    model = SceneNarrativeEvaluator(num_images=NUM_IMAGES)
     model.to(device)
     # train_set = CustomDataset(train, NUM_IMAGES=NUM_IMAGES)
     # valid_set = CustomDataset(valid, NUM_IMAGES=NUM_IMAGES)
@@ -94,7 +94,7 @@ def main():
 
     # _, _, test_loader = create_data_loaders(valid_set, valid_set, test_set, batch_size=batch_size)
 
-    checkpoint_path = "checkpoints/20231215-111446/epoch_39_model.pth"
+    checkpoint_path = "checkpoints/20231216-125333/epoch_49_model.pth"
 
     # テスト
     print(checkpoint_path)

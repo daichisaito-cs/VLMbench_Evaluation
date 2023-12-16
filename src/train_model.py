@@ -57,3 +57,4 @@ def train_model(model, train_loader, optimizer, criterion, device, epoch):
     print(
         f"--train-- Epoch {epoch}: Number of Zeros: {num_zeros}, Number of Ones: {num_ones}"
     )
+    wandb.log({"train_loss": avg_train_loss, "train_acc": train_acc, "train_F1": F1})

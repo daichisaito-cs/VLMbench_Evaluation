@@ -59,14 +59,14 @@ def main():
             params += p.numel()
     print(f"Total Trainable Params: {params}")
     wandb.watch(model, log_freq=100)
-    optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=1e-5)
+    optimizer = optim.AdamW(model.parameters(), lr=lr, weight_decay=0.004)
     # scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.3)
     criterion = nn.CrossEntropyLoss()
     # criterion = FocalLoss(gamma=config["focal_loss_gamma"], alpha=config["focal_loss_alpha"])
 
     wandb.config.update(
         {
-            "optimizer": "Adam",
+            "optimizer": "AdamW",
             "lr": lr,
             "batch_size": batch_size,
             "epoch": max_epoch,
