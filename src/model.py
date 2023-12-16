@@ -14,8 +14,7 @@ import timm
 import clip
 import torch.nn.functional as F
 import loralib as lora
-from transformer_encoder import TransformerEncoder
-
+from transformer_encoder import TransformerEncoder, AddPositionalEncoding
 
 class VLMbenchEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
@@ -213,6 +212,8 @@ class SceneNarrativeEvaluator(nn.Module):
 
         self.attention_aggregator = AttentionAggregator(396, 512)
 
+        self.pos_enc = AddPositionalEncoding(512, 1000)
+
     def create_transformer(self):
         return nn.Transformer(
             d_model=512,
@@ -301,6 +302,7 @@ class SceneNarrativeEvaluator(nn.Module):
         m_combined = self.fusion_layer_m(m_combined)
 
         combined_features = torch.cat([h_combined, m_combined, l_combined], dim=1)
+        combined_features = self.pos_enc(combined_features)
         transformer_output = self.transformer(
             src=combined_features, tgt=combined_features
         )
