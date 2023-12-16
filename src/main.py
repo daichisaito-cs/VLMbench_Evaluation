@@ -61,13 +61,15 @@ def main():
     best_acc = 0
     checkpoint_dir = create_checkpoint_dir()
     best_checkpoint_path = ""
+    adopt_lora = False
     for epoch in range(max_epoch):
         train_model(model, train_loader, optimizer, criterion, device, epoch)
         # if epoch < 5:
         #     scheduler.step()
         print("lr: ", optimizer.param_groups[0]['lr'])
         checkpoint_path = os.path.join(checkpoint_dir, f"epoch_{epoch}_model.pth")
-        save_checkpoint(model, checkpoint_path)
+
+        save_checkpoint(model, checkpoint_path, adopt_lora=adopt_lora)
         valid_acc, avg_valid_loss = validate_model(model, valid_loader, criterion, device, epoch)
         print(f"Valid Accuracy: {valid_acc}%")
 
@@ -92,7 +94,7 @@ def main():
 
     # テスト
     print(best_checkpoint_path)
-    load_checkpoint(model, best_checkpoint_path)
+    load_checkpoint(model, best_checkpoint_path, adopt_lora=adopt_lora)
     test_acc = test_model(model, test_loader, device, best_checkpoint_path)
     print(f"Test Accuracy: {test_acc}")
     wandb.finish()

@@ -11,8 +11,6 @@ import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader, TensorDataset
 
 def test_model(model, test_loader, device, checkpoint_path):
-    load_checkpoint(model, checkpoint_path)
-
     task_correct = {}
     task_total = {}
     task_TP = {}
@@ -67,7 +65,7 @@ def test_model(model, test_loader, device, checkpoint_path):
     # 各タスクのメトリクスを計算し、視覚化
     task_names = list(task_correct.keys())
     task_metrics = {task_name: (task_TP[task_name], task_FP[task_name], task_FN[task_name], task_total[task_name]) for task_name in task_names}
-    plot_confusion_matrices(task_names, task_metrics, '/home/initial/workspace/VLMbench_Evaluation/task_confusion_matrices.png')
+    plot_confusion_matrices(task_names, task_metrics, 'task_confusion_matrices.png')
 
     # 総合的な正解率を計算
     total = sum(task_total.values())
@@ -88,10 +86,7 @@ def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model = SceneNarrativeEvaluator(NUM_IMAGES=NUM_IMAGES)
     model.to(device)
-    # train_set = CustomDataset(train, NUM_IMAGES=NUM_IMAGES)
-    # valid_set = CustomDataset(valid, NUM_IMAGES=NUM_IMAGES)
     test_set = CustomDataset(test, NUM_IMAGES=NUM_IMAGES)
-
     test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=True)
 
     # _, _, test_loader = create_data_loaders(valid_set, valid_set, test_set, batch_size=batch_size)
@@ -100,6 +95,7 @@ def main():
 
     # テスト
     print(checkpoint_path)
+    load_checkpoint(model, checkpoint_path)
     test_acc = test_model(model, test_loader, device, checkpoint_path)
     print(f"Test Accuracy: {test_acc}")
 
