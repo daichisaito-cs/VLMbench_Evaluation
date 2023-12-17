@@ -1,0 +1,27 @@
+{
+    "wipe_table_color_episode84_right": {
+        "predicted": 1,
+        "ground_truth": 1,
+        "response": "1"
+    },
+    "wipe_table_direction_episode57_right": {
+        "predicted": 1,
+        "ground_truth": 1,
+        "response": "1"
+    },
+    "stack_cubes_size_episode67_right": {
+        "predicted": 0,
+        "ground_truth": 1,
+        "response": "0"
+    },
+    "wipe_table_relative_episode36_overhead": {
+        "predicted": 1,
+        "ground_truth": 1,
+        "response": "1"
+    },
+    "wipe_table_relative_episode9_wrist": {
+        "predicted": 0,
+        "ground_truth": 0,
+        "response": "0"
+    }
+}
