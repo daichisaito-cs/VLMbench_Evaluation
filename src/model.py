@@ -199,7 +199,9 @@ class SceneNarrativeEvaluator(nn.Module):
         # combined_features = self.cross_attn(text_features, image_features, image_features) # [batch_size, num_images*196+6, 512]
         
         attn_weights = self.attention_aggregator(combined_features)
-        x = (combined_features * attn_weights).mean(dim=1) # [batch_size, 512]
+        x = (combined_features * attn_weights) # [batch_size, 512]
+        # max pooling
+        x = x.max(dim=1)[0] # [batch_size, 512]
         
         # x = combined_features.mean(dim=1) # [batch_size, 512]
         # x = x[:, 0, :] # [batch_size, 512]
