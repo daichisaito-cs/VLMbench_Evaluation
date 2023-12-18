@@ -137,6 +137,8 @@ class SceneNarrativeEvaluator(nn.Module):
             batch_first=True
         )
 
+        # self.cross_attn = ScaledDotProductAttention(d_k=512)
+
         self.bert_scene_narrative = nn.Linear(768, 512)
         self.ada_scene_narrative = nn.Linear(1536, 512)
         self.bert_inst = nn.Linear(768, 512)
@@ -148,26 +150,26 @@ class SceneNarrativeEvaluator(nn.Module):
         self.fc2 = nn.Linear(128, 2)
         self.conv = nn.Conv2d(1024, 512, kernel_size=1)
 
-        self.attention_aggregator = AttentionAggregator(396, 512)
+        self.attention_aggregator = AttentionAggregator(398, 512)
         self.pos_enc = AddPositionalEncoding(512, 1000)
 
     def forward(self, images, texts):
-        # inst_bert = texts["bert"].to(self.device) # torch.Size([32, 768])
+        inst_bert = texts["bert"].to(self.device) # torch.Size([32, 768])
         clip_inst = texts["clip"].to(self.device) # torch.Size([32, 512])
         ada_inst = texts["ada"].to(self.device) # torch.Size([32, 1536])
-        # bert_scene_narrative = images["bert_scene_narratives"].to(self.device) # torch.Size([32, 2, 768])
+        bert_scene_narrative = images["bert_scene_narratives"].to(self.device) # torch.Size([32, 2, 768])
         ada_scene_narrative = images["ada_scene_narratives"].to(self.device) # torch.Size([32, 2, 1536])
         clip2d_images = images["clip2d_images"].to(self.device) # torch.Size([32, 2, 1024, 14, 14])
         clip_images = images["clip_images"].to(self.device) # torch.Size([32, 2, 512])
         B, N, _ = clip_images.shape
 
         # Scene narrative embedding
-        # bert_scene_narrative = self.bert_scene_narrative(bert_scene_narrative) # torch.Size([32, 2, 512])
+        bert_scene_narrative = self.bert_scene_narrative(bert_scene_narrative) # torch.Size([32, 2, 512])
         ada_scene_narrative = self.ada_scene_narrative(ada_scene_narrative) # torch.Size([32, 2, 512])
 
         # BERT instruction embedding
-        # inst_bert = inst_bert.unsqueeze(1)  # [batch, 1, 768]
-        # inst_bert = self.bert_inst(inst_bert)  # [batch, 1, 512]
+        inst_bert = inst_bert.unsqueeze(1)  # [batch, 1, 768]
+        inst_bert = self.bert_inst(inst_bert)  # [batch, 1, 512]
 
         #CLIP
         clip_inst = clip_inst.unsqueeze(1) # torch.Size([32, 1, 512])
@@ -184,18 +186,20 @@ class SceneNarrativeEvaluator(nn.Module):
         ada_inst = self.ada_linear(ada_inst.float())  # [batch, 1, 512]
 
         # text features
-        text_features = torch.cat([clip_inst, ada_inst], dim=1) # [batch_size, 4, 512]
+        text_features = torch.cat([clip_inst, ada_inst, inst_bert], dim=1) # [batch_size, 4, 512]
         
         # scene_narrativesとclip2d_imageを結合
-        image_features = torch.cat([clip_images, clip2d_image, ada_scene_narrative], dim=1) # [batch_size, num_images*196+6, 512]
+        image_features = torch.cat([clip_images, clip2d_image, ada_scene_narrative, bert_scene_narrative], dim=1) # [batch_size, num_images*196+6, 512]
 
         image_features = self.pos_enc(image_features)
         text_features = self.pos_enc(text_features)
 
-        combined_features = self.transformer(text_features, image_features) # [batch_size, num_images*196+6, 512]
+        combined_features = self.transformer(image_features, text_features) # [batch_size, num_images*196+6, 512]
+
+        # combined_features = self.cross_attn(text_features, image_features, image_features) # [batch_size, num_images*196+6, 512]
         
         attn_weights = self.attention_aggregator(combined_features)
-        x = (combined_features * attn_weights).mean(dim=1) # [batch_size, 512]
+        x = (combined_features * attn_weights).sum(dim=1) # [batch_size, 512]
         
         # x = combined_features.mean(dim=1) # [batch_size, 512]
         # x = x[:, 0, :] # [batch_size, 512]
@@ -279,6 +283,38 @@ class AddPositionalEncoding(nn.Module):
             for pos in range(1, self.max_len + 1)
         ]
         return torch.tensor(positional_encoding_weight).float()
+
+class ScaledDotProductAttention(nn.Module):
+    def __init__(self, d_k: int) -> None:
+        super().__init__()
+        self.d_k = d_k
+
+    def forward(
+        self,
+        q: torch.Tensor,  # =Q
+        k: torch.Tensor,  # =X
+        v: torch.Tensor,  # =X
+        mask: torch.Tensor = None,
+    ) -> torch.Tensor:
+        scalar = np.sqrt(self.d_k)
+        attention_weight = (
+            torch.matmul(q, torch.transpose(k, 1, 2)) / scalar
+        )  # 「Q * X^T / (D^0.5)」" を計算
+        if mask is not None:  # maskに対する処理
+            if mask.dim() != attention_weight.dim():
+                raise ValueError(
+                    "mask.dim != attention_weight.dim, mask.dim={}, attention_weight.dim={}".format(
+                        mask.dim(), attention_weight.dim()
+                    )
+                )
+            attention_weight = attention_weight.data.masked_fill_(
+                mask, -torch.finfo(torch.float).max
+            )
+
+            attention_weight = nn.functional.softmax(
+                attention_weight, dim=2
+            )  # Attention weightを計算
+            return torch.matmul(attention_weight, v)  # (Attention weight) * X により重み付け.
 
 class ResnetEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):

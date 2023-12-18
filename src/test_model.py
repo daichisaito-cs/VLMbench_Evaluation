@@ -88,7 +88,7 @@ def main():
     model.to(device)
     test_set = CustomDataset(test, NUM_IMAGES=NUM_IMAGES)
     test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=True)
-    checkpoint_path = "checkpoints/20231217-115750/epoch_99_model.pth"
+    checkpoint_path = "checkpoints/20231217-190116/epoch_152_model.pth"
 
     # テスト
     print(checkpoint_path)
