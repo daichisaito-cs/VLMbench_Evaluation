@@ -8,7 +8,7 @@ import numpy as np
 from tqdm import tqdm
 from transformers import BertTokenizer, BertModel
 import clip
-from src.utils.utils import freeze_model
+from src.utils.utils import freeze_model, get_seed_worker
 import h5py
 
 # データセットクラスの定義
@@ -172,12 +172,14 @@ class CustomDataset(Dataset):
     def __len__(self):
         return len(self.data)
 
-def create_data_loaders(train_set, valid_set, test_set, batch_size):
-    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True)
-    valid_loader = DataLoader(valid_set, batch_size=batch_size, shuffle=False)
-    test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False)
+def create_data_loaders(train_set, valid_set, test_set, batch_size, seed=42):
+    seed_worker = get_seed_worker()
+    g = torch.Generator()
+    g.manual_seed(seed)
+    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, worker_init_fn=seed_worker, generator=g)
+    valid_loader = DataLoader(valid_set, batch_size=batch_size, shuffle=False, worker_init_fn=seed_worker, generator=g)
+    test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False, worker_init_fn=seed_worker, generator=g)
     return train_loader, valid_loader, test_loader
-
 
 class GPTDataset(Dataset):
     def __init__(self, data_dir, NUM_IMAGES=2):

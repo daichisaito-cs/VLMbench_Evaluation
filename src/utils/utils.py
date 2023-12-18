@@ -18,7 +18,21 @@ def torch_fix_seed(seed=42):
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
     torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
     torch.use_deterministic_algorithms = True
+
+def get_seed_worker():
+    def seed_worker(worker_id):
+        worker_seed = torch.initial_seed()
+
+        # Seed other libraries with torch's seed
+        random.seed(worker_seed)
+
+        # Numpy seed must be between 0 and 2**32 - 1
+        if worker_seed >= 2 ** 32:
+            worker_seed = worker_seed % 2 ** 32
+        np.random.seed(worker_seed)
+    return seed_worker
 
 def save_checkpoint(model, filename, adopt_lora=False):
     if adopt_lora:

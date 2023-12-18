@@ -9,7 +9,7 @@ import wandb
 from model import *
 from torch.utils.data import DataLoader, random_split, ConcatDataset
 from utils.data_loader import CustomDataset, create_data_loaders
-from utils.utils import torch_fix_seed, save_checkpoint, load_checkpoint, create_checkpoint_dir, find_trainable_layers, init_weights_he_normal, init_weights_he_normal, text_to_ids, FocalLoss
+from utils.utils import *
 from train_model import train_model
 from validate_model import validate_model
 from test_model import test_model
@@ -30,7 +30,7 @@ def main():
     valid_set = CustomDataset(config["valid_data_path"], NUM_IMAGES=NUM_IMAGES)
     test_set = CustomDataset(config["test_data_path"], NUM_IMAGES=NUM_IMAGES)
 
-    train_loader, valid_loader, test_loader = create_data_loaders(train_set, valid_set, test_set, batch_size=batch_size)
+    train_loader, valid_loader, test_loader = create_data_loaders(train_set, valid_set, test_set, batch_size=batch_size, seed=config["seed"])
 
     del train_set, valid_set, test_set
 
@@ -48,8 +48,6 @@ def main():
     optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=1e-5)
     # scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.3)
     criterion = nn.CrossEntropyLoss()
-    # 正則化項の追加
-
     # criterion = FocalLoss(gamma=config["focal_loss_gamma"], alpha=config["focal_loss_alpha"])
 
     wandb.config.update({
