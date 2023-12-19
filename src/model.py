@@ -15,6 +15,7 @@ import timm
 import clip
 import torch.nn.functional as F
 import numpy as np
+from transformer_encoder import TransformerEncoder
 # import loralib as lora
 
 class VLMbenchEvaluator(nn.Module):
@@ -137,8 +138,6 @@ class SceneNarrativeEvaluator(nn.Module):
             batch_first=True
         )
 
-        # self.cross_attn = ScaledDotProductAttention(d_k=512)
-
         self.bert_scene_narrative = nn.Linear(768, 512)
         self.ada_scene_narrative = nn.Linear(1536, 512)
         self.bert_inst = nn.Linear(768, 512)
@@ -191,12 +190,10 @@ class SceneNarrativeEvaluator(nn.Module):
         # scene_narrativesとclip2d_imageを結合
         image_features = torch.cat([clip_images, clip2d_image, ada_scene_narrative, bert_scene_narrative], dim=1) # [batch_size, num_images*196+6, 512]
 
-        image_features = self.pos_enc(image_features)
-        text_features = self.pos_enc(text_features)
+        # image_features = self.pos_enc(image_features)
+        # text_features = self.pos_enc(text_features)
 
         combined_features = self.transformer(image_features, text_features) # [batch_size, num_images*196+6, 512]
-
-        # combined_features = self.cross_attn(text_features, image_features, image_features) # [batch_size, num_images*196+6, 512]
         
         attn_weights = self.attention_aggregator(combined_features)
         x = (combined_features * attn_weights) # [batch_size, 512]
