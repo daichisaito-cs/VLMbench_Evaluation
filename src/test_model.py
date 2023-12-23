@@ -88,13 +88,20 @@ def main():
     model.to(device)
     test_set = CustomDataset(test, NUM_IMAGES=NUM_IMAGES)
     test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=True)
-    checkpoint_path = "checkpoints/20231219-102839/epoch_88_model.pth"
+    checkpoint_path = "checkpoints/20231223-124427/epoch_81_model.pth"
 
     # テスト
     print(checkpoint_path)
     load_checkpoint(model, checkpoint_path)
     test_acc = test_model(model, test_loader, device, checkpoint_path)
     print(f"Test Accuracy: {test_acc}")
+
+    # for i in range(50, 85):
+    #     checkpoint_path = f"checkpoints/20231223-124427/epoch_{i}_model.pth"
+    #     print(checkpoint_path)
+    #     load_checkpoint(model, checkpoint_path)
+    #     test_acc = test_model(model, test_loader, device, checkpoint_path)
+    #     print(f"Epoch{i}, Test Accuracy: {test_acc}")
 
 if __name__ == "__main__":
     main()

@@ -35,9 +35,39 @@ def count_rates(directory):
 
     return true_num, false_num, total
 
+def calculate_dataset_metrics(directories):
+    total_words = 0
+    vocab = set()
+    sentence_lengths = []
+
+    for directory in directories:
+        for root, dirs, files in os.walk(directory):
+            for file in files:
+                if file.endswith(".json"):
+                    with open(os.path.join(root, file), 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                        for episode in data.values():
+                            description = episode.get("description", "")
+                            words = description.split()
+                            total_words += len(words)
+                            vocab.update(words)
+                            sentence_lengths.append(len(words))
+
+    average_sentence_length = sum(sentence_lengths) / len(sentence_lengths) if sentence_lengths else 0
+    vocab_size = len(vocab)
+    total_word_count = total_words
+
+    return average_sentence_length, vocab_size, total_word_count
+
 train_dir = "data/train"
 valid_dir = "data/valid"
 test_dir = "data/test"
+
+dirs = [train_dir, valid_dir, test_dir]
+metrics = calculate_dataset_metrics([train_dir, valid_dir, test_dir])
+print("Average Sentence Length:", metrics[0])
+print("Vocabulary Size:", metrics[1])
+print("Total Word Count:", metrics[2])
 
 train_episodes = count_episodes(train_dir)
 valid_episodes = count_episodes(valid_dir)

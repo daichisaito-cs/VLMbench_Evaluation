@@ -85,11 +85,6 @@ class CustomDataset(Dataset):
                     if os.path.exists(f"data/embeddings/scene_narrative/ada/{task}/{episode}_{angle}.h5"):
                         ada_scene_narratives = self.load_embedding_from_hdf5(f"data/embeddings/scene_narrative/ada/{task}/{episode}_{angle}.h5")
                     else:
-                        # ada_scene_narrative0 =  np.load(f"temp/ada_scene_narrative/{task}/{episode}_0_{angle}.npy")
-                        # ada_scene_narrative1 =  np.load(f"temp/ada_scene_narrative/{task}/{episode}_1_{angle}.npy")
-                        # ada_scene_narratives = np.stack([ada_scene_narrative0, ada_scene_narrative1], axis=0)
-                        # ada_scene_narratives = torch.tensor(ada_scene_narratives, dtype=torch.float32).to(self.device)
-                        # self.save_embedding_to_hdf5(f"data/embeddings/scene_narrative/ada/{task}/{episode}_{angle}.h5", ada_scene_narratives)
                         print(f"Error: ada embedding does not exist")
                         continue
 
@@ -119,10 +114,14 @@ class CustomDataset(Dataset):
                         # self.save_embedding_to_hdf5(f"data/embeddings/instruction/ada/{task}/{episode}.h5", ada_inst)
                         print(f"Error: ada embedding does not exist")
                         continue
+                    
+                    task_emb = self.get_bert_emb(task, 16).squeeze(0)
+
                     texts = {
                         "bert": bert_inst,
                         "clip": clip_inst,
-                        "ada": ada_inst
+                        "ada": ada_inst,
+                        "task": task_emb
                     }
                     label = json_file[episode]["succeeded"]
                     self.data.append({
