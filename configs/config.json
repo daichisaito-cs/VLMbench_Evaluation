@@ -1,10 +1,10 @@
 {
-    "lr": 5e-6,
+    "lr": 1e-5,
     "batch_size": 32,
-    "max_epoch": 250,
+    "max_epoch": 100,
     "patience": 10,
     "train_data_path": "data/train",
-    "valid_data_path": "data/test",
+    "valid_data_path": "data/valid",
     "test_data_path": "data/test",
     "seed": 42,
     "focal_loss_gamma": 1.0,
