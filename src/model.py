@@ -42,7 +42,7 @@ class SceneNarrativeEvaluator(nn.Module):
         self.bert_inst = nn.Linear(768, 512)
         self.ada_linear = nn.Linear(1536, 512)
         self.text_linear = nn.Linear(768+512, 512)
-        self.fc1 = nn.Linear(512+768, 128)
+        self.fc1 = nn.Linear(512, 128)
         self.batch_norm = nn.BatchNorm1d(128)
         self.relu = nn.ReLU()
         self.fc2 = nn.Linear(128, 2)
@@ -59,7 +59,6 @@ class SceneNarrativeEvaluator(nn.Module):
         ada_scene_narrative = images["ada_scene_narratives"].to(self.device) # torch.Size([32, 2, 1536])
         clip2d_images = images["clip2d_images"].to(self.device) # torch.Size([32, 2, 1024, 14, 14])
         clip_images = images["clip_images"].to(self.device) # torch.Size([32, 2, 512])
-        task_emb = texts["task"].to(self.device) # torch.Size([32, 768])
 
         B, N, _ = clip_images.shape
 
@@ -93,12 +92,10 @@ class SceneNarrativeEvaluator(nn.Module):
 
         combined_features = self.transformer(image_features, text_features) # [batch_size, num_images*196+6, 512]
         
-        attn_weights = self.attention_aggregator(combined_features)
-        x = (combined_features * attn_weights) # [batch_size, 512]
-        # max pooling
-        x = x.max(dim=1)[0] # [batch_size, 512]
-
-        x = torch.cat([x, task_emb], dim=1) # [batch_size, 512+768]
+        x = self.attention_aggregator(combined_features).squeeze(1) # [batch_size, 512]
+        # x = (combined_features * attn_weights) # [batch_size, 512]
+        # # max pooling
+        # x = x.sum(dim=1) # [batch_size, 512]
 
         x = self.fc1(x)
         x = self.batch_norm(x)

@@ -2,7 +2,7 @@ import torch
 from tqdm import tqdm
 from utils.utils import load_checkpoint
 from utils.utils import plot_confusion_matrices
-from src.model import VLMbenchEvaluator, SceneNarrativeEvaluator
+from src.model import SceneNarrativeEvaluator
 from utils.data_loader import CustomDataset, create_data_loaders
 from utils.utils import torch_fix_seed, save_checkpoint, load_checkpoint, create_checkpoint_dir, find_trainable_layers, init_weights_he_normal, init_weights_he_normal, text_to_ids, FocalLoss
 import wandb

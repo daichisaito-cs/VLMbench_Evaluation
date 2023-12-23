@@ -115,13 +115,10 @@ class CustomDataset(Dataset):
                         print(f"Error: ada embedding does not exist")
                         continue
                     
-                    task_emb = self.get_bert_emb(task, 16).squeeze(0)
-
                     texts = {
                         "bert": bert_inst,
                         "clip": clip_inst,
-                        "ada": ada_inst,
-                        "task": task_emb
+                        "ada": ada_inst
                     }
                     label = json_file[episode]["succeeded"]
                     self.data.append({
