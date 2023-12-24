@@ -88,7 +88,7 @@ def main():
     model.to(device)
     test_set = CustomDataset(test, NUM_IMAGES=NUM_IMAGES)
     test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False)
-    checkpoint_path = "checkpoints/20231223-214838/epoch_31_model.pth"
+    checkpoint_path = "/home/initial/workspace/VLMbench_Evaluation/checkpoints/best_checkpoints/epoch_30_model_id110.pth"
 
     # テスト
     print(checkpoint_path)

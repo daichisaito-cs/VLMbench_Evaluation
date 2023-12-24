@@ -92,9 +92,6 @@ class SceneNarrativeEvaluator(nn.Module):
         combined_features = self.transformer(image_features, text_features) # [batch_size, num_images*196+6, 512]
         
         x = self.attention_aggregator(combined_features).squeeze(1) # [batch_size, 512]
-        # x = (combined_features * attn_weights) # [batch_size, 512]
-        # # max pooling
-        # x = x.sum(dim=1) # [batch_size, 512]
 
         x = self.fc1(x)
         x = self.batch_norm(x)

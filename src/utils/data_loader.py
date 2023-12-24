@@ -36,8 +36,6 @@ class CustomDataset(Dataset):
     def load_data(self):
         # Include scene narrative embedding
         for task in tqdm(os.listdir(self.data_dir), total=len(os.listdir(self.data_dir))):
-            # if "pick_cube_shape" in task:
-            #     continue
             with open(f"{self.data_dir}/{task}/new_evaluations.json") as f:
                 json_file = json.load(f)
             with open(f"{self.data_dir.split('/')[0]}/instruct_blip/{self.data_dir.split('/')[1]}/{task}_instruct_blip.json") as f:
@@ -81,28 +79,11 @@ class CustomDataset(Dataset):
                             bert_scene_narratives.append(scene_narrative_bert)
                         bert_scene_narratives = torch.cat(bert_scene_narratives, dim=0)
                         self.save_embedding_to_hdf5(f"data/embeddings/scene_narrative/bert/{task}/{episode}_{angle}.h5", bert_scene_narratives)
-                    import openai
-                    openai.api_key = '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'
-                    # openai.api_key = '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'
 
-                    def get_gpt3_embeddings(inst):
-                        res = openai.Embedding.create(
-                            model='text-embedding-ada-002',
-                            input=inst
-                        )
-                        return res['data'][0]['embedding']
-                    
                     if os.path.exists(f"data/embeddings/scene_narrative/ada/{task}/{episode}_{angle}.h5"):
                         ada_scene_narratives = self.load_embedding_from_hdf5(f"data/embeddings/scene_narrative/ada/{task}/{episode}_{angle}.h5")
                     else:
-                        scene_narratives = [scene_narrative_json[img_path[5:]] for img_path in image_paths]
-                        ada_scene_narratives = []
-                        for i, narrative in enumerate(scene_narratives):
-                            scene_narrative_ada = get_gpt3_embeddings(narrative)
-                            ada_scene_narratives.append(scene_narrative_ada)
-                        ada_scene_narratives = torch.tensor(ada_scene_narratives, dtype=torch.float32)
-                        self.save_embedding_to_hdf5(f"data/embeddings/scene_narrative/ada/{task}/{episode}_{angle}.h5", ada_scene_narratives)
-                        # print(f"Error: ada scene narrative embedding does not exist")
+                        print(f"Error: ada scene narrative embedding does not exist")
                         continue
 
                     images = {
@@ -126,16 +107,8 @@ class CustomDataset(Dataset):
                         self.save_embedding_to_hdf5(f"data/embeddings/instruction/clip/{task}/{episode}.h5", clip_inst)
                     
                     if os.path.exists(f"data/embeddings/instruction/ada/{task}/{episode}.h5"):
-                        try:
-                            ada_inst = self.load_embedding_from_hdf5(f"data/embeddings/instruction/ada/{task}/{episode}.h5")
-                        except:
-                            ada_inst = get_gpt3_embeddings(inst)
-                            ada_inst = torch.tensor(ada_inst, dtype=torch.float32)
-                            self.save_embedding_to_hdf5(f"data/embeddings/instruction/ada/{task}/{episode}.h5", ada_inst)
+                        ada_inst = self.load_embedding_from_hdf5(f"data/embeddings/instruction/ada/{task}/{episode}.h5")
                     else:
-                        ada_inst = get_gpt3_embeddings(inst)
-                        ada_inst = torch.tensor(ada_inst, dtype=torch.float32)
-                        self.save_embedding_to_hdf5(f"data/embeddings/instruction/ada/{task}/{episode}.h5", ada_inst)
                         print(f"Error: ada instruction embedding does not exist")
                         continue
                     
