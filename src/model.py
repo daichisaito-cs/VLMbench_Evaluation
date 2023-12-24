@@ -15,7 +15,6 @@ import timm
 import clip
 import torch.nn.functional as F
 import numpy as np
-from transformer_encoder import TransformerEncoder
 # import loralib as lora
 
 class SceneNarrativeEvaluator(nn.Module):

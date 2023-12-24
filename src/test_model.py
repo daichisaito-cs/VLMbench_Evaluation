@@ -87,8 +87,8 @@ def main():
     model = SceneNarrativeEvaluator(NUM_IMAGES=NUM_IMAGES)
     model.to(device)
     test_set = CustomDataset(test, NUM_IMAGES=NUM_IMAGES)
-    test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=True)
-    checkpoint_path = "checkpoints/20231223-124427/epoch_81_model.pth"
+    test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False)
+    checkpoint_path = "checkpoints/20231223-214838/epoch_31_model.pth"
 
     # テスト
     print(checkpoint_path)
