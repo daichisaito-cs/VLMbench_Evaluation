@@ -14,6 +14,7 @@ from train_model import train_model
 from validate_model import validate_model
 from test_model import test_model
 import torchvision
+import time
 
 def main():
     with open("configs/config.json") as config_file:
@@ -65,7 +66,10 @@ def main():
     best_checkpoint_path = ""
     adopt_lora = False
     for epoch in range(max_epoch):
+        start_time = time.time()
         train_model(model, train_loader, optimizer, criterion, device, epoch)
+        end_time = time.time()
+        print(f"Epoch: {epoch}, Time: {end_time - start_time}")
         # if epoch < 5:
         #     scheduler.step()
         print("lr: ", optimizer.param_groups[0]['lr'])

@@ -7,7 +7,6 @@ import torch.nn as nn
 from transformers import BertTokenizer, BertModel, CLIPProcessor, CLIPModel
 import torchvision.models as models
 from torchvision import transforms
-# from open_flamingo import create_model_and_transforms
 from huggingface_hub import hf_hub_download
 import torch.nn.functional as Fn
 from einops import rearrange
@@ -15,7 +14,6 @@ import timm
 import clip
 import torch.nn.functional as F
 import numpy as np
-# import loralib as lora
 
 class SceneNarrativeEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
@@ -48,7 +46,8 @@ class SceneNarrativeEvaluator(nn.Module):
         self.conv = nn.Conv2d(1024, 512, kernel_size=1)
 
         self.attention_aggregator = AttentionAggregator(398, 512)
-        self.pos_enc = AddPositionalEncoding(512, 1000)
+
+        # self.mlp = MLP(512, [128], 2)
 
     def forward(self, images, texts):
         inst_bert = texts["bert"].to(self.device) # torch.Size([32, 768])
@@ -97,7 +96,33 @@ class SceneNarrativeEvaluator(nn.Module):
         x = self.batch_norm(x)
         x = self.relu(x)
         x = self.fc2(x)
+        # x = self.mlp(x)
 
+        return x
+
+class MLP(nn.Module):
+    def __init__(self, input_size, hidden_sizes, output_size):
+        super(MLP, self).__init__()
+        self.layers = nn.ModuleList()
+        self.normalizations = nn.ModuleList()
+
+        # 入力層から最初の隠れ層まで
+        self.layers.append(nn.Linear(input_size, hidden_sizes[0]))
+        self.normalizations.append(nn.BatchNorm1d(hidden_sizes[0]))
+
+        # 中間層の追加
+        for i in range(1, len(hidden_sizes)):
+            self.layers.append(nn.Linear(hidden_sizes[i - 1], hidden_sizes[i]))
+            self.normalizations.append(nn.BatchNorm1d(hidden_sizes[i]))
+
+        # 出力層
+        self.output_layer = nn.Linear(hidden_sizes[-1], output_size)
+
+    def forward(self, x):
+        for layer, normalization in zip(self.layers, self.normalizations):
+            x = F.relu(normalization(layer(x)))
+
+        x = self.output_layer(x)
         return x
 
 class AttentionAggregator(nn.Module):

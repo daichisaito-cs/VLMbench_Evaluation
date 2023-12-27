@@ -9,6 +9,7 @@ import wandb
 import json
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader, TensorDataset
+import time
 
 def test_model(model, test_loader, device, checkpoint_path):
     task_correct = {}
@@ -88,20 +89,16 @@ def main():
     model.to(device)
     test_set = CustomDataset(test, NUM_IMAGES=NUM_IMAGES)
     test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False)
-    checkpoint_path = "/home/initial/workspace/VLMbench_Evaluation/checkpoints/best_checkpoints/epoch_30_model_id110.pth"
+    checkpoint_path = "checkpoints/best_checkpoints/epoch_30_model_id110.pth"
 
     # テスト
     print(checkpoint_path)
     load_checkpoint(model, checkpoint_path)
+    start_time = time.time()
     test_acc = test_model(model, test_loader, device, checkpoint_path)
+    end_time = time.time()
+    print(f"Time: {end_time - start_time}")
     print(f"Test Accuracy: {test_acc}")
-
-    # for i in range(50, 85):
-    #     checkpoint_path = f"checkpoints/20231223-124427/epoch_{i}_model.pth"
-    #     print(checkpoint_path)
-    #     load_checkpoint(model, checkpoint_path)
-    #     test_acc = test_model(model, test_loader, device, checkpoint_path)
-    #     print(f"Epoch{i}, Test Accuracy: {test_acc}")
 
 if __name__ == "__main__":
     main()
