@@ -1,0 +1,19 @@
+https://wandb.ai/test-team11/flamingo_for_vlmbench/runs/ousp28ze
+checkpoints/best_checkpoints/epoch_30_model_id110.pth
+Task: wipe_table_size, Correct: 56, Total: 114, Accuracy: 0.49
+Task: stack_cubes_shape, Correct: 83, Total: 104, Accuracy: 0.80
+Task: stack_cubes_size, Correct: 99, Total: 105, Accuracy: 0.94
+Task: drop_pen_size, Correct: 68, Total: 79, Accuracy: 0.86
+Task: pick_cube_size, Correct: 88, Total: 98, Accuracy: 0.90
+Task: pick_cube_shape, Correct: 56, Total: 92, Accuracy: 0.61
+Task: wipe_table_color, Correct: 60, Total: 84, Accuracy: 0.71
+Task: wipe_table_direction, Correct: 58, Total: 117, Accuracy: 0.50
+Task: drop_pen_relative, Correct: 58, Total: 95, Accuracy: 0.61
+Task: stack_cubes_relative, Correct: 57, Total: 92, Accuracy: 0.62
+Task: wipe_table_relative, Correct: 68, Total: 92, Accuracy: 0.74
+Task: stack_cubes_color, Correct: 59, Total: 96, Accuracy: 0.61
+Task: pick_cube_relative, Correct: 69, Total: 88, Accuracy: 0.78
+Task: wipe_table_shape, Correct: 59, Total: 82, Accuracy: 0.72
+Task: drop_pen_color, Correct: 52, Total: 70, Accuracy: 0.74
+Task: pick_cube_color, Correct: 44, Total: 79, Accuracy: 0.56
+Test Accuracy: 0.695359784801614

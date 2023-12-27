@@ -18,22 +18,13 @@ import numpy as np
 class SceneNarrativeEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
         super(SceneNarrativeEvaluator, self).__init__()
-        input_dim = 768 * 3 + 512 * NUM_IMAGES
         self.num_images = NUM_IMAGES
-        
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-        self.transformer = nn.Transformer(
-            d_model=512,
-            nhead=8,
-            num_encoder_layers=6,
-            num_decoder_layers=6,
-            dim_feedforward=2048,
-            dropout=0.1,
-            activation='relu',
-            batch_first=True
-        )
-
+        self._init_transformer()
+        self._init_layers()
+        self.attention_aggregator = AttentionAggregator(398, 512)
+    
+    def _init_layers(self):
         self.bert_scene_narrative = nn.Linear(768, 512)
         self.ada_scene_narrative = nn.Linear(1536, 512)
         self.bert_inst = nn.Linear(768, 512)
@@ -45,59 +36,63 @@ class SceneNarrativeEvaluator(nn.Module):
         self.fc2 = nn.Linear(128, 2)
         self.conv = nn.Conv2d(1024, 512, kernel_size=1)
 
-        self.attention_aggregator = AttentionAggregator(398, 512)
-
-        # self.mlp = MLP(512, [128], 2)
+    def _init_transformer(self):
+        self.transformer = nn.Transformer(
+            d_model=512,
+            nhead=8,
+            num_encoder_layers=6,
+            num_decoder_layers=6,
+            dim_feedforward=2048,
+            dropout=0.1,
+            activation='relu',
+            batch_first=True
+        )
 
     def forward(self, images, texts):
-        inst_bert = texts["bert"].to(self.device) # torch.Size([32, 768])
-        clip_inst = texts["clip"].to(self.device) # torch.Size([32, 512])
-        ada_inst = texts["ada"].to(self.device) # torch.Size([32, 1536])
-        bert_scene_narrative = images["bert_scene_narratives"].to(self.device) # torch.Size([32, 2, 768])
-        ada_scene_narrative = images["ada_scene_narratives"].to(self.device) # torch.Size([32, 2, 1536])
-        clip2d_images = images["clip2d_images"].to(self.device) # torch.Size([32, 2, 1024, 14, 14])
-        clip_images = images["clip_images"].to(self.device) # torch.Size([32, 2, 512])
+        inst_bert, clip_inst, ada_inst = self._embed_instructions(texts)
+        bert_scene, ada_scene, clip2d_image, clip_image = self._embed_images(images)
 
-        B, N, _ = clip_images.shape
-
-        # Scene narrative embedding
-        bert_scene_narrative = self.bert_scene_narrative(bert_scene_narrative) # torch.Size([32, 2, 512])
-        ada_scene_narrative = self.ada_scene_narrative(ada_scene_narrative) # torch.Size([32, 2, 512])
-
-        # BERT instruction embedding
-        inst_bert = inst_bert.unsqueeze(1)  # [batch, 1, 768]
-        inst_bert = self.bert_inst(inst_bert)  # [batch, 1, 512]
-
-        #CLIP
-        clip_inst = clip_inst.unsqueeze(1) # torch.Size([32, 1, 512])
-
-        # clip2d_image = self.intermediate_output.float()  # [batch_size*num_images, 1024, 14, 14]
-        clip2d_image = clip2d_images.view(-1, 1024, 14, 14)  # [batch_size*num_images, 1024, 14, 14]
-        clip2d_image = self.conv(clip2d_image) # [batch_size*num_images, 512, 14, 14]
-        clip2d_image = clip2d_image.flatten(2) # [batch_size*num_images, 512, 196]
-        clip2d_image = clip2d_image.permute(0, 2, 1) # [batch_size*num_images, 196, 512]
-        clip2d_image = clip2d_image.reshape(B, self.num_images*196, 512) # [batch_size, num_images*196, 512]
-
-        # Process ada instruction
-        ada_inst = ada_inst.unsqueeze(1) # torch.Size([32, 1, 1536])
-        ada_inst = self.ada_linear(ada_inst.float())  # [batch, 1, 512]
-
-        # text features
-        text_features = torch.cat([clip_inst, ada_inst, inst_bert], dim=1) # [batch_size, 4, 512]
-        
-        # scene_narrativesとclip2d_imageを結合
-        image_features = torch.cat([clip_images, clip2d_image, ada_scene_narrative, bert_scene_narrative], dim=1) # [batch_size, num_images*196+6, 512]
-
+        text_features = torch.cat([clip_inst, ada_inst, inst_bert], dim=1)
+        image_features = torch.cat([clip_image, clip2d_image, ada_scene, bert_scene], dim=1)
         combined_features = self.transformer(image_features, text_features) # [batch_size, num_images*196+6, 512]
         
-        x = self.attention_aggregator(combined_features).squeeze(1) # [batch_size, 512]
+        x = self._process_combined_features(combined_features)
+        return x
+    
+    def _embed_instructions(self, texts):
+        inst_bert = self._embed_single(texts["bert"], self.bert_inst, unsqueeze_dim=1)
+        clip_inst = self._embed_single(texts["clip"], None, unsqueeze_dim=1)
+        ada_inst = self._embed_single(texts["ada"], self.ada_linear, unsqueeze_dim=1)
+        return inst_bert, clip_inst, ada_inst
+    
+    def _embed_images(self, images):
+        bert_scene = self._embed_per_image(images["bert_scene_narratives"], self.bert_scene_narrative)
+        ada_scene = self._embed_per_image(images["ada_scene_narratives"], self.ada_scene_narrative)
+        clip2d_image = self._process_clip2d_images(images["clip2d_images"])
+        clip_image = images["clip_images"].to(self.device)
+        return bert_scene, ada_scene, clip2d_image, clip_image
 
+    def _embed_single(self, tensor, layer, unsqueeze_dim=None):
+        tensor = tensor.to(self.device)
+        if unsqueeze_dim is not None:
+            tensor = tensor.unsqueeze(unsqueeze_dim)
+        return layer(tensor.float()) if layer else tensor
+    
+    def _embed_per_image(self, tensor, layer):
+        tensor = tensor.to(self.device)
+        return layer(tensor)
+
+    def _process_clip2d_images(self, tensor):
+        tensor = tensor.to(self.device).view(-1, 1024, 14, 14)
+        tensor = self.conv(tensor).flatten(2).permute(0, 2, 1)
+        return tensor.reshape(-1, self.num_images*196, 512)
+    
+    def _process_combined_features(self, features):
+        x = self.attention_aggregator(features).squeeze(1)
         x = self.fc1(x)
         x = self.batch_norm(x)
         x = self.relu(x)
         x = self.fc2(x)
-        # x = self.mlp(x)
-
         return x
 
 class MLP(nn.Module):
