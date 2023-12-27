@@ -29,6 +29,7 @@ class SceneNarrativeEvaluator(nn.Module):
         self.ada_scene_narrative = nn.Linear(1536, 512)
         self.bert_inst = nn.Linear(768, 512)
         self.ada_linear = nn.Linear(1536, 512)
+        self.clip_inst = nn.Linear(512, 512)
         self.text_linear = nn.Linear(768+512, 512)
         self.fc1 = nn.Linear(512, 128)
         self.batch_norm = nn.BatchNorm1d(128)
@@ -61,7 +62,7 @@ class SceneNarrativeEvaluator(nn.Module):
     
     def _embed_instructions(self, texts):
         inst_bert = self._embed_single(texts["bert"], self.bert_inst, unsqueeze_dim=1)
-        clip_inst = self._embed_single(texts["clip"], None, unsqueeze_dim=1)
+        clip_inst = self._embed_single(texts["clip"], self.clip_inst, unsqueeze_dim=1)
         ada_inst = self._embed_single(texts["ada"], self.ada_linear, unsqueeze_dim=1)
         return inst_bert, clip_inst, ada_inst
     
@@ -93,31 +94,6 @@ class SceneNarrativeEvaluator(nn.Module):
         x = self.batch_norm(x)
         x = self.relu(x)
         x = self.fc2(x)
-        return x
-
-class MLP(nn.Module):
-    def __init__(self, input_size, hidden_sizes, output_size):
-        super(MLP, self).__init__()
-        self.layers = nn.ModuleList()
-        self.normalizations = nn.ModuleList()
-
-        # 入力層から最初の隠れ層まで
-        self.layers.append(nn.Linear(input_size, hidden_sizes[0]))
-        self.normalizations.append(nn.BatchNorm1d(hidden_sizes[0]))
-
-        # 中間層の追加
-        for i in range(1, len(hidden_sizes)):
-            self.layers.append(nn.Linear(hidden_sizes[i - 1], hidden_sizes[i]))
-            self.normalizations.append(nn.BatchNorm1d(hidden_sizes[i]))
-
-        # 出力層
-        self.output_layer = nn.Linear(hidden_sizes[-1], output_size)
-
-    def forward(self, x):
-        for layer, normalization in zip(self.layers, self.normalizations):
-            x = F.relu(normalization(layer(x)))
-
-        x = self.output_layer(x)
         return x
 
 class AttentionAggregator(nn.Module):
