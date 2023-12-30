@@ -23,7 +23,7 @@ class SceneNarrativeEvaluator(nn.Module):
         self._init_transformer()
         self._init_layers()
         self.attention_aggregator = AttentionAggregator(398, 512)
-    
+
     def _init_layers(self):
         self.bert_scene_narrative = nn.Linear(768, 512)
         self.ada_scene_narrative = nn.Linear(1536, 512)
@@ -44,7 +44,7 @@ class SceneNarrativeEvaluator(nn.Module):
             num_encoder_layers=6,
             num_decoder_layers=6,
             dim_feedforward=2048,
-            dropout=0.1,
+            dropout=0.2,
             activation='relu',
             batch_first=True
         )
@@ -59,13 +59,13 @@ class SceneNarrativeEvaluator(nn.Module):
         
         x = self._process_combined_features(combined_features)
         return x
-    
+
     def _embed_instructions(self, texts):
         inst_bert = self._embed_single(texts["bert"], self.bert_inst, unsqueeze_dim=1)
         clip_inst = self._embed_single(texts["clip"], self.clip_inst, unsqueeze_dim=1)
         ada_inst = self._embed_single(texts["ada"], self.ada_linear, unsqueeze_dim=1)
         return inst_bert, clip_inst, ada_inst
-    
+
     def _embed_images(self, images):
         bert_scene = self._embed_per_image(images["bert_scene_narratives"], self.bert_scene_narrative)
         ada_scene = self._embed_per_image(images["ada_scene_narratives"], self.ada_scene_narrative)
@@ -78,7 +78,7 @@ class SceneNarrativeEvaluator(nn.Module):
         if unsqueeze_dim is not None:
             tensor = tensor.unsqueeze(unsqueeze_dim)
         return layer(tensor.float()) if layer else tensor
-    
+
     def _embed_per_image(self, tensor, layer):
         tensor = tensor.to(self.device)
         return layer(tensor)
@@ -87,7 +87,7 @@ class SceneNarrativeEvaluator(nn.Module):
         tensor = tensor.to(self.device).view(-1, 1024, 14, 14)
         tensor = self.conv(tensor).flatten(2).permute(0, 2, 1)
         return tensor.reshape(-1, self.num_images*196, 512)
-    
+
     def _process_combined_features(self, features):
         x = self.attention_aggregator(features).squeeze(1)
         x = self.fc1(x)
