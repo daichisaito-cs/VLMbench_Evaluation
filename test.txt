@@ -17,3 +17,12 @@ Task: wipe_table_shape, Correct: 59, Total: 82, Accuracy: 0.72
 Task: drop_pen_color, Correct: 52, Total: 70, Accuracy: 0.74
 Task: pick_cube_color, Correct: 44, Total: 79, Accuracy: 0.56
 Test Accuracy: 0.695359784801614
+
+To github.com:daichisaito-cs/VLM_Evaluation.git
+ ! [rejected]        scene_narrative -> scene_narrative (non-fast-forward)
+error: failed to push some refs to 'github.com:daichisaito-cs/VLM_Evaluation.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. If you want to integrate the remote changes,
+hint: use 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+

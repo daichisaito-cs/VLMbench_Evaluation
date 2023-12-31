@@ -14,6 +14,7 @@ import timm
 import clip
 import torch.nn.functional as F
 import numpy as np
+from transformer_encoder import TransformerEncoder
 
 class SceneNarrativeEvaluator(nn.Module):
     def __init__(self, NUM_IMAGES=2, MAX_LENGTH=64):
@@ -32,10 +33,11 @@ class SceneNarrativeEvaluator(nn.Module):
         self.clip_inst = nn.Linear(512, 512)
         self.text_linear = nn.Linear(768+512, 512)
         self.fc1 = nn.Linear(512, 128)
-        self.batch_norm = nn.BatchNorm1d(128)
+        self.batch_norm = nn.LayerNorm(128)
         self.relu = nn.ReLU()
         self.fc2 = nn.Linear(128, 2)
         self.conv = nn.Conv2d(1024, 512, kernel_size=1)
+        self.clip2d_linear = nn.Linear(1024, 512)
 
     def _init_transformer(self):
         self.transformer = nn.Transformer(
@@ -48,6 +50,22 @@ class SceneNarrativeEvaluator(nn.Module):
             activation='relu',
             batch_first=True
         )
+
+        config_attn = {
+            "max_len": 512,
+            "d_model": 1024,
+            "N": 2,
+            "d_ff": 1024,
+            "heads_num": 4,
+            "dropout_rate": 0.1,
+            "device": torch.device("cuda" if torch.cuda.is_available() else "cpu"),
+            "layer_norm_eps": 1e-5,
+            "cross_attention": True,
+        }
+
+        # self.bert_scene_narrative_attn = TransformerEncoder(config_attn)
+        # self.ada_scene_narrative_attn = TransformerEncoder(config_attn)
+        self.clip2d_attn = TransformerEncoder(config_attn)
 
     def forward(self, images, texts):
         inst_bert, clip_inst, ada_inst = self._embed_instructions(texts)
@@ -84,9 +102,10 @@ class SceneNarrativeEvaluator(nn.Module):
         return layer(tensor)
 
     def _process_clip2d_images(self, tensor):
-        tensor = tensor.to(self.device).view(-1, 1024, 14, 14)
-        tensor = self.conv(tensor).flatten(2).permute(0, 2, 1)
-        return tensor.reshape(-1, self.num_images*196, 512)
+        tensor = tensor.to(self.device).permute(0, 1, 3, 4, 2).flatten(1, 3)
+        tensor = self.clip2d_attn.forward_x(tensor, tensor, tensor)
+        tensor = self.clip2d_linear(tensor)
+        return tensor.reshape(-1, 2*196, 512)
 
     def _process_combined_features(self, features):
         x = self.attention_aggregator(features).squeeze(1)
