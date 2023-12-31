@@ -28,16 +28,16 @@ class SceneNarrativeEvaluator(nn.Module):
     def _init_layers(self):
         self.bert_scene_narrative = nn.Linear(768, 512)
         self.ada_scene_narrative = nn.Linear(1536, 512)
+        self.clip_image_linear = nn.Linear(512, 512)
         self.bert_inst = nn.Linear(768, 512)
         self.ada_linear = nn.Linear(1536, 512)
         self.clip_inst = nn.Linear(512, 512)
         self.text_linear = nn.Linear(768+512, 512)
         self.fc1 = nn.Linear(512, 128)
-        self.batch_norm = nn.LayerNorm(128)
+        self.batch_norm = nn.BatchNorm1d(128)
         self.relu = nn.ReLU()
         self.fc2 = nn.Linear(128, 2)
         self.conv = nn.Conv2d(1024, 512, kernel_size=1)
-        self.clip2d_linear = nn.Linear(1024, 512)
 
     def _init_transformer(self):
         self.transformer = nn.Transformer(
@@ -50,22 +50,6 @@ class SceneNarrativeEvaluator(nn.Module):
             activation='relu',
             batch_first=True
         )
-
-        config_attn = {
-            "max_len": 512,
-            "d_model": 1024,
-            "N": 2,
-            "d_ff": 1024,
-            "heads_num": 4,
-            "dropout_rate": 0.1,
-            "device": torch.device("cuda" if torch.cuda.is_available() else "cpu"),
-            "layer_norm_eps": 1e-5,
-            "cross_attention": True,
-        }
-
-        # self.bert_scene_narrative_attn = TransformerEncoder(config_attn)
-        # self.ada_scene_narrative_attn = TransformerEncoder(config_attn)
-        self.clip2d_attn = TransformerEncoder(config_attn)
 
     def forward(self, images, texts):
         inst_bert, clip_inst, ada_inst = self._embed_instructions(texts)
@@ -87,8 +71,8 @@ class SceneNarrativeEvaluator(nn.Module):
     def _embed_images(self, images):
         bert_scene = self._embed_per_image(images["bert_scene_narratives"], self.bert_scene_narrative)
         ada_scene = self._embed_per_image(images["ada_scene_narratives"], self.ada_scene_narrative)
+        clip_image = self._embed_per_image(images["clip_images"].to(self.device), self.clip_image_linear)
         clip2d_image = self._process_clip2d_images(images["clip2d_images"])
-        clip_image = images["clip_images"].to(self.device)
         return bert_scene, ada_scene, clip2d_image, clip_image
 
     def _embed_single(self, tensor, layer, unsqueeze_dim=None):
@@ -102,9 +86,8 @@ class SceneNarrativeEvaluator(nn.Module):
         return layer(tensor)
 
     def _process_clip2d_images(self, tensor):
-        tensor = tensor.to(self.device).permute(0, 1, 3, 4, 2).flatten(1, 3)
-        tensor = self.clip2d_attn.forward_x(tensor, tensor, tensor)
-        tensor = self.clip2d_linear(tensor)
+        tensor = tensor.to(self.device).view(-1, 1024, 14, 14)
+        tensor = self.conv(tensor).flatten(2).permute(0, 2, 1)
         return tensor.reshape(-1, 2*196, 512)
 
     def _process_combined_features(self, features):
@@ -137,11 +120,12 @@ class AttentionAggregator(nn.Module):
 
 class AddPositionalEncoding(nn.Module):
     def __init__(
-        self, d_model: int, max_len: int, device: torch.device = torch.device("cpu")
+        self, d_model: int, max_len: int, device: torch.device = torch.device("cpu"), scale: int = 10000
     ) -> None:
         super().__init__()
         self.d_model = d_model
         self.max_len = max_len
+        self.scale = scale
         positional_encoding_weight: torch.Tensor = self._initialize_weight().to(device,non_blocking=True)
         self.register_buffer("positional_encoding_weight", positional_encoding_weight)
 
@@ -150,7 +134,7 @@ class AddPositionalEncoding(nn.Module):
         return x + self.positional_encoding_weight[:seq_len, :].unsqueeze(0)
 
     def _get_positional_encoding(self, pos: int, i: int) -> float:
-        w = pos / (10000 ** (((2 * i) // 2) / self.d_model))
+        w = pos / (self.scale ** (((2 * i) // 2) / self.d_model))
         if i % 2 == 0:
             return np.sin(w)
         else:
